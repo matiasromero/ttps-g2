@@ -1,6 +1,4 @@
 import { Appointment } from './../../_models/appointment';
-import { OfficeService } from './../../_services/office.service';
-import { Office } from './../../_models/office';
 import { first } from 'rxjs/operators';
 import { Vaccine } from './../../_models/vaccine';
 import { VaccineService } from 'src/app/_services/vaccine.service';
@@ -15,7 +13,6 @@ import { UsersFilter } from 'src/app/_models/filters/users-filter';
 import { NewConfirmedAppointmentRequest } from 'src/app/_models/new-confirmed-appointment';
 import { DatePipe } from '@angular/common';
 import { VaccinesFilter } from 'src/app/_models/filters/vaccines-filter';
-import { OfficesFilter } from 'src/app/_models/filters/offices-filter';
 
 
 @Component({ templateUrl: 'edit-appointment.component.html' })
@@ -31,7 +28,6 @@ export class EditAppointmentComponent implements OnInit {
         private accountService: AccountService,
         private vaccinesServices: VaccineService,
         private appointmentsService: AppointmentService,
-        private officesService: OfficeService,
         private alertService: AlertService,
         private dp: DatePipe
     ) { 
@@ -43,7 +39,6 @@ export class EditAppointmentComponent implements OnInit {
     public vaccines: Vaccine[] = [];
     public patients: User[] = [];
     public vaccinators: User[] = [];
-    public offices: Office[] = [];
     public minDate: Date = new Date();
     public maxDate: Date = new Date();
     public patientVaccine!: Vaccine;
@@ -54,11 +49,7 @@ export class EditAppointmentComponent implements OnInit {
 
         this.appointmentId = parseInt(this.route.snapshot.paramMap.get('id')!);
 
-        let officesFilter = new OfficesFilter();
-        officesFilter.isActive = true;
-        this.officesService.getAll(officesFilter).subscribe((res: any) => {
-            this.offices = res.offices;
-        });
+       
 
         let filter1 = new UsersFilter();
       filter1.role = 'vacunator';
@@ -82,7 +73,6 @@ export class EditAppointmentComponent implements OnInit {
             id: res.id,
             patientId: res.patientId,
             vaccineId: res.vaccineId,
-            officeId: res.preferedOfficeId,
             vaccinatorId: res.vaccinatorId,
             date: res.date,
             time: date.toLocaleTimeString('en-US', { hour12: false })
@@ -92,7 +82,6 @@ export class EditAppointmentComponent implements OnInit {
         this.form = this.formBuilder.group({
             vaccineId: [null, Validators.required],
             patientId: [null, Validators.required], 
-            officeId: [null, Validators.required], 
             vaccinatorId: [null, Validators.required],
             date: [new Date(), Validators.required],
             time: [null, Validators.required]
@@ -103,43 +92,11 @@ export class EditAppointmentComponent implements OnInit {
     get f() { return this.form.controls; }
 
     changePatient(patientId: number) {
-        this.accountService.getById(patientId).subscribe((u: User) => {
-            let filter = new VaccinesFilter();
-        filter.isActive = true;
-        filter.canBeRequested = true;
-            this.vaccinesServices.getAll(filter).subscribe((res: any) => {
-                this.vaccines = res.vaccines.filter((x:Vaccine) => {
-                    let v = new Vaccine();
-                    v.id = x.id;
-                    v.name = x.name;
-                    return x.canBeRequested && v.canApply(u.age, u.belongsToRiskGroup);
-                });
-                if (!this.vaccines.find(v => {
-                    return v.id == this.patientVaccine.id;
-                })) {
-                    this.form.patchValue({
-                        vaccineId: null
-                    });
-                }
-                if (this.form.get('vaccineId')?.value) {
-                    let v = new Vaccine();
-                    v.id = this.form.get('vaccineId')?.value.toString();
-                    this.minDate = v.getMinDate(u.age, u.belongsToRiskGroup);
-                    this.maxDate = v.getMaxDate(u.age, u.belongsToRiskGroup);
-                }
-            });
-        });
-
         
       }
 
       changeVaccine(vaccineId: number) {
-        this.accountService.getById(this.form.get('patientId')?.value).subscribe((u: User) => {
-                    let v = new Vaccine();
-                    v.id = vaccineId.toString();
-                    this.minDate = v.getMinDate(u.age, u.belongsToRiskGroup);
-                    this.maxDate = v.getMaxDate(u.age, u.belongsToRiskGroup);
-            });
+       
       }
 
     onSubmit() {
@@ -154,7 +111,6 @@ export class EditAppointmentComponent implements OnInit {
 
         this.loading = true;
         var model = new NewConfirmedAppointmentRequest();
-        model.officeId = this.form.get('officeId')?.value;
         model.patientId = this.form.get('patientId')?.value;
         model.vaccinatorId = this.form.get('vaccinatorId')?.value;
         model.vaccineId = this.form.get('vaccineId')?.value;

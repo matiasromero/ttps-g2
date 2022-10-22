@@ -12,8 +12,8 @@ using VacunassistBackend.Data;
 namespace VacunnasistBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220626170405_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20221022190924_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -107,9 +107,6 @@ namespace VacunnasistBackend.Migrations
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PreferedOfficeId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("RequestedAt")
                         .HasColumnType("datetime2");
 
@@ -126,62 +123,11 @@ namespace VacunnasistBackend.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.HasIndex("PreferedOfficeId");
-
                     b.HasIndex("VaccinatorId");
 
                     b.HasIndex("VaccineId");
 
                     b.ToTable("Appointments", (string)null);
-                });
-
-            modelBuilder.Entity("VacunassistBackend.Entities.Office", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Offices");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Address = "Calle 52 113, La Plata",
-                            IsActive = true,
-                            Name = "La Plata I"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Address = "Calle Falsa 100, La Plata",
-                            IsActive = true,
-                            Name = "Quilmes"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Address = "Calle 14 1140, La Plata",
-                            IsActive = true,
-                            Name = "La Plata II"
-                        });
                 });
 
             modelBuilder.Entity("VacunassistBackend.Entities.User", b =>
@@ -196,9 +142,6 @@ namespace VacunnasistBackend.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<bool>("BelongsToRiskGroup")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
@@ -223,19 +166,21 @@ namespace VacunnasistBackend.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("HealthWorker")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<bool>("Pregnant")
+                        .HasColumnType("bit");
 
-                    b.Property<int?>("PreferedOfficeId")
-                        .HasColumnType("int");
+                    b.Property<string>("Province")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
                         .IsRequired()
@@ -248,8 +193,6 @@ namespace VacunnasistBackend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PreferedOfficeId");
-
                     b.ToTable("Users");
 
                     b.HasData(
@@ -257,15 +200,16 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 1,
                             Address = "Calle Falsa 1234, La Plata",
-                            BelongsToRiskGroup = false,
-                            BirthDate = new DateTime(2022, 6, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            BirthDate = new DateTime(2022, 10, 22, 0, 0, 0, 0, DateTimeKind.Local),
                             DNI = "11111111",
                             Email = "admin@vacunassist.com",
                             FullName = "Administrador",
                             Gender = "other",
+                            HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:vAj/Cuu9UID/kcXSG+Gm8w8TxM7SEAhR:nHkdAmR1eW9G6LcLNjBCX0jb3uDRRd9G",
-                            PhoneNumber = "2215897845",
+                            PasswordHash = "1000:EXU8yrR2499tJhnziaIWzpmx2gSb6+nq:99OeBoAu7bHOI+4ZyAn/SzcFbqJ7IfBK",
+                            Pregnant = false,
+                            Province = "",
                             Role = "administrator",
                             UserName = "Admin"
                         },
@@ -273,15 +217,16 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 2,
                             Address = "Calle Falsa 4567, La Plata",
-                            BelongsToRiskGroup = false,
-                            BirthDate = new DateTime(2022, 6, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            BirthDate = new DateTime(2022, 10, 22, 0, 0, 0, 0, DateTimeKind.Local),
                             DNI = "11111111",
                             Email = "vacunador@email.com",
                             FullName = "Vacunador",
                             Gender = "other",
+                            HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:yUr3UoC4weiqvgmBNhWLwYCP/CkTCdx5:JWT0KRJj9BdW4ozFL/Oy/6QStdixu4uE",
-                            PhoneNumber = "1158987895",
+                            PasswordHash = "1000:OlM7r9GhAjLZAejnOs94Q47G52jioXaq:/84HGpAMAnrg3urnaPnR53FYoRrKRGsi",
+                            Pregnant = false,
+                            Province = "",
                             Role = "vacunator",
                             UserName = "Vacunador"
                         },
@@ -289,16 +234,16 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 3,
                             Address = "Calle Falsa 789, La Plata",
-                            BelongsToRiskGroup = false,
-                            BirthDate = new DateTime(2022, 6, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            BirthDate = new DateTime(1987, 7, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DNI = "12548987",
                             Email = "email@email.com",
                             FullName = "Paciente",
                             Gender = "other",
+                            HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:1TITGyWCmYkM50C9yoLHzTIFptImCZo/:6sMSYrl/p8rLdKUE/YLUJTIPO0im7P49",
-                            PhoneNumber = "11-8795-1478",
-                            PreferedOfficeId = 1,
+                            PasswordHash = "1000:Al/ouVWDjaVdIAoUN4hP05LKY9JEH8kg:OfzU+q4IxRrroOuOYS7Ne4048+hSGMmB",
+                            Pregnant = false,
+                            Province = "",
                             Role = "patient",
                             UserName = "Paciente"
                         },
@@ -306,16 +251,16 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 4,
                             Address = "Calle Falsa 111, La Plata",
-                            BelongsToRiskGroup = false,
                             BirthDate = new DateTime(1987, 6, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DNI = "33170336",
                             Email = "email2@email.com",
                             FullName = "Juan Perez",
                             Gender = "male",
+                            HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:xmacbsFdN5UaCmoqvTKF9UuOLMVUTD9E:R5nbzINHP7gbBiDIw0DzDK/pc+4SkwgL",
-                            PhoneNumber = "211-235-1478",
-                            PreferedOfficeId = 2,
+                            PasswordHash = "1000:cI0NritnDdYU429xHH6Z+89txbdckjkE:HvstMmuksdrzWGtJ9Vf+KAvgUOEWHyP1",
+                            Pregnant = false,
+                            Province = "",
                             Role = "patient",
                             UserName = "jperez"
                         });
@@ -401,10 +346,6 @@ namespace VacunnasistBackend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("VacunassistBackend.Entities.Office", "PreferedOffice")
-                        .WithMany()
-                        .HasForeignKey("PreferedOfficeId");
-
                     b.HasOne("VacunassistBackend.Entities.User", "Vaccinator")
                         .WithMany()
                         .HasForeignKey("VaccinatorId");
@@ -417,20 +358,9 @@ namespace VacunnasistBackend.Migrations
 
                     b.Navigation("Patient");
 
-                    b.Navigation("PreferedOffice");
-
                     b.Navigation("Vaccinator");
 
                     b.Navigation("Vaccine");
-                });
-
-            modelBuilder.Entity("VacunassistBackend.Entities.User", b =>
-                {
-                    b.HasOne("VacunassistBackend.Entities.Office", "PreferedOffice")
-                        .WithMany()
-                        .HasForeignKey("PreferedOfficeId");
-
-                    b.Navigation("PreferedOffice");
                 });
 
             modelBuilder.Entity("VacunassistBackend.Entities.User", b =>

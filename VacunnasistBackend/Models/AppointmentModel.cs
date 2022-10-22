@@ -18,10 +18,6 @@ namespace VacunassistBackend.Models
         public int? VaccinatorId { get; set; }
         public string? VaccinatorName { get; set; }
 
-        public int? PreferedOfficeId { get; set; }
-        public string? PreferedOfficeName { get; set; }
-        public string? PreferedOfficeAddress { get; set; }
-
         public string? Comment { get; set; }
         public DateTime? AppliedDate { get; set; }
         public DateTime? Date { get; set; }

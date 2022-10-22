@@ -33,7 +33,6 @@ export class UsersComponent implements OnInit {
 
         this.formFilter = this.formBuilder.group({
             fullName: ['', [Validators.maxLength(100)]],
-            belongsToRiskGroup: [false],
             isActive: [true],
         });
         
@@ -53,12 +52,7 @@ export class UsersComponent implements OnInit {
                     onlySelf: true,
                   });
                 }
-          
-                if (params.belongsToRiskGroup) {
-                  this.formFilter.controls.belongsToRiskGroup.setValue(params.belongsToRiskGroup === "true", {
-                    onlySelf: true,
-                  });
-                }
+                
                 this.loadData();
               });
     }
@@ -73,10 +67,8 @@ export class UsersComponent implements OnInit {
     loadData() {
         const fullName = this.formFilter.get('fullName')?.value;
         const isActive = this.formFilter.get('isActive')?.value;
-        const belongsToRiskGroup = this.formFilter.get('belongsToRiskGroup')?.value;
         this.filter.fullName =fullName;
         this.filter.isActive =isActive;
-        this.filter.belongsToRiskGroup=belongsToRiskGroup;
         this.accountService.getAll(this.filter).subscribe((res: any) => {
             this.users = res.users;
         });
@@ -161,7 +153,6 @@ export class UsersComponent implements OnInit {
 
         const fullName = this.formFilter.get('fullName')?.value;
         const isActive = this.formFilter.get('isActive')?.value;
-        const belongsToRiskGroup = this.formFilter.get('belongsToRiskGroup')?.value;
         const queryParams: any = {};
 
         queryParams.type = this.route.snapshot.queryParamMap.get('type');
@@ -172,9 +163,6 @@ export class UsersComponent implements OnInit {
           }
           if (isActive !== undefined) {
             queryParams.isActive = isActive;
-          }
-          if (belongsToRiskGroup !== undefined) {
-            queryParams.belongsToRiskGroup = belongsToRiskGroup;
           }
 
           this.router.navigate(['/users'], {
@@ -192,7 +180,6 @@ export class UsersComponent implements OnInit {
         onlySelf: true,
       });
       this.formFilter.controls.isActive.setValue(true);
-      this.formFilter.controls.belongsToRiskGroup.setValue(false);
 
       this.applyFilter();
   }

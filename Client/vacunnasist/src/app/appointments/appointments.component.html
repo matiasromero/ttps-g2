@@ -20,17 +20,6 @@
               [ngClass]="{ 'is-invalid': submitted && f.fullName.errors }"
             />
           </div>
-          <div class="form-group">
-            <mat-form-field appearance="fill">
-              <mat-label>Sede</mat-label>
-              <mat-select formControlName="officeId">
-                <mat-option value="">Todas</mat-option>
-                <mat-option *ngFor="let office of offices" [value]="office.id">
-                  {{ office.name }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
           <div class="form-group" *ngIf="role && role == 'administrator'">
             <mat-form-field appearance="fill">
               <mat-label>Vacunador</mat-label>
@@ -129,7 +118,6 @@
             <th scope="row">
               {{ a.date | date: "dd/MM/yyyy HH:mm:ss" }}
             </th>
-            <td>{{ a.preferedOfficeName }}</td>
             <td>{{ a.vaccinatorName }}</td>
             <td>
               <a

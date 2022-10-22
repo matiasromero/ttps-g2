@@ -1,5 +1,3 @@
-import { Vaccine } from './../_models/vaccine';
-import { OfficeService } from './../_services/office.service';
 import { UsersFilter } from 'src/app/_models/filters/users-filter';
 import { AppointmentService } from 'src/app/_services/appointment.service';
 import { Component, OnInit } from '@angular/core';
@@ -13,8 +11,6 @@ import { Appointment } from 'src/app/_models/appointment';
 import Swal from 'sweetalert2';
 import { User } from '../_models/user';
 import { AppointmentsFilter } from '../_models/filters/appointments-filter';
-import { Office } from '../_models/office';
-import { OfficesFilter } from '../_models/filters/offices-filter';
 
 @Component({ templateUrl: 'appointments.component.html' })
 export class AppointmentsComponent implements OnInit {
@@ -29,7 +25,6 @@ export class AppointmentsComponent implements OnInit {
         private router: Router,
         private activatedRoute: ActivatedRoute,
         private accountService: AccountService,
-        private officesService: OfficeService,
         private appointmentService: AppointmentService,
         private alertService: AlertService,
         private dp: DatePipe
@@ -46,7 +41,6 @@ export class AppointmentsComponent implements OnInit {
             fullName: ['', [Validators.maxLength(100)]],
             status: [''],
             date: [null],
-            officeId: [''],
             vaccinatorId: ['']
         });
         
@@ -65,9 +59,7 @@ export class AppointmentsComponent implements OnInit {
                     onlySelf: true,
                   });
             }
-            if (params.officeId) {
-              this.formFilter.controls.officeId.setValue(+params.officeId);
-          }
+            
           
           if (params.vaccinatorId) {
             this.formFilter.controls.vaccinatorId.setValue(+params.vaccinatorId);
@@ -80,7 +72,6 @@ export class AppointmentsComponent implements OnInit {
     public filter = new AppointmentsFilter();
     maxDate: Date = new Date();
     public vaccinators: User[] = [];
-    public offices: Office[] = [];
 
     ngOnInit() {
       let filter = new UsersFilter();
@@ -89,11 +80,6 @@ export class AppointmentsComponent implements OnInit {
         this.vaccinators = res.users;
     });
 
-    let officesFilter = new OfficesFilter();
-    officesFilter.isActive = true;
-    this.officesService.getAll(officesFilter).subscribe((res: any) => {
-      this.offices = res.offices;
-  });
     }
 
     loadData() {
@@ -101,12 +87,10 @@ export class AppointmentsComponent implements OnInit {
         const status = this.formFilter.get('status')?.value;
         const vaccinatorId = this.formFilter.get('vaccinatorId')?.value;
         const date = this.formFilter.get('date')?.value;
-        const officeId = this.formFilter.get('officeId')?.value;
         this.filter.fullName =fullName;
         this.filter.status =status;
         this.filter.vaccinatorId=vaccinatorId;
         this.filter.date=date;
-        this.filter.officeId=officeId;
         this.appointmentService.getAll(this.filter).subscribe((res: Appointment[]) => {
             this.appointments = res;
         });
@@ -133,7 +117,6 @@ export class AppointmentsComponent implements OnInit {
         const fullName = this.formFilter.get('fullName')?.value;
         const status = this.formFilter.get('status')?.value;
         const vaccinatorId = this.formFilter.get('vaccinatorId')?.value;
-        const officeId = this.formFilter.get('officeId')?.value;
         const date = this.dp.transform(this.formFilter.get('date')?.value, 'yyyy-MM-dd');
         const queryParams: any = {};
           if (fullName) {
@@ -144,9 +127,6 @@ export class AppointmentsComponent implements OnInit {
           }
           if (vaccinatorId) {
             queryParams.vaccinatorId = vaccinatorId;
-          }
-          if (officeId) {
-            queryParams.officeId = officeId;
           }
           if (date) {
             queryParams.date = date;
@@ -166,9 +146,6 @@ export class AppointmentsComponent implements OnInit {
         onlySelf: true,
       });
       this.formFilter.controls.status.setValue('', {
-        onlySelf: true,
-      });
-      this.formFilter.controls.officeId.setValue('', {
         onlySelf: true,
       });
       this.formFilter.controls.vaccinatorId.setValue('', {

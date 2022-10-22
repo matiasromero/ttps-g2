@@ -6,10 +6,6 @@ import { first } from 'rxjs/operators';
 import { AccountService } from 'src/app/_services/account.service';
 import { AlertService } from 'src/app/_services/alert.service';
 import { DatePipe } from '@angular/common';
-import { User } from 'src/app/_models/user';
-import { Office } from 'src/app/_models/office';
-import { OfficeService } from 'src/app/_services/office.service';
-import Swal from 'sweetalert2';
 import { VaccineService } from 'src/app/_services/vaccine.service';
 import { VaccinesFilter } from 'src/app/_models/filters/vaccines-filter';
 

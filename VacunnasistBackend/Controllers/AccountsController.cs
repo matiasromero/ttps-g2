@@ -48,7 +48,6 @@ namespace VacunassistBackend.Controllers
                     new Claim(ClaimTypes.StreetAddress, user.Address),
                     new Claim(ClaimTypes.GivenName, user.UserName),
                     new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.MobilePhone, user.PhoneNumber),
                     new Claim(ClaimTypes.DateOfBirth, user.BirthDate.ToString("yyyy-MM-dd")),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(ClaimTypes.Role, user.Role)
@@ -61,10 +60,8 @@ namespace VacunassistBackend.Controllers
                     role = user.Role,
                     gender = user.Gender,
                     fullName = user.FullName,
-                    phoneNumber = user.PhoneNumber,
                     email = user.Email,
                     birthdate = user.BirthDate.ToString("yyyy-MM-dd"),
-                    belongsToRiskGroup = user.BelongsToRiskGroup,
                     age = user.GetAge(),
                     address = user.Address,
                     token = new JwtSecurityTokenHandler().WriteToken(token),

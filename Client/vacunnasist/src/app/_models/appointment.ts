@@ -10,9 +10,6 @@ export class Appointment {
     notified!: boolean;
     date?: Date;
     requestedAt!: Date;
-    preferedOfficeId?: number;
-    preferedOfficeName?: string;
-    preferedOfficeAddress?: string;
     vaccinatorId?:number;
     vaccinatorName?:string;
     comment?:string;

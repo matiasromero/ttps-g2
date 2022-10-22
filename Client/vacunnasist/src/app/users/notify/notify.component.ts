@@ -52,7 +52,7 @@ export class NotifyComponent implements OnInit {
                 next: () => {
                     this.alertService.success('Pacientes notificados correctamente', { keepAfterRouteChange: true });
                     this.router.navigate(['../../users'], { 
-                        queryParams: {type: 'patient', isActive: true, belongsToRiskGroup: false},
+                        queryParams: {type: 'patient', isActive: true},
                      relativeTo: this.route });
                 },
                 error: error => {

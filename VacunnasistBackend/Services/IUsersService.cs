@@ -63,11 +63,9 @@ namespace VacunassistBackend.Services
 
         public User[] GetAll(UsersFilterRequest filter)
         {
-            var query = _context.Users.Include(u => u.Vaccines).Include(x => x.PreferedOffice).AsQueryable();
+            var query = _context.Users.Include(u => u.Vaccines).AsQueryable();
             if (filter.IsActive.HasValue)
                 query = query.Where(x => x.IsActive == filter.IsActive);
-            if (filter.BelongsToRiskGroup.HasValue)
-                query = query.Where(x => x.BelongsToRiskGroup == filter.BelongsToRiskGroup);
             if (string.IsNullOrEmpty(filter.Role) == false)
                 query = query.Where(x => x.Role == filter.Role);
             if (string.IsNullOrEmpty(filter.UserName) == false)
@@ -90,20 +88,15 @@ namespace VacunassistBackend.Services
                 var user = new User(model.UserName)
                 {
                     Address = model.Address,
-                    BelongsToRiskGroup = model.BelongsToRiskGroup,
                     BirthDate = model.BirthDate,
                     DNI = model.DNI,
                     Email = model.Email,
                     FullName = model.FullName,
                     Gender = model.Gender,
                     PasswordHash = PasswordHash.CreateHash(model.Password),
-                    PhoneNumber = model.PhoneNumber
                 };
 
                 user.Role = model.Role;
-                if (model.PreferedOfficeId.HasValue)
-                    user.PreferedOfficeId = model.PreferedOfficeId;
-
                 // save user
                 _context.Users.Add(user);
                 _context.SaveChanges();
@@ -117,7 +110,7 @@ namespace VacunassistBackend.Services
 
         public void Update(int id, UpdateUserRequest model)
         {
-            var user = _context.Users.Include(x => x.PreferedOffice).FirstOrDefault(x => x.Id == id);
+            var user = _context.Users.FirstOrDefault(x => x.Id == id);
             if (user == null)
                 throw new HttpResponseException(400, message: "Usuario no encontrado");
 
@@ -151,25 +144,13 @@ namespace VacunassistBackend.Services
             {
                 user.Email = model.Email;
             }
-            if (string.IsNullOrEmpty(model.PhoneNumber) == false && model.PhoneNumber != user.PhoneNumber)
-            {
-                user.PhoneNumber = model.PhoneNumber;
-            }
             if (string.IsNullOrEmpty(model.Gender) == false && model.Gender != user.Gender)
             {
                 user.Gender = model.Gender;
             }
-            if (model.BelongsToRiskGroup.HasValue && model.BelongsToRiskGroup != user.BelongsToRiskGroup)
-            {
-                user.BelongsToRiskGroup = model.BelongsToRiskGroup.Value;
-            }
             if (model.BirthDate.HasValue && model.BirthDate != user.BirthDate)
             {
                 user.BirthDate = model.BirthDate.Value;
-            }
-            if (model.PreferedOfficeId.HasValue && (user.PreferedOffice == null || user.PreferedOfficeId != model.PreferedOfficeId))
-            {
-                user.PreferedOfficeId = model.PreferedOfficeId;
             }
             if (model.IsActive.HasValue && model.IsActive != user.IsActive)
             {
@@ -221,7 +202,6 @@ namespace VacunassistBackend.Services
             .Include(x => x.Patient)
             .Include(x => x.Vaccine)
             .Include(x => x.Vaccinator)
-            .Include(x => x.PreferedOffice)
             .ToArray();
             return appointments.Select(x => new AppointmentModel()
             {
@@ -233,10 +213,6 @@ namespace VacunassistBackend.Services
                 PatientId = x.Patient.Id,
                 PatientName = x.Patient.FullName,
                 PatientAge = x.Patient.GetAge(),
-                PatientRisk = x.Patient.BelongsToRiskGroup,
-                PreferedOfficeId = x.PreferedOffice?.Id,
-                PreferedOfficeName = x.PreferedOffice?.Name,
-                PreferedOfficeAddress = x.PreferedOffice?.Address,
                 RequestedAt = x.RequestedAt,
                 Status = x.Status,
                 VaccineId = x.Vaccine.Id,

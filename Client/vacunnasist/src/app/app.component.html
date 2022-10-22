@@ -42,8 +42,7 @@
             routerLink="/users"
             [queryParams]="{
               type: 'patient',
-              isActive: 'true',
-              belongsToRiskGroup: 'false'
+              isActive: 'true'
             }"
             routerLinkActive="active"
             *ngIf="user && user.role == 'administrator'"
@@ -68,15 +67,6 @@
             routerLinkActive="active"
             *ngIf="user && user.role == 'administrator'"
             >Vacunas</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-item nav-link"
-            routerLink="/offices"
-            routerLinkActive="active"
-            *ngIf="user && user.role == 'administrator'"
-            >Sedes</a
           >
         </li>
         <li class="nav-item">

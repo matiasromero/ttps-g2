@@ -97,9 +97,6 @@ export class AccountService {
           let params = new HttpParams();
           if (filter.isActive !== undefined)
             params = params.append('isActive', filter.isActive.toString());
-          if (filter.belongsToRiskGroup !== undefined) {
-            params = params.append('belongsToRiskGroup', filter.belongsToRiskGroup!.toString());
-          }
           if (filter.role)
             params = params.append('role', filter.role.toString());
             if (filter.userName)

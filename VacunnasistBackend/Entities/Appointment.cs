@@ -20,7 +20,6 @@ public class Appointment
     public Vaccine Vaccine { get; set; }
     public DateTime RequestedAt { get; set; }
     public bool Notified { get; set; }
-    public Office? PreferedOffice { get; set; }
     public string? Comment { get; set; }
 
     public DateTime? Date { get; set; }

@@ -34,16 +34,6 @@
       </div>
       <div class="form-group">
         <mat-form-field appearance="fill">
-          <mat-label>Sede</mat-label>
-          <mat-select formControlName="officeId" [disabled]="true">
-            <mat-option *ngFor="let o of offices" [value]="o.id">
-              {{ o.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field appearance="fill">
           <mat-label>Fecha</mat-label>
           <input
             matInput

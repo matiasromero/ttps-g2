@@ -54,14 +54,12 @@ namespace VacunassistBackend.Services
 
             var vaccine = this._context.Vaccines.First(x => x.Id == model.VaccineId);
             var vaccinator = this._context.Users.First(x => x.Id == model.VaccinatorId);
-            var office = this._context.Offices.First(x => x.Id == model.OfficeId);
             var appointment = model.CurrentId.HasValue ?
             this._context.Appointments.First(x => x.Id == model.CurrentId.Value)
             : new Appointment(user, vaccine);
             appointment.Vaccine = vaccine;
             appointment.RequestedAt = DateTime.Now;
             appointment.Date = model.Date;
-            appointment.PreferedOffice = office;
             appointment.Vaccinator = vaccinator;
             appointment.Status = AppointmentStatus.Confirmed;
 
@@ -85,12 +83,10 @@ namespace VacunassistBackend.Services
             var user = ValidatePatient(model.PatientId);
             var vaccine = this._context.Vaccines.First(x => x.Id == model.VaccineId);
             var vaccinator = this._context.Users.First(x => x.Id == model.VaccinatorId);
-            var office = this._context.Offices.First(x => x.Id == model.OfficeId);
             var appointment = new Appointment(user, vaccine);
             appointment.Vaccine = vaccine;
             appointment.RequestedAt = DateTime.Now;
             appointment.Date = model.Date;
-            appointment.PreferedOffice = office;
             appointment.Vaccinator = vaccinator;
             appointment.Status = AppointmentStatus.Done;
             _context.Appointments.Add(appointment);
@@ -122,26 +118,19 @@ namespace VacunassistBackend.Services
 
         public Appointment Get(int id)
         {
-            var query = _context.Appointments.Include(u => u.Patient).Include(x => x.PreferedOffice).Include(x => x.Vaccinator).Include(x => x.Vaccine).AsQueryable();
-            var result = query.First(x => x.Id == id);
-            if (result.PreferedOffice == null)
-            {
-                result.PreferedOffice = result.Patient.PreferedOffice;
-            }
-            return result;
+            var query = _context.Appointments.Include(u => u.Patient).Include(x => x.Vaccinator).Include(x => x.Vaccine).AsQueryable();
+            return query.First(x => x.Id == id);
         }
 
         public Appointment[] GetAll(AppointmentsFilterRequest filter)
         {
-            var query = _context.Appointments.Include(u => u.Patient).Include(x => x.PreferedOffice).Include(x => x.Vaccinator).Include(x => x.Vaccine).AsQueryable();
+            var query = _context.Appointments.Include(u => u.Patient).Include(x => x.Vaccinator).Include(x => x.Vaccine).AsQueryable();
             if (filter.Status.HasValue)
                 query = query.Where(x => x.Status == filter.Status);
             if (filter.Date.HasValue)
                 query = query.Where(x => x.Date != null && x.Date.Value.Date == filter.Date.Value.Date);
             if (string.IsNullOrEmpty(filter.FullName) == false)
                 query = query.Where(x => x.Patient.FullName.Contains(filter.FullName));
-            if (filter.OfficeId.HasValue)
-                query = query.Where(x => x.PreferedOffice.Id == filter.OfficeId.Value);
             if (filter.VaccinatorId.HasValue)
                 query = query.Where(x => x.Vaccinator.Id == filter.VaccinatorId.Value);
             return query.ToArray();
@@ -187,13 +176,6 @@ namespace VacunassistBackend.Services
             if (request.Date.HasValue && request.Date != appointment.Date)
             {
                 appointment.Date = request.Date.Value;
-                appointment.Notified = false;
-                shouldNotify = true;
-            }
-
-            if (request.OfficeId.HasValue && appointment.PreferedOffice == null || (appointment.PreferedOffice != null && request.OfficeId != appointment.PreferedOffice.Id))
-            {
-                appointment.PreferedOffice = this._context.Offices.First(x => x.Id == request.OfficeId);
                 appointment.Notified = false;
                 shouldNotify = true;
             }

@@ -1,18 +1,14 @@
 import { VaccineService } from 'src/app/_services/vaccine.service';
 import { AppliedVaccine } from './../../_models/applied-vaccine';
-import { Vaccine } from './../../_models/vaccine';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AccountService } from 'src/app/_services/account.service';
 import { AlertService } from 'src/app/_services/alert.service';
 import { DatePipe } from '@angular/common';
 import { User } from 'src/app/_models/user';
-import { Office } from 'src/app/_models/office';
-import { OfficeService } from 'src/app/_services/office.service';
 import Swal from 'sweetalert2';
-import { OfficesFilter } from 'src/app/_models/filters/offices-filter';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 
 @Component({ templateUrl: 'profile.component.html' })
@@ -29,22 +25,14 @@ export class ProfileComponent implements OnInit {
         private router: Router,
         private accountService: AccountService,
         private vaccineService: VaccineService,
-        private officesService: OfficeService,
         private alertService: AlertService,
         private dp: DatePipe
     ) { 
     }
 
-    public offices: Office[] = [];
     public user: User = new User;
     ngOnInit() {
         this.minDate = new Date(1900, 0, 1);
-
-        let officesFilter = new OfficesFilter();
-        officesFilter.isActive = true;
-        this.officesService.getAll(officesFilter).subscribe((res: any) => {
-            this.offices = res.offices;
-        });
 
         this.loadData();
         
@@ -54,11 +42,8 @@ export class ProfileComponent implements OnInit {
             dni: ['', [Validators.required, Validators.maxLength(20)]],
             address: ['', [Validators.required, Validators.maxLength(200)]],
             birthDate: [new Date(), Validators.required],
-            phoneNumber: ['', [Validators.required, Validators.maxLength(30)]],
             email:['', [Validators.required, Validators.email, Validators.maxLength(30)]],
             gender: ['male', Validators.required],
-            belongsToRiskGroup: [false, Validators.required],
-            preferedOfficeId: [null]
         });
     }
 
@@ -71,19 +56,9 @@ export class ProfileComponent implements OnInit {
                 dni: res.dni,
                 address: res.address,
                 birthDate: res.birthDate,
-                phoneNumber: res.phoneNumber,
                 email: res.email,
                 gender: res.gender,
-                belongsToRiskGroup: res.belongsToRiskGroup,
-                preferedOfficeId: res.preferedOfficeId
             });
-
-            if (this.user && this.user.role == 'patient') {
-                this.form.controls['preferedOfficeId'].setValidators([Validators.required]);
-            } else {
-                this.form.controls['preferedOfficeId'].clearValidators();
-            }
-            this.form.controls['preferedOfficeId'].updateValueAndValidity();
         });
     }
 

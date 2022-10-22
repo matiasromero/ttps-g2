@@ -1,7 +1,4 @@
 import { VaccineService } from 'src/app/_services/vaccine.service';
-import { User } from 'src/app/_models/user';
-import { Office } from 'src/app/_models/office';
-import { OfficeService } from 'src/app/_services/office.service';
 import { first } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';

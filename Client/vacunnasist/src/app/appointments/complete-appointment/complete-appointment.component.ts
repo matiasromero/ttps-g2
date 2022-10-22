@@ -1,6 +1,4 @@
 import { Appointment } from './../../_models/appointment';
-import { OfficeService } from './../../_services/office.service';
-import { Office } from './../../_models/office';
 import { first } from 'rxjs/operators';
 import { Vaccine } from './../../_models/vaccine';
 import { VaccineService } from 'src/app/_services/vaccine.service';
@@ -16,7 +14,6 @@ import { NewConfirmedAppointmentRequest } from 'src/app/_models/new-confirmed-ap
 import { DatePipe } from '@angular/common';
 import Swal from 'sweetalert2';
 import { VaccinesFilter } from 'src/app/_models/filters/vaccines-filter';
-import { OfficesFilter } from 'src/app/_models/filters/offices-filter';
 
 @Component({ templateUrl: 'complete-appointment.component.html' })
 export class CompleteAppointmentComponent implements OnInit {
@@ -31,7 +28,6 @@ export class CompleteAppointmentComponent implements OnInit {
         private accountService: AccountService,
         private vaccinesServices: VaccineService,
         private appointmentsService: AppointmentService,
-        private officesService: OfficeService,
         private alertService: AlertService,
         private dp: DatePipe
     ) { 
@@ -43,7 +39,6 @@ export class CompleteAppointmentComponent implements OnInit {
     public vaccines: Vaccine[] = [];
     public patients: User[] = [];
     public vaccinators: User[] = [];
-    public offices: Office[] = [];
     public minDate: Date = new Date();
 
     appointmentId?: number;
@@ -56,11 +51,6 @@ export class CompleteAppointmentComponent implements OnInit {
 
         this.appointmentId = parseInt(this.route.snapshot.paramMap.get('id')!);
 
-        let officesFilter = new OfficesFilter();
-        officesFilter.isActive = true;
-        this.officesService.getAll(officesFilter).subscribe((res: any) => {
-            this.offices = res.offices;
-        });
         let filter = new VaccinesFilter();
         filter.isActive = true;
         filter.canBeRequested = true;
@@ -90,7 +80,6 @@ export class CompleteAppointmentComponent implements OnInit {
             id: res.id,
             patientId: res.patientId,
             vaccineId: res.vaccineId,
-            officeId: res.preferedOfficeId,
             vaccinatorId: res.vaccinatorId,
             date: res.date,
             comment: res.comment,
@@ -101,7 +90,6 @@ export class CompleteAppointmentComponent implements OnInit {
         this.form = this.formBuilder.group({
             vaccineId: [null, Validators.required],
             patientId: [null, Validators.required], 
-            officeId: [null, Validators.required], 
             vaccinatorId: [null, Validators.required],
             date: [new Date(), Validators.required],
             time: [null, Validators.required],

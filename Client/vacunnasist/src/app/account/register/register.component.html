@@ -110,30 +110,6 @@
       </div>
 
       <div class="form-group">
-        <label for="phoneNumber" class="required">Teléfono</label>
-        <input
-          type="text"
-          formControlName="phoneNumber"
-          class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f.phoneNumber.errors }"
-        />
-        <div
-          *ngIf="
-            f.phoneNumber.invalid &&
-            (submitted || f.phoneNumber.dirty || f.phoneNumber.touched)
-          "
-          class="invalid-feedback"
-        >
-          <div *ngIf="f.phoneNumber.errors?.['required']">
-            El Teléfono es requerido.
-          </div>
-          <div *ngIf="f.phoneNumber.errors?.['maxlength']">
-            El Teléfono debe contener menos de 30 caracteres.
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group">
         <label for="email" class="required">Email</label>
         <input
           type="text"
@@ -211,30 +187,6 @@
         </div>
       </div>
 
-      <div class="form-group form-row">
-        <div class="col-md-9">
-          <div class="form-check">
-            <input
-              formControlName="belongsToRiskGroup"
-              class="form-check-input"
-              type="checkbox"
-              name="belongsToRiskGroup"
-              id="belongsToRiskGroup"
-            />
-            <label
-              class="form-check-label"
-              for="belongsToRiskGroup"
-              [ngClass]="{ 'text-success': !form.value.belongsToRiskGroup }"
-            >
-              {{
-                form.value.belongsToRiskGroup
-                  ? "¿Es grupo de riesgo? Si"
-                  : "¿Es grupo de riesgo? No"
-              }}
-            </label>
-          </div>
-        </div>
-      </div>
       <div class="form-group">
         <button [disabled]="loading" class="btn btn-primary">
           <span

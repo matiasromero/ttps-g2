@@ -1,9 +1,4 @@
-import { OfficesFilter } from './../../_models/filters/offices-filter';
-import { Office } from 'src/app/_models/office';
-import { OfficeService } from 'src/app/_services/office.service';
 import { first } from 'rxjs/operators';
-import { Vaccine } from './../../_models/vaccine';
-import { VaccineService } from 'src/app/_services/vaccine.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
@@ -27,7 +22,6 @@ export class NewUserComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private accountService: AccountService,
-        private officesService: OfficeService,
         private appointmentsService: AppointmentService,
         private alertService: AlertService,
         private dp: DatePipe
@@ -37,16 +31,9 @@ export class NewUserComponent implements OnInit {
         }
     }
 
-    public offices: Office[] = [];
     public type: String = "patient";
 
     ngOnInit() {
-        let filter = new OfficesFilter();
-        filter.isActive = true;
-        this.officesService.getAll(filter).subscribe((res: any) => {
-            this.offices = res.offices;
-        });
-
         this.minDate = new Date(1900, 0, 1);
 
         let typeParam = this.route.snapshot.queryParams['type'];
@@ -61,19 +48,9 @@ export class NewUserComponent implements OnInit {
             dni: ['', [Validators.required, Validators.maxLength(20)]],
             address: ['', [Validators.required, Validators.maxLength(200)]],
             birthDate: [new Date(), Validators.required],
-            phoneNumber: ['', [Validators.required, Validators.maxLength(30)]],
             email:['', [Validators.required, Validators.email, Validators.maxLength(30)]],
             gender: ['male', Validators.required],
-            belongsToRiskGroup: [false, Validators.required],
-            preferedOfficeId: [null]
         });
-
-        if (this.type == 'vacunator') {
-            this.form.controls['preferedOfficeId'].setValidators([Validators.required]);
-        } else {
-            this.form.controls['preferedOfficeId'].clearValidators();
-        }
-        this.form.controls['preferedOfficeId'].updateValueAndValidity();
     }
 
     // convenience getter for easy access to form fields
@@ -101,7 +78,7 @@ export class NewUserComponent implements OnInit {
                 next: () => {
                     this.alertService.success((this.type == 'patient' ? 'Paciente ' : (this.type == 'vacunator' ? 'Vacunador' : 'Usuario')) + ' creado correctamente', { keepAfterRouteChange: true });
                     this.router.navigate(['../../users'], { 
-                        queryParams: {type: this.type, isActive: true, belongsToRiskGroup: false},
+                        queryParams: {type: this.type, isActive: true},
                      relativeTo: this.route });
                 },
                 error: error => {

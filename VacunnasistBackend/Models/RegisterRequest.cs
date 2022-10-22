@@ -13,8 +13,8 @@ namespace VacunassistBackend.Models
         [Required]
         public string Address { get; set; }
 
-        [Required]
-        public bool BelongsToRiskGroup { get; set; }
+        public bool Pregnant { get; set; }
+        public bool HealthWorker { get; set; }
 
         [Required]
         public string Gender { get; set; }
@@ -28,8 +28,6 @@ namespace VacunassistBackend.Models
         [Required]
         public string DNI { get; set; }
 
-        [Required]
-        public string PhoneNumber { get; set; }
 
         [Required]
         public string Password { get; set; }
@@ -37,6 +35,7 @@ namespace VacunassistBackend.Models
         [Required]
         public string Role { get; set; }
 
-        public int? PreferedOfficeId { get; set; }
+        public string Province { get; set; }
+
     }
 }

@@ -27,8 +27,6 @@ export class AppointmentService {
           params = params.append('status', filter.status.toString());
         if (filter.fullName)
           params = params.append('fullName', filter.fullName.toString());
-        if (filter.officeId)
-          params = params.append('officeId', filter.officeId.toString());
         if (filter.vaccinatorId)
           params = params.append('vaccinatorId', filter.vaccinatorId.toString());
         if (filter.date)
