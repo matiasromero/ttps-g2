@@ -1,0 +1,154 @@
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+  <div class="container px-4 px-lg-5">
+    <a
+      class="navbar-brand"
+      routerLink="/"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      >VACUNASSIST</a
+    >
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
+            routerLink="/"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Inicio</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
+            routerLink="appointments/new-appointment"
+            routerLinkActive="active"
+            *ngIf="user && user.role == 'patient'"
+            >Solicitar turno</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
+            routerLink="appointments/my-appointments"
+            routerLinkActive="active"
+            *ngIf="user && user.role == 'patient'"
+            >Mis turnos</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
+            routerLink="/users"
+            [queryParams]="{
+              type: 'patient',
+              isActive: 'true',
+              belongsToRiskGroup: 'false'
+            }"
+            routerLinkActive="active"
+            *ngIf="user && user.role == 'administrator'"
+            >Pacientes</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
+            routerLink="/appointments"
+            routerLinkActive="active"
+            *ngIf="
+              user && (user.role == 'administrator' || user.role == 'vacunator')
+            "
+            >Turnos</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
+            routerLink="/vaccines"
+            routerLinkActive="active"
+            *ngIf="user && user.role == 'administrator'"
+            >Vacunas</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
+            routerLink="/offices"
+            routerLinkActive="active"
+            *ngIf="user && user.role == 'administrator'"
+            >Sedes</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
+            routerLink="/users"
+            [queryParams]="{
+              type: 'vacunator',
+              isActive: 'true'
+            }"
+            routerLinkActive="active"
+            *ngIf="user && user.role == 'administrator'"
+            >Vacunadores</a
+          >
+        </li>
+      </ul>
+      <div class="d-flex">
+        <a
+          class="nav-item nav-link"
+          *ngIf="!user"
+          routerLink="/account/login"
+          routerLinkActive="active"
+          >Ingresar</a
+        >
+        <mat-icon
+          mat-button
+          [matMenuTriggerFor]="menu"
+          *ngIf="user"
+          aria-hidden="false"
+          aria-label="Example home icon"
+          role="button"
+          color="primary"
+          >account_circle</mat-icon
+        >
+        <mat-menu #menu="matMenu">
+          <button
+            mat-menu-item
+            routerLink="/account/profile"
+            routerLinkActive="active"
+          >
+            Mi perfil
+          </button>
+          <button
+            mat-menu-item
+            routerLink="/account/change-password"
+            routerLinkActive="active"
+          >
+            Cambiar contraseña
+          </button>
+          <button mat-menu-item (click)="logout()">Salir</button>
+        </mat-menu>
+
+        <a
+          class="nav-item nav-link"
+          *ngIf="!user"
+          routerLink="/account/register"
+          routerLinkActive="active"
+          >Registrarse</a
+        >
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- main app container -->
+<div class="app-container mb-2" [ngClass]="{ 'bg-light': user }">
+  <alert></alert>
+  <router-outlet></router-outlet>
+</div>
+
+<footer class="py-1 fixed-bottom">
+  <div class="container">
+    <p class="m-0 text-center">Grupo 2 | TTPS | 2022</p>
+  </div>
+</footer>

@@ -1,0 +1,41 @@
+version: "3.9"
+services:
+  backend:
+    image: vacunassist
+    container_name: backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    volumes:
+      - c:/temp/:/app/temp
+    environment:
+      - TZ=America/Argentina/Buenos_Aires
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sql1
+    environment:
+      - SA_PASSWORD=Taller2022!
+      - ACCEPT_EULA=Y
+      - TZ=America/Argentina/Buenos_Aires
+    ports:
+      - "14331:1433"
+    depends_on:
+      - migrations
+  migrations:
+    container_name: migrations
+    build:
+      context: .
+      dockerfile: Migrations.Dockerfile
+  proxy:
+    image: nginx:alpine
+    container_name: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+    ports:
+      - "4000:4000"
