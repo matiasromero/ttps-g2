@@ -20,7 +20,6 @@ namespace VacunassistBackend.Services
         void AddVaccine(int id, AddVaccineRequest model);
         void DeleteVaccine(int id, int appliedVaccineId);
         void Update(int id, UpdateUserRequest model);
-        AppointmentModel[] GetAppointments(int id);
         bool CanBeDeleted(int id);
     }
 
@@ -201,56 +200,10 @@ namespace VacunassistBackend.Services
 
         }
 
-        public AppointmentModel[] GetAppointments(int id)
-        {
-            var user = _context.Users.FirstOrDefault(x => x.Id == id);
-            CheckIfExists(user);
-
-            var appointments = _context.Appointments.Where(x => x.Patient == user)
-            .Include(x => x.Patient)
-            .Include(x => x.Vaccine)
-            .Include(x => x.Vaccinator)
-            .ToArray();
-            return appointments.Select(x => new AppointmentModel()
-            {
-                Id = x.Id,
-                AppliedDate = x.AppliedDate,
-                Date = x.Date,
-                Comment = x.Comment,
-                Notified = x.Notified,
-                PatientId = x.Patient.Id,
-                PatientName = x.Patient.FullName,
-                PatientAge = x.Patient.GetAge(),
-                RequestedAt = x.RequestedAt,
-                Status = x.Status,
-                VaccineId = x.Vaccine.Id,
-                VaccineName = x.Vaccine.Name,
-                VaccinatorId = x.Vaccinator?.Id,
-                VaccinatorName = x.Vaccinator?.FullName,
-
-            }).ToArray();
-        }
-
         public bool CanBeDeleted(int id)
         {
             var user = _context.Users.FirstOrDefault(x => x.Id == id);
             CheckIfExists(user);
-            if (user.Role == UserRoles.Patient)
-            {
-                var appointments = _context.Appointments
-                .Where(x => x.Patient.Id == user.Id &&
-                (x.Status == AppointmentStatus.Pending || x.Status == AppointmentStatus.Confirmed))
-                .ToArray();
-                return appointments.Any() == false;
-            }
-            if (user.Role == UserRoles.Vacunator)
-            {
-                var appointments = _context.Appointments
-                .Where(x => x.Vaccinator.Id == user.Id &&
-                (x.Status == AppointmentStatus.Pending || x.Status == AppointmentStatus.Confirmed))
-                .ToArray();
-                return appointments.Any() == false;
-            }
             return true;
         }
     }

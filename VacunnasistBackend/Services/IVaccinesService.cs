@@ -17,7 +17,6 @@ namespace VacunassistBackend.Services
         bool AlreadyExist(string name);
         bool New(NewVaccineRequest model);
         AppliedVaccine GetApplied(int id);
-        AppliedVaccine GetAppliedByAppointment(int id);
     }
 
     public class VaccinesService : IVaccinesService
@@ -76,11 +75,6 @@ namespace VacunassistBackend.Services
             return _context.AppliedVaccines.Include(u => u.Vaccine).First(x => x.Id == id);
         }
 
-        public AppliedVaccine GetAppliedByAppointment(int id)
-        {
-            return _context.AppliedVaccines.Include(u => u.Vaccine).First(x => x.Appointment != null && x.Appointment.Id == id);
-        }
-
         public Vaccine Get(int id)
         {
             return _context.Vaccines.First(x => x.Id == id);
@@ -124,11 +118,8 @@ namespace VacunassistBackend.Services
         {
             var vaccine = _context.Vaccines.FirstOrDefault(x => x.Id == id);
             CheckIfExists(vaccine);
-            var appointments = _context.Appointments
-            .Where(x => x.Vaccine.Id == vaccine.Id &&
-            (x.Status == AppointmentStatus.Pending || x.Status == AppointmentStatus.Confirmed))
-            .ToArray();
-            return appointments.Any() == false;
+            // TODO: check if there is any invoice/purchase order
+            return true;
         }
 
         public bool Exist(int id)

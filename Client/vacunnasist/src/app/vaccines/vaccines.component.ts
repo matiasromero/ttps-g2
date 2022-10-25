@@ -1,16 +1,11 @@
 import { VaccinesFilter } from './../_models/filters/vaccines-filter';
-import { UsersFilter } from 'src/app/_models/filters/users-filter';
-import { AppointmentService } from 'src/app/_services/appointment.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AccountService } from 'src/app/_services/account.service';
 import { AlertService } from 'src/app/_services/alert.service';
-import { DatePipe } from '@angular/common';
-import { Appointment } from 'src/app/_models/appointment';
 import Swal from 'sweetalert2';
-import { User } from '../_models/user';
 import { VaccineService } from '../_services/vaccine.service';
 import { Vaccine } from '../_models/vaccine';
 
@@ -24,11 +19,9 @@ export class VaccinesComponent implements OnInit {
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private activatedRoute: ActivatedRoute,
         private accountService: AccountService,
         private vaccineService: VaccineService,
         private alertService: AlertService,
-        private dp: DatePipe
     ) { 
         // redirect to home if already logged in
         if (this.accountService.userValue.role !== 'administrator') {
@@ -143,78 +136,6 @@ export class VaccinesComponent implements OnInit {
       });
   }
 
-
-  reportVaccinesQuestion() {
-    Swal
-    .fire({
-      title: 'Reporte',
-      text: 'Generará un reporte de vacunas aplicadas en este mes',
-      icon: 'info',
-      showCancelButton: true,
-      cancelButtonText: 'No, cancelar',
-      confirmButtonText: 'Si, generar!'
-    })
-    .then(result => {
-      if (result.value) {
-        this.reportVaccines();
-      }
-    });
-  }
-
-  reportVaccines() {
-    this.vaccineService.reportVaccines().pipe(first())
-    .subscribe({
-        next: () => {
-          Swal
-          .fire({
-            title: 'Hecho',
-            text: 'Reporte generado correctamente.',
-            icon: 'success',
-          });
-        },
-        error: (error: string) => {
-            this.alertService.error(error);
-            this.loading = false;
-        }
-    });
-  }
-
-  reportPatientsQuestion() {
-    Swal
-    .fire({
-      title: 'Reporte',
-      text: 'Generará un reporte de pacientes vacunados por día en este mes',
-      icon: 'info',
-      showCancelButton: true,
-      cancelButtonText: 'No, cancelar',
-      confirmButtonText: 'Si, generar!'
-    })
-    .then(result => {
-      if (result.value) {
-        this.reportPatients();
-      }
-    });
-  }
-
-  reportPatients() {
-    this.vaccineService.reportPatients().pipe(first())
-    .subscribe({
-        next: () => {
-          Swal
-          .fire({
-            title: 'Hecho',
-            text: 'Reporte generado correctamente.',
-            icon: 'success',
-          });
-        },
-        error: (error: string) => {
-            this.alertService.error(error);
-            this.loading = false;
-        }
-    });
-  }
-
-  
 
     editVaccine(v: Vaccine) {
         this.router.navigate(['vaccines/edit/', v.id]);

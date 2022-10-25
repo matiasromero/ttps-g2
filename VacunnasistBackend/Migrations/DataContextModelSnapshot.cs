@@ -36,9 +36,6 @@ namespace VacunnasistBackend.Migrations
                     b.Property<DateTime?>("AppliedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("AppointmentId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
@@ -50,60 +47,11 @@ namespace VacunnasistBackend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppointmentId");
-
                     b.HasIndex("UserId");
 
                     b.HasIndex("VaccineId");
 
                     b.ToTable("AppliedVaccines");
-                });
-
-            modelBuilder.Entity("VacunassistBackend.Entities.Appointment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("AppliedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Comment")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime?>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Notified")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("PatientId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("RequestedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("VaccinatorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VaccineId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PatientId");
-
-                    b.HasIndex("VaccinatorId");
-
-                    b.HasIndex("VaccineId");
-
-                    b.ToTable("Appointments", (string)null);
                 });
 
             modelBuilder.Entity("VacunassistBackend.Entities.User", b =>
@@ -183,7 +131,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "other",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:hAVWAgp1iJE6gBfBIw+2kMI/RMt0VIGh:2krnm/JQn6yAF6+6HEAuA/9KT29TU1m6",
+                            PasswordHash = "1000:Va3Ab5gdfUtoaUamcb79twDpMrmKQ2VW:ZU9BRL5TB6Dj7y4wlOKtuV3gQaCAv5CM",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "administrator",
@@ -200,7 +148,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "male",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:zBGi2DWF2lG5ISXBnZac7UKyVzYpwH+R:mgz/+jBWg14ppGqCGVolEBDfgfr2CSKv",
+                            PasswordHash = "1000:YLsEco7ARYB9roIsNg71kh7TnrQxGizt:wBJiJvbRbaT829iMa/ZizIhyghLZUEUF",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "operator",
@@ -217,7 +165,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "female",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:SH8w4li/BM+QvSw6KG1YMeQNGUXFfj1p:IwjQJSTY23kScgjycKf/K4CdytTRYAO+",
+                            PasswordHash = "1000:YNH3wDDGKHnKKxYT1ml0pbywBhh8GP17:kcqrZIagchfIZVGyNlCdWURDNM8/I6pI",
                             Pregnant = false,
                             Province = "Salta",
                             Role = "operator",
@@ -234,7 +182,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "other",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:qW6C1IuT/uKLpebxKWzDxaH8cAexFVTU:+99ND3uteOJG4/0XSMPL9iVSJXwFvESG",
+                            PasswordHash = "1000:mBRs9q6N+vxGbDEW99KfI71S6L5prMl1:PZ8ojSBN/M1ZsJ14kd6InnVkKs5MnAhQ",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "vacunator",
@@ -291,10 +239,6 @@ namespace VacunnasistBackend.Migrations
 
             modelBuilder.Entity("VacunassistBackend.Entities.AppliedVaccine", b =>
                 {
-                    b.HasOne("VacunassistBackend.Entities.Appointment", "Appointment")
-                        .WithMany()
-                        .HasForeignKey("AppointmentId");
-
                     b.HasOne("VacunassistBackend.Entities.User", "User")
                         .WithMany("Vaccines")
                         .HasForeignKey("UserId")
@@ -307,34 +251,7 @@ namespace VacunnasistBackend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Appointment");
-
                     b.Navigation("User");
-
-                    b.Navigation("Vaccine");
-                });
-
-            modelBuilder.Entity("VacunassistBackend.Entities.Appointment", b =>
-                {
-                    b.HasOne("VacunassistBackend.Entities.User", "Patient")
-                        .WithMany()
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("VacunassistBackend.Entities.User", "Vaccinator")
-                        .WithMany()
-                        .HasForeignKey("VaccinatorId");
-
-                    b.HasOne("VacunassistBackend.Entities.Vaccine", "Vaccine")
-                        .WithMany()
-                        .HasForeignKey("VaccineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Patient");
-
-                    b.Navigation("Vaccinator");
 
                     b.Navigation("Vaccine");
                 });

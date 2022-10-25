@@ -1,13 +1,10 @@
 import { UsersFilter } from 'src/app/_models/filters/users-filter';
-import { AppointmentService } from 'src/app/_services/appointment.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AccountService } from 'src/app/_services/account.service';
 import { AlertService } from 'src/app/_services/alert.service';
-import { DatePipe } from '@angular/common';
-import { Appointment } from 'src/app/_models/appointment';
 import Swal from 'sweetalert2';
 import { User } from '../_models/user';
 
@@ -21,10 +18,8 @@ export class UsersComponent implements OnInit {
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private activatedRoute: ActivatedRoute,
         private accountService: AccountService,
         private alertService: AlertService,
-        private dp: DatePipe
     ) { 
 
 
@@ -35,10 +30,6 @@ export class UsersComponent implements OnInit {
         
 
             this.route.queryParams.subscribe((params) => {
-                if (params.type) {
-                    this.filter.role = params.type;
-                    this.type = params.type;
-                }
                 if (params.fullName) {
                     this.formFilter.controls.fullName.setValue(params.fullName, {
                         onlySelf: true,
@@ -183,9 +174,5 @@ export class UsersComponent implements OnInit {
 
   addUser() {
     this.router.navigate(['users','new'], { queryParams: { type: this.type }});
-  }
-
-  notifyUsers() {
-    this.router.navigate(['users','notify']);
   }
 }

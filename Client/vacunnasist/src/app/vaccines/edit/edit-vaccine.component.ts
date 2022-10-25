@@ -5,7 +5,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AccountService } from 'src/app/_services/account.service';
 import { AlertService } from 'src/app/_services/alert.service';
-import { AppointmentService } from 'src/app/_services/appointment.service';
 import { DatePipe, Location } from '@angular/common';
 
 

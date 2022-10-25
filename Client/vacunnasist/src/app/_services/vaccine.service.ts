@@ -5,7 +5,6 @@ import { environment } from 'src/environments/environment';
 import { Vaccine } from '../_models/vaccine';
 import { DownloadCertificateModel } from '../_models/download-certificate';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Appointment } from '../_models/appointment';
 import { VaccinesFilter } from '../_models/filters/vaccines-filter';
 import { Observable } from 'rxjs';
 
@@ -38,28 +37,6 @@ export class VaccineService {
       });
     }
 
-    downloadCertificate(appliedVaccine: AppliedVaccine) {
-        const headers = new HttpHeaders().set(
-            'Content-Type',
-            'application/json; charset=utf-8'
-          );
-
-          let model = new DownloadCertificateModel();
-          model.id = appliedVaccine.id;
-        return this.http.post<DownloadCertificateModel>(`${environment.apiUrl}/users/generate-certificate`, model);
-    }
-
-    downloadCertificateAppointment(appointment: Appointment) {
-        const headers = new HttpHeaders().set(
-            'Content-Type',
-            'application/json; charset=utf-8'
-          );
-
-          let model = new DownloadCertificateModel();
-          model.id = appointment.id;
-        return this.http.post<DownloadCertificateModel>(`${environment.apiUrl}/users/generate-certificate-appointment`, model);
-    }
-
     getById(id: number) {
         return this.http.get<Vaccine>(`${environment.apiUrl}/vaccines/${id}`);
     }
@@ -80,11 +57,5 @@ export class VaccineService {
         return this.http.delete(`${environment.apiUrl}/vaccines/${id}`);
     }
 
-    reportVaccines() {
-      return this.http.post(`${environment.apiUrl}/vaccines/report-vaccines`, null);
-  }
-
-  reportPatients() {
-    return this.http.post(`${environment.apiUrl}/vaccines/report-patients`, null);
-}
+    
 }

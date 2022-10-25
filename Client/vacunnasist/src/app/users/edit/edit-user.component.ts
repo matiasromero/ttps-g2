@@ -71,10 +71,6 @@ export class EditUserComponent implements OnInit {
         });
     }
 
-    addVaccine() {
-        this.router.navigate(['appointments/add-vaccine-to-user', this.userId]);
-    }
-
     // convenience getter for easy access to form fields
     get f() { return this.form.controls; }
     

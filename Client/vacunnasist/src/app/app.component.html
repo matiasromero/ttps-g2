@@ -18,35 +18,7 @@
             >Inicio</a
           >
         </li>
-        <li class="nav-item">
-          <a
-            class="nav-item nav-link"
-            routerLink="appointments/new-appointment"
-            routerLinkActive="active"
-            *ngIf="user && user.role == 'patient'"
-            >Solicitar turno</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-item nav-link"
-            routerLink="appointments/my-appointments"
-            routerLinkActive="active"
-            *ngIf="user && user.role == 'patient'"
-            >Mis turnos</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-item nav-link"
-            routerLink="/appointments"
-            routerLinkActive="active"
-            *ngIf="
-              user && (user.role == 'administrator' || user.role == 'vacunator')
-            "
-            >Turnos</a
-          >
-        </li>
+
         <li class="nav-item">
           <a
             class="nav-item nav-link"
@@ -104,14 +76,6 @@
           </button>
           <button mat-menu-item (click)="logout()">Salir</button>
         </mat-menu>
-
-        <a
-          class="nav-item nav-link"
-          *ngIf="!user"
-          routerLink="/account/register"
-          routerLinkActive="active"
-          >Registrarse</a
-        >
       </div>
     </div>
   </div>

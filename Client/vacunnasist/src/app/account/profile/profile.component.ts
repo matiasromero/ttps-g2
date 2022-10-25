@@ -94,23 +94,6 @@ export class ProfileComponent implements OnInit {
             });
     }
 
-    downloadVaccineCertificate(v: AppliedVaccine) {
-        Swal
-      .fire({
-        title: 'Certificado de vacunación',
-        text: 'Va a generar el certificado para: ' + v.vaccine.name,
-        icon: 'warning',
-        showCancelButton: true,
-        cancelButtonText: 'No, cancelar',
-        confirmButtonText: 'Si, generar!'
-      })
-      .then(result => {
-        if (result.value) {
-          this.downloadCertificate(v);
-        }
-      });
-    }
-
     deleteVaccineQuestion(v: AppliedVaccine) {
         Swal
       .fire({
@@ -127,21 +110,6 @@ export class ProfileComponent implements OnInit {
           
         }
       });
-    }
-
-    downloadCertificate(v: AppliedVaccine) {
-        this.vaccineService.downloadCertificate(v)
-        .pipe(first())
-        .subscribe({
-            next: () => {
-                Swal.fire('Certificado generado', 'Certificado generado correctamente.', 'success');
-                this.loadData();
-            },
-            error: (error: string) => {
-                this.alertService.error(error);
-                this.loading = false;
-            }
-        });
     }
 
     deleteVaccine(v: AppliedVaccine) {

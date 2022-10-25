@@ -4,7 +4,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AccountService } from 'src/app/_services/account.service';
 import { AlertService } from 'src/app/_services/alert.service';
-import { AppointmentService } from 'src/app/_services/appointment.service';
 import { DatePipe } from '@angular/common';
 
 
@@ -21,7 +20,6 @@ export class NewUserComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private accountService: AccountService,
-        private appointmentsService: AppointmentService,
         private alertService: AlertService,
         private dp: DatePipe
     ) { 
