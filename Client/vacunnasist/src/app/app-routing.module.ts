@@ -11,7 +11,9 @@ const vaccinesModule = () => import('./vaccines/vaccines.module').then(x => x.Va
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'account', loadChildren: accountModule },
-  { path: 'users', loadChildren: usersModule, canActivate: [AuthGuard] },
+  { path: 'users', loadChildren: usersModule, canActivate: [AuthGuard], data: {
+    roles: ['administrator']
+  } },
   { path: 'appointments', loadChildren: appointmentsModule, canActivate: [AuthGuard] },
   { path: 'vaccines', loadChildren: vaccinesModule, canActivate: [AuthGuard] },
   // otherwise redirect to home

@@ -5,7 +5,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AccountService } from 'src/app/_services/account.service';
 import { AlertService } from 'src/app/_services/alert.service';
-import { AppointmentService } from 'src/app/_services/appointment.service';
 import { DatePipe, Location } from '@angular/common';
 
 
@@ -26,9 +25,7 @@ export class EditUserComponent implements OnInit {
         private dp: DatePipe,
         private _location: Location
     ) { 
-        if (this.accountService.userValue.role !== 'administrator') {
-            this.router.navigate(['/']);
-        }
+
     }
 
     public type: String = "patient";
@@ -69,7 +66,8 @@ export class EditUserComponent implements OnInit {
             birthDate: [new Date(), Validators.required],
             email:['', [Validators.required, Validators.email, Validators.maxLength(30)]],
             gender: ['male', Validators.required],
-            province: ['']
+            province: ['', Validators.required],
+            role: ['', Validators.required],
         });
     }
 

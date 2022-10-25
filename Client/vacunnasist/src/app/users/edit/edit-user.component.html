@@ -220,6 +220,24 @@
               </div>
             </div>
           </div>
+          <div class="form-group">
+            <label for="role" class="required">Rol</label>
+            <select formControlName="role" class="form-control" id="role">
+              <option value="administrator">Administrador</option>
+              <option value="operator">Operador provincial</option>
+              <option value="vacunator">Vacunador</option>
+            </select>
+            <div
+              *ngIf="
+                f.role.invalid && (submitted || f.role.dirty || f.role.touched)
+              "
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.role.errors?.['required']">
+                El rol es requerido.
+              </div>
+            </div>
+          </div>
         </mat-tab>
         <mat-tab label="Vacunas" *ngIf="userRole === 'patient'">
           <table class="table text-center">

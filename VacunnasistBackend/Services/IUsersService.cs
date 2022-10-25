@@ -152,6 +152,10 @@ namespace VacunassistBackend.Services
             {
                 user.Gender = model.Gender;
             }
+            if (string.IsNullOrEmpty(model.Role) == false && model.Role != user.Role)
+            {
+                user.Role = model.Role;
+            }
             if (model.BirthDate.HasValue && model.BirthDate != user.BirthDate)
             {
                 user.BirthDate = model.BirthDate.Value;

@@ -26,10 +26,7 @@ export class UsersComponent implements OnInit {
         private alertService: AlertService,
         private dp: DatePipe
     ) { 
-        // redirect to home if already logged in
-        if (this.accountService.userValue.role !== 'administrator') {
-            this.router.navigate(['/']);
-        }
+
 
         this.formFilter = this.formBuilder.group({
             fullName: ['', [Validators.maxLength(100)]],

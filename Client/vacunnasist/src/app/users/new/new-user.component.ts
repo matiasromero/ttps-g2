@@ -25,9 +25,7 @@ export class NewUserComponent implements OnInit {
         private alertService: AlertService,
         private dp: DatePipe
     ) { 
-        if (this.accountService.userValue.role !== 'administrator') {
-            this.router.navigate(['/']);
-        }
+
     }
 
     ngOnInit() {
