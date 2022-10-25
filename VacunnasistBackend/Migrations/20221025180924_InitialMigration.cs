@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VacunnasistBackend.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -127,10 +127,10 @@ namespace VacunnasistBackend.Migrations
                 columns: new[] { "Id", "Address", "BirthDate", "DNI", "Email", "FullName", "Gender", "HealthWorker", "IsActive", "PasswordHash", "Pregnant", "Province", "Role", "UserName" },
                 values: new object[,]
                 {
-                    { 1, "Calle Falsa 1234, La Plata", new DateTime(2022, 10, 22, 0, 0, 0, 0, DateTimeKind.Local), "11111111", "admin@vacunassist.com", "Administrador", "other", false, true, "1000:EXU8yrR2499tJhnziaIWzpmx2gSb6+nq:99OeBoAu7bHOI+4ZyAn/SzcFbqJ7IfBK", false, "", "administrator", "Admin" },
-                    { 2, "Calle Falsa 4567, La Plata", new DateTime(2022, 10, 22, 0, 0, 0, 0, DateTimeKind.Local), "11111111", "vacunador@email.com", "Vacunador", "other", false, true, "1000:OlM7r9GhAjLZAejnOs94Q47G52jioXaq:/84HGpAMAnrg3urnaPnR53FYoRrKRGsi", false, "", "vacunator", "Vacunador" },
-                    { 3, "Calle Falsa 789, La Plata", new DateTime(1987, 7, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), "12548987", "email@email.com", "Paciente", "other", false, true, "1000:Al/ouVWDjaVdIAoUN4hP05LKY9JEH8kg:OfzU+q4IxRrroOuOYS7Ne4048+hSGMmB", false, "", "patient", "Paciente" },
-                    { 4, "Calle Falsa 111, La Plata", new DateTime(1987, 6, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), "33170336", "email2@email.com", "Juan Perez", "male", false, true, "1000:cI0NritnDdYU429xHH6Z+89txbdckjkE:HvstMmuksdrzWGtJ9Vf+KAvgUOEWHyP1", false, "", "patient", "jperez" }
+                    { 1, "Calle Falsa 1234, La Plata", new DateTime(2022, 10, 25, 0, 0, 0, 0, DateTimeKind.Local), "11111111", "admin@vacunassist.com", "Administrador", "other", false, true, "1000:hAVWAgp1iJE6gBfBIw+2kMI/RMt0VIGh:2krnm/JQn6yAF6+6HEAuA/9KT29TU1m6", false, "Buenos Aires", "administrator", "Admin" },
+                    { 2, "Calle Falsa 2345, La Plata", new DateTime(2022, 10, 25, 0, 0, 0, 0, DateTimeKind.Local), "22345678", "operador1@vacunassist.com", "Luis Gutierrez", "male", false, true, "1000:zBGi2DWF2lG5ISXBnZac7UKyVzYpwH+R:mgz/+jBWg14ppGqCGVolEBDfgfr2CSKv", false, "Buenos Aires", "operator", "Operador1" },
+                    { 3, "Calle Falsa 9874, Salta", new DateTime(2022, 10, 25, 0, 0, 0, 0, DateTimeKind.Local), "89785451", "estefania@vacunassist.com", "Estefania Borzi", "female", false, true, "1000:SH8w4li/BM+QvSw6KG1YMeQNGUXFfj1p:IwjQJSTY23kScgjycKf/K4CdytTRYAO+", false, "Salta", "operator", "Operador2" },
+                    { 4, "Calle Falsa 4567, La Plata", new DateTime(2022, 10, 25, 0, 0, 0, 0, DateTimeKind.Local), "11111111", "vacunador@email.com", "Vacunador", "other", false, true, "1000:qW6C1IuT/uKLpebxKWzDxaH8cAexFVTU:+99ND3uteOJG4/0XSMPL9iVSJXwFvESG", false, "Buenos Aires", "vacunator", "Vacunador" }
                 });
 
             migrationBuilder.InsertData(
@@ -142,21 +142,6 @@ namespace VacunnasistBackend.Migrations
                     { 2, false, true, "Fiebre amarilla" },
                     { 3, true, true, "Gripe" }
                 });
-
-            migrationBuilder.InsertData(
-                table: "AppliedVaccines",
-                columns: new[] { "Id", "AppliedBy", "AppliedDate", "AppointmentId", "Comment", "UserId", "VaccineId" },
-                values: new object[] { 1, null, new DateTime(2022, 3, 12, 10, 30, 1, 0, DateTimeKind.Unspecified), null, null, 3, 1 });
-
-            migrationBuilder.InsertData(
-                table: "AppliedVaccines",
-                columns: new[] { "Id", "AppliedBy", "AppliedDate", "AppointmentId", "Comment", "UserId", "VaccineId" },
-                values: new object[] { 2, null, new DateTime(2022, 5, 10, 14, 30, 25, 0, DateTimeKind.Unspecified), null, null, 3, 2 });
-
-            migrationBuilder.InsertData(
-                table: "AppliedVaccines",
-                columns: new[] { "Id", "AppliedBy", "AppliedDate", "AppointmentId", "Comment", "UserId", "VaccineId" },
-                values: new object[] { 3, null, null, null, null, 3, 3 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppliedVaccines_AppointmentId",

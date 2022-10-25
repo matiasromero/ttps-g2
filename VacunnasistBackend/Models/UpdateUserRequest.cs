@@ -9,6 +9,7 @@ namespace VacunassistBackend.Models
         public string? FullName { get; set; }
 
         public string? Address { get; set; }
+        public string? Province { get; set; }
 
         public string? Gender { get; set; }
 

@@ -63,6 +63,7 @@ namespace VacunassistBackend.Controllers
                     email = user.Email,
                     birthdate = user.BirthDate.ToString("yyyy-MM-dd"),
                     age = user.GetAge(),
+                    province = user.Province,
                     address = user.Address,
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     expiration = token.ValidTo

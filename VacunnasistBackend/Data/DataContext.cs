@@ -36,51 +36,55 @@ namespace VacunassistBackend.Data
                     DNI = "11111111",
                     Gender = Gender.Other,
                     Email = "admin@vacunassist.com",
+                    Province = Province.BuenosAires,
+                    IsActive = true,
+                    PasswordHash = PasswordHash.CreateHash("1234")
+                };
+
+                var operador1 = new User
+                {
+                    Id = 2,
+                    UserName = "Operador1",
+                    Role = UserRoles.Operator,
+                    Address = "Calle Falsa 2345, La Plata",
+                    FullName = "Luis Gutierrez",
+                    BirthDate = DateTime.Now.Date,
+                    DNI = "22345678",
+                    Gender = Gender.Male,
+                    Email = "operador1@vacunassist.com",
+                    Province = Province.BuenosAires,
+                    IsActive = true,
+                    PasswordHash = PasswordHash.CreateHash("1234")
+                };
+
+                var operador2 = new User
+                {
+                    Id = 3,
+                    UserName = "Operador2",
+                    Role = UserRoles.Operator,
+                    Address = "Calle Falsa 9874, Salta",
+                    FullName = "Estefania Borzi",
+                    BirthDate = DateTime.Now.Date,
+                    DNI = "89785451",
+                    Gender = Gender.Female,
+                    Email = "estefania@vacunassist.com",
+                    Province = Province.Salta,
                     IsActive = true,
                     PasswordHash = PasswordHash.CreateHash("1234")
                 };
 
                 var vacunador1 = new User
                 {
-                    Id = 2,
+                    Id = 4,
                     UserName = "Vacunador",
                     Role = UserRoles.Vacunator,
                     Address = "Calle Falsa 4567, La Plata",
                     FullName = "Vacunador",
                     BirthDate = DateTime.Now.Date,
+                    Province = Province.BuenosAires,
                     DNI = "11111111",
                     Gender = Gender.Other,
                     Email = "vacunador@email.com",
-                    IsActive = true,
-                    PasswordHash = PasswordHash.CreateHash("1234"),
-                };
-
-                var patient1 = new User
-                {
-                    Id = 3,
-                    UserName = "Paciente",
-                    Role = UserRoles.Patient,
-                    Address = "Calle Falsa 789, La Plata",
-                    FullName = "Paciente",
-                    Email = "email@email.com",
-                    BirthDate = new DateTime(1987, 07, 06),
-                    DNI = "12548987",
-                    Gender = Gender.Other,
-                    IsActive = true,
-                    PasswordHash = PasswordHash.CreateHash("1234"),
-                };
-
-                var patient2 = new User
-                {
-                    Id = 4,
-                    UserName = "jperez",
-                    Role = UserRoles.Patient,
-                    Address = "Calle Falsa 111, La Plata",
-                    FullName = "Juan Perez",
-                    Email = "email2@email.com",
-                    BirthDate = new DateTime(1987, 06, 07).Date,
-                    DNI = "33170336",
-                    Gender = Gender.Male,
                     IsActive = true,
                     PasswordHash = PasswordHash.CreateHash("1234"),
                 };
@@ -105,30 +109,10 @@ namespace VacunassistBackend.Data
                     IsActive = true
                 };
 
-                var applied1 = new AppliedVaccine()
-                {
-                    Id = 1,
-                    UserId = patient1.Id,
-                    VaccineId = vaccine1.Id,
-                    AppliedDate = new DateTime(2022, 03, 12, 10, 30, 01)
-                };
-                var applied2 = new AppliedVaccine()
-                {
-                    Id = 2,
-                    UserId = patient1.Id,
-                    VaccineId = vaccine2.Id,
-                    AppliedDate = new DateTime(2022, 05, 10, 14, 30, 25)
-                };
-                var applied3 = new AppliedVaccine()
-                {
-                    Id = 3,
-                    UserId = patient1.Id,
-                    VaccineId = vaccine3.Id,
-                };
+
 
                 modelBuilder.Entity<Vaccine>().HasData(vaccine1, vaccine2, vaccine3);
-                modelBuilder.Entity<User>().HasData(admin, vacunador1, patient1, patient2);
-                modelBuilder.Entity<AppliedVaccine>().HasData(applied1, applied2, applied3);
+                modelBuilder.Entity<User>().HasData(admin, operador1, operador2, vacunador1);
             }
         }
         #endregion

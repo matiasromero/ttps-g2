@@ -12,6 +12,7 @@ export class User {
     age!:number;
     dni!: string;
     role!: string;
+    province!:string;
     token!: string;
     isActive!: boolean;
     vaccines: AppliedVaccine[] = [];

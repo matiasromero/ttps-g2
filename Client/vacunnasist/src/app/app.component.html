@@ -39,19 +39,6 @@
         <li class="nav-item">
           <a
             class="nav-item nav-link"
-            routerLink="/users"
-            [queryParams]="{
-              type: 'patient',
-              isActive: 'true'
-            }"
-            routerLinkActive="active"
-            *ngIf="user && user.role == 'administrator'"
-            >Pacientes</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-item nav-link"
             routerLink="/appointments"
             routerLinkActive="active"
             *ngIf="
@@ -74,12 +61,11 @@
             class="nav-item nav-link"
             routerLink="/users"
             [queryParams]="{
-              type: 'vacunator',
               isActive: 'true'
             }"
             routerLinkActive="active"
             *ngIf="user && user.role == 'administrator'"
-            >Vacunadores</a
+            >Usuarios</a
           >
         </li>
       </ul>

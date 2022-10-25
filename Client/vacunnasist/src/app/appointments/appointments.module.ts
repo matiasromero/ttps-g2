@@ -2,7 +2,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { CompleteAppointmentComponent } from './complete-appointment/complete-appointment.component';
 import { AppointmentsComponent } from './appointments.component';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MyAppointmentsComponent } from './my-appointments/my-appointments.component';
 import { MatInputModule } from '@angular/material/input';

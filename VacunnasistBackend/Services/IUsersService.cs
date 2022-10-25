@@ -63,7 +63,7 @@ namespace VacunassistBackend.Services
 
         public User[] GetAll(UsersFilterRequest filter)
         {
-            var query = _context.Users.Include(u => u.Vaccines).AsQueryable();
+            var query = _context.Users.Include(u => u.Vaccines).Where(x => x.Role != UserRoles.Patient).AsQueryable();
             if (filter.IsActive.HasValue)
                 query = query.Where(x => x.IsActive == filter.IsActive);
             if (string.IsNullOrEmpty(filter.Role) == false)
@@ -93,6 +93,7 @@ namespace VacunassistBackend.Services
                     Email = model.Email,
                     FullName = model.FullName,
                     Gender = model.Gender,
+                    Province = model.Province,
                     PasswordHash = PasswordHash.CreateHash(model.Password),
                 };
 
@@ -122,7 +123,6 @@ namespace VacunassistBackend.Services
                     throw new HttpResponseException(400, message: "Nombre de usuario '" + model.UserName + "' en uso");
                 }
                 user.UserName = model.UserName;
-
             }
             if (string.IsNullOrEmpty(model.Password) == false)
             {
@@ -139,6 +139,10 @@ namespace VacunassistBackend.Services
             if (string.IsNullOrEmpty(model.Address) == false && model.Address != user.Address)
             {
                 user.Address = model.Address;
+            }
+            if (string.IsNullOrEmpty(model.Province) == false && model.Province != user.Province)
+            {
+                user.Province = model.Province;
             }
             if (string.IsNullOrEmpty(model.Email) == false && model.Email != user.Email)
             {

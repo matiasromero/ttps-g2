@@ -39,7 +39,6 @@ export class EditUserComponent implements OnInit {
     ngOnInit() {
         this.minDate = new Date(1900, 0, 1);
 
-
         this.userId = parseInt(this.route.snapshot.paramMap.get('id')!);
         this.accountService.getById(this.userId).subscribe(res => {
             this.type = res.role;
@@ -55,7 +54,8 @@ export class EditUserComponent implements OnInit {
                 email: res.email,
                 gender: res.gender,
             role: res.role,
-            isActive: res.isActive
+            isActive: res.isActive,
+            province: res.province
         });
 
      
@@ -68,7 +68,8 @@ export class EditUserComponent implements OnInit {
             address: ['', [Validators.required, Validators.maxLength(200)]],
             birthDate: [new Date(), Validators.required],
             email:['', [Validators.required, Validators.email, Validators.maxLength(30)]],
-            gender: ['male', Validators.required]
+            gender: ['male', Validators.required],
+            province: ['']
         });
     }
 

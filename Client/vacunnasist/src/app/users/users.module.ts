@@ -20,15 +20,15 @@ import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } f
 import { MatInputModule } from '@angular/material/input';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_DATE_FORMATS } from '../account/account.module';
-
-
+import { UserRolePipe } from '../_helpers/user-role.pipe';
 
 @NgModule({
   declarations: [
     UsersComponent,
     NewUserComponent,
     EditUserComponent,
-    NotifyComponent
+    NotifyComponent,
+    UserRolePipe
   ],
   imports: [
     CommonModule,

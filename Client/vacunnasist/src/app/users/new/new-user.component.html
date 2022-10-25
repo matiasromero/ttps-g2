@@ -1,14 +1,5 @@
 <div class="card">
-  <h4 class="card-header">
-    Nuevo
-    {{
-      type == "patient"
-        ? "Paciente"
-        : type == "vacunator"
-        ? "Vacunador"
-        : "Usuario"
-    }}
-  </h4>
+  <h4 class="card-header">Nuevo Usuario</h4>
   <div class="card-body">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="form-group">
@@ -119,6 +110,35 @@
       </div>
 
       <div class="form-group">
+        <label for="province" class="required">Jurisdicción</label>
+        <select formControlName="province" class="form-control" id="province">
+          <option value="Buenos Aires">Buenos Aires</option>
+          <option value="Catamarca">Catamarca</option>
+          <option value="Chaco">Chaco</option>
+          <option value="Chubut">Chubut</option>
+          <option value="Córdoba">Córdoba</option>
+          <option value="Corrientes">Corrientes</option>
+          <option value="Entre Ríos">Entre Ríos</option>
+          <option value="Formosa">Formosa</option>
+          <option value="Jujuy">Jujuy</option>
+          <option value="La Pampa">La Pampa</option>
+          <option value="La Rioja">La Rioja</option>
+          <option value="Mendoza">Mendoza</option>
+          <option value="Misiones">Misiones</option>
+          <option value="Neuquén">Neuquén</option>
+          <option value="Río Negro">Río Negro</option>
+          <option value="Salta">Salta</option>
+          <option value="San Juan">San Juan</option>
+          <option value="San Luis">San Luis</option>
+          <option value="Santa Cruz">Santa Cruz</option>
+          <option value="Santa Fe">Santa Fe</option>
+          <option value="Santiago del Estero">Santiago del Estero</option>
+          <option value="Tierra del Fuego">Tierra del Fuego</option>
+          <option value="Tucumán">Tucumán</option>
+        </select>
+      </div>
+
+      <div class="form-group">
         <label for="email" class="required">Email</label>
         <input
           type="text"
@@ -197,6 +217,23 @@
       </div>
 
       <div class="form-group">
+        <label for="role" class="required">Rol</label>
+        <select formControlName="role" class="form-control" id="role">
+          <option value="administrator">Administrador</option>
+          <option value="operator">Operador provincial</option>
+          <option value="vacunator">Vacunador</option>
+        </select>
+        <div
+          *ngIf="
+            f.role.invalid && (submitted || f.role.dirty || f.role.touched)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="f.role.errors?.['required']">El rol es requerido.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
         <button [disabled]="loading" class="btn btn-primary">
           <span
             *ngIf="loading"
@@ -207,7 +244,6 @@
         <a
           routerLink="../../users"
           [queryParams]="{
-            type: type,
             isActive: 'true'
           }"
           class="btn btn-link"

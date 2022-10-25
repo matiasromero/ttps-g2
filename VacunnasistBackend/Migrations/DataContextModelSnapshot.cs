@@ -57,28 +57,6 @@ namespace VacunnasistBackend.Migrations
                     b.HasIndex("VaccineId");
 
                     b.ToTable("AppliedVaccines");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AppliedDate = new DateTime(2022, 3, 12, 10, 30, 1, 0, DateTimeKind.Unspecified),
-                            UserId = 3,
-                            VaccineId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AppliedDate = new DateTime(2022, 5, 10, 14, 30, 25, 0, DateTimeKind.Unspecified),
-                            UserId = 3,
-                            VaccineId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            UserId = 3,
-                            VaccineId = 3
-                        });
                 });
 
             modelBuilder.Entity("VacunassistBackend.Entities.Appointment", b =>
@@ -198,69 +176,69 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 1,
                             Address = "Calle Falsa 1234, La Plata",
-                            BirthDate = new DateTime(2022, 10, 22, 0, 0, 0, 0, DateTimeKind.Local),
+                            BirthDate = new DateTime(2022, 10, 25, 0, 0, 0, 0, DateTimeKind.Local),
                             DNI = "11111111",
                             Email = "admin@vacunassist.com",
                             FullName = "Administrador",
                             Gender = "other",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:EXU8yrR2499tJhnziaIWzpmx2gSb6+nq:99OeBoAu7bHOI+4ZyAn/SzcFbqJ7IfBK",
+                            PasswordHash = "1000:hAVWAgp1iJE6gBfBIw+2kMI/RMt0VIGh:2krnm/JQn6yAF6+6HEAuA/9KT29TU1m6",
                             Pregnant = false,
-                            Province = "",
+                            Province = "Buenos Aires",
                             Role = "administrator",
                             UserName = "Admin"
                         },
                         new
                         {
                             Id = 2,
+                            Address = "Calle Falsa 2345, La Plata",
+                            BirthDate = new DateTime(2022, 10, 25, 0, 0, 0, 0, DateTimeKind.Local),
+                            DNI = "22345678",
+                            Email = "operador1@vacunassist.com",
+                            FullName = "Luis Gutierrez",
+                            Gender = "male",
+                            HealthWorker = false,
+                            IsActive = true,
+                            PasswordHash = "1000:zBGi2DWF2lG5ISXBnZac7UKyVzYpwH+R:mgz/+jBWg14ppGqCGVolEBDfgfr2CSKv",
+                            Pregnant = false,
+                            Province = "Buenos Aires",
+                            Role = "operator",
+                            UserName = "Operador1"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Address = "Calle Falsa 9874, Salta",
+                            BirthDate = new DateTime(2022, 10, 25, 0, 0, 0, 0, DateTimeKind.Local),
+                            DNI = "89785451",
+                            Email = "estefania@vacunassist.com",
+                            FullName = "Estefania Borzi",
+                            Gender = "female",
+                            HealthWorker = false,
+                            IsActive = true,
+                            PasswordHash = "1000:SH8w4li/BM+QvSw6KG1YMeQNGUXFfj1p:IwjQJSTY23kScgjycKf/K4CdytTRYAO+",
+                            Pregnant = false,
+                            Province = "Salta",
+                            Role = "operator",
+                            UserName = "Operador2"
+                        },
+                        new
+                        {
+                            Id = 4,
                             Address = "Calle Falsa 4567, La Plata",
-                            BirthDate = new DateTime(2022, 10, 22, 0, 0, 0, 0, DateTimeKind.Local),
+                            BirthDate = new DateTime(2022, 10, 25, 0, 0, 0, 0, DateTimeKind.Local),
                             DNI = "11111111",
                             Email = "vacunador@email.com",
                             FullName = "Vacunador",
                             Gender = "other",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:OlM7r9GhAjLZAejnOs94Q47G52jioXaq:/84HGpAMAnrg3urnaPnR53FYoRrKRGsi",
+                            PasswordHash = "1000:qW6C1IuT/uKLpebxKWzDxaH8cAexFVTU:+99ND3uteOJG4/0XSMPL9iVSJXwFvESG",
                             Pregnant = false,
-                            Province = "",
+                            Province = "Buenos Aires",
                             Role = "vacunator",
                             UserName = "Vacunador"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Address = "Calle Falsa 789, La Plata",
-                            BirthDate = new DateTime(1987, 7, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DNI = "12548987",
-                            Email = "email@email.com",
-                            FullName = "Paciente",
-                            Gender = "other",
-                            HealthWorker = false,
-                            IsActive = true,
-                            PasswordHash = "1000:Al/ouVWDjaVdIAoUN4hP05LKY9JEH8kg:OfzU+q4IxRrroOuOYS7Ne4048+hSGMmB",
-                            Pregnant = false,
-                            Province = "",
-                            Role = "patient",
-                            UserName = "Paciente"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Address = "Calle Falsa 111, La Plata",
-                            BirthDate = new DateTime(1987, 6, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DNI = "33170336",
-                            Email = "email2@email.com",
-                            FullName = "Juan Perez",
-                            Gender = "male",
-                            HealthWorker = false,
-                            IsActive = true,
-                            PasswordHash = "1000:cI0NritnDdYU429xHH6Z+89txbdckjkE:HvstMmuksdrzWGtJ9Vf+KAvgUOEWHyP1",
-                            Pregnant = false,
-                            Province = "",
-                            Role = "patient",
-                            UserName = "jperez"
                         });
                 });
 

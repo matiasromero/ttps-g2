@@ -1,7 +1,5 @@
 <div class="card">
-  <h4 class="card-header">
-    {{ type == "vacunator" ? "Vacunadores" : "Pacientes" }}
-  </h4>
+  <h4 class="card-header">Usuarios</h4>
   <div class="card-body">
     <mat-accordion>
       <mat-expansion-panel
@@ -76,7 +74,8 @@
         <thead>
           <tr>
             <th scope="col">Nombre</th>
-            <th scope="col">Dirección</th>
+            <th scope="col">Rol</th>
+            <th scope="col">Jurisdicción</th>
             <th scope="col">Estado</th>
             <th></th>
           </tr>
@@ -86,8 +85,12 @@
             <th scope="row">
               {{ u.fullName }}
             </th>
+
             <th scope="row">
-              {{ u.address }}
+              {{ u.role | userrole }}
+            </th>
+            <th scope="row">
+              {{ u.province }}
             </th>
             <td>{{ u.isActive ? "Activo" : "Inactivo" }}</td>
             <td>
@@ -117,14 +120,6 @@
         </tbody>
       </table>
       <div class="text-right">
-        <button
-          type="button"
-          (click)="notifyUsers()"
-          class="btn btn-warning mr-3"
-          *ngIf="type == 'patient'"
-        >
-          <i class="fa-solid fa-bullhorn"></i> | Notificar
-        </button>
         <button type="button" (click)="addUser()" class="btn btn-primary">
           Agregar
         </button>
