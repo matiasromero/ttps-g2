@@ -11,5 +11,5 @@ public class AppliedVaccine
     public User User { get; set; }
 
     public int VaccineId { get; set; }
-    public Vaccine Vaccine { get; set; }
+    public DevelopedVaccine Vaccine { get; set; }
 }

@@ -1,13 +1,13 @@
 namespace VacunassistBackend.Entities;
 
-public class Vaccine
+public class DevelopedVaccine
 {
-    public Vaccine()
+    public DevelopedVaccine()
     {
         IsActive = true;
     }
 
-    public Vaccine(string name)
+    public DevelopedVaccine(string name)
         : this()
     {
         Name = name;

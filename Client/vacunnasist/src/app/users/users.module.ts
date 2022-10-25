@@ -1,5 +1,4 @@
 import { MatSelectModule } from '@angular/material/select';
-import { NotifyComponent } from './notify/notify.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { EditUserComponent } from './edit/edit-user.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -27,7 +26,6 @@ import { UserRolePipe } from '../_helpers/user-role.pipe';
     UsersComponent,
     NewUserComponent,
     EditUserComponent,
-    NotifyComponent,
     UserRolePipe
   ],
   imports: [

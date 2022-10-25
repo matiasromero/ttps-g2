@@ -1,4 +1,3 @@
-import { NotifyComponent } from './notify/notify.component';
 import { EditUserComponent } from './edit/edit-user.component';
 import { NewUserComponent } from './new/new-user.component';
 import { NgModule } from '@angular/core';
@@ -12,8 +11,7 @@ const routes: Routes = [
         children: [
             { path: '', component: UsersComponent },
             { path: 'new', component: NewUserComponent },
-            { path: 'edit/:id', component: EditUserComponent },
-            { path: 'notify', component: NotifyComponent },
+            { path: 'edit/:id', component: EditUserComponent }
         ]
     },
 ];

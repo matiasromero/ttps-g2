@@ -1,4 +1,3 @@
-import { CertificateModalComponent } from './profile/certificate/certificate-modal.component';
 import { ProfileAddVaccineComponent } from './profile/add-vaccine/add-vaccine.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
@@ -41,8 +40,7 @@ export const MY_DATE_FORMATS = {
     PasswordRecoveryComponent,
     ProfileComponent,
     ProfileAddVaccineComponent,
-    PasswordResetModalComponent,
-    CertificateModalComponent
+    PasswordResetModalComponent
   ],
   imports: [
     CommonModule,

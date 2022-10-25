@@ -14,7 +14,7 @@ namespace VacunassistBackend.Data
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Vaccine> Vaccines { get; set; }
+        public DbSet<DevelopedVaccine> DevelopedVaccines { get; set; }
         public DbSet<AppliedVaccine> AppliedVaccines { get; set; }
 
         #region Required
@@ -88,29 +88,27 @@ namespace VacunassistBackend.Data
                     PasswordHash = PasswordHash.CreateHash("1234"),
                 };
 
-                var vaccine1 = new Vaccine
+                var vaccine1 = new DevelopedVaccine
                 {
                     Id = 1,
                     Name = "COVID-19",
                     IsActive = true
                 };
-                var vaccine2 = new Vaccine
+                var vaccine2 = new DevelopedVaccine
                 {
                     Id = 2,
                     Name = "Fiebre amarilla",
                     IsActive = true,
                     CanBeRequested = false
                 };
-                var vaccine3 = new Vaccine
+                var vaccine3 = new DevelopedVaccine
                 {
                     Id = 3,
                     Name = "Gripe",
                     IsActive = true
                 };
 
-
-
-                modelBuilder.Entity<Vaccine>().HasData(vaccine1, vaccine2, vaccine3);
+                modelBuilder.Entity<DevelopedVaccine>().HasData(vaccine1, vaccine2, vaccine3);
                 modelBuilder.Entity<User>().HasData(admin, operador1, operador2, vacunador1);
             }
         }

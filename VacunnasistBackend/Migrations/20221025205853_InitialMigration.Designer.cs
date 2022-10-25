@@ -12,8 +12,8 @@ using VacunassistBackend.Data;
 namespace VacunnasistBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221025201357_Initial")]
-    partial class Initial
+    [Migration("20221025205853_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,53 @@ namespace VacunnasistBackend.Migrations
                     b.HasIndex("VaccineId");
 
                     b.ToTable("AppliedVaccines");
+                });
+
+            modelBuilder.Entity("VacunassistBackend.Entities.DevelopedVaccine", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("CanBeRequested")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DevelopedVaccines");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CanBeRequested = true,
+                            IsActive = true,
+                            Name = "COVID-19"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CanBeRequested = false,
+                            IsActive = true,
+                            Name = "Fiebre amarilla"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CanBeRequested = true,
+                            IsActive = true,
+                            Name = "Gripe"
+                        });
                 });
 
             modelBuilder.Entity("VacunassistBackend.Entities.User", b =>
@@ -133,7 +180,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "other",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:Va3Ab5gdfUtoaUamcb79twDpMrmKQ2VW:ZU9BRL5TB6Dj7y4wlOKtuV3gQaCAv5CM",
+                            PasswordHash = "1000:czrygEjmkObiLMPUwe9haSqY2R//FE1Z:y1GsIZCTddeY+ej3PXghnUzAD7kE9ixY",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "administrator",
@@ -150,7 +197,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "male",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:YLsEco7ARYB9roIsNg71kh7TnrQxGizt:wBJiJvbRbaT829iMa/ZizIhyghLZUEUF",
+                            PasswordHash = "1000:/rXVYY0GbLe2Y1JsmGpjGEjI0cjAR1md:f4cueeqgV6JeqrSjsDG1K0kmuWECQ/1J",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "operator",
@@ -167,7 +214,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "female",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:YNH3wDDGKHnKKxYT1ml0pbywBhh8GP17:kcqrZIagchfIZVGyNlCdWURDNM8/I6pI",
+                            PasswordHash = "1000:/7q9b+6Bi8trzEnk5GueETy+KScyyxIE:19dFIS1Ev8CkWl5TUIv9/s16EGt6uJBf",
                             Pregnant = false,
                             Province = "Salta",
                             Role = "operator",
@@ -184,58 +231,11 @@ namespace VacunnasistBackend.Migrations
                             Gender = "other",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:mBRs9q6N+vxGbDEW99KfI71S6L5prMl1:PZ8ojSBN/M1ZsJ14kd6InnVkKs5MnAhQ",
+                            PasswordHash = "1000:DKiF9r98rfMmLRajhUzOKK7Pib4apRK1:H9eqC1XLLiIQ+wQEdaETdVImeGhgmKuG",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "vacunator",
                             UserName = "Vacunador"
-                        });
-                });
-
-            modelBuilder.Entity("VacunassistBackend.Entities.Vaccine", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<bool>("CanBeRequested")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Vaccines");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CanBeRequested = true,
-                            IsActive = true,
-                            Name = "COVID-19"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CanBeRequested = false,
-                            IsActive = true,
-                            Name = "Fiebre amarilla"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CanBeRequested = true,
-                            IsActive = true,
-                            Name = "Gripe"
                         });
                 });
 
@@ -247,7 +247,7 @@ namespace VacunnasistBackend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("VacunassistBackend.Entities.Vaccine", "Vaccine")
+                    b.HasOne("VacunassistBackend.Entities.DevelopedVaccine", "Vaccine")
                         .WithMany("Users")
                         .HasForeignKey("VaccineId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -258,14 +258,14 @@ namespace VacunnasistBackend.Migrations
                     b.Navigation("Vaccine");
                 });
 
+            modelBuilder.Entity("VacunassistBackend.Entities.DevelopedVaccine", b =>
+                {
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("VacunassistBackend.Entities.User", b =>
                 {
                     b.Navigation("Vaccines");
-                });
-
-            modelBuilder.Entity("VacunassistBackend.Entities.Vaccine", b =>
-                {
-                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

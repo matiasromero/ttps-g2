@@ -13,10 +13,10 @@ namespace VacunassistBackend.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUsersService _usersService;
-        private readonly IVaccinesService _vaccinesService;
+        private readonly IDevelopedVaccinesService _vaccinesService;
         private readonly IConfiguration _configuration;
 
-        public UsersController(IUsersService usersService, IVaccinesService vaccinesService, IConfiguration configuration)
+        public UsersController(IUsersService usersService, IDevelopedVaccinesService vaccinesService, IConfiguration configuration)
         {
             this._usersService = usersService;
             this._vaccinesService = vaccinesService;

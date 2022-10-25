@@ -20,7 +20,7 @@ var _MyCors = "MyCors";
 
     //Adding My Dependencies
     services.AddTransient<IUsersService, UsersService>();
-    services.AddTransient<IVaccinesService, VaccinesService>();
+    services.AddTransient<IDevelopedVaccinesService, DevelopedVaccinesService>();
     services.AddTransient<INotificationsService, NotificationsService>();
 
     services.AddDbContext<DataContext>(options =>

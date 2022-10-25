@@ -9,25 +9,25 @@ namespace VacunassistBackend.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class VaccinesController : ControllerBase
+    public class DevelopedVaccinesController : ControllerBase
     {
         private readonly DataContext _context;
-        private readonly IVaccinesService _vaccinesService;
+        private readonly IDevelopedVaccinesService _developedVaccinesService;
         private readonly IConfiguration _configuration;
 
-        public VaccinesController(DataContext context, IVaccinesService vaccinesService, IConfiguration configuration)
+        public DevelopedVaccinesController(DataContext context, IDevelopedVaccinesService vaccinesService, IConfiguration configuration)
         {
-            this._vaccinesService = vaccinesService;
+            this._developedVaccinesService = vaccinesService;
             this._configuration = configuration;
             this._context = context;
         }
 
         [HttpGet]
-        public IActionResult GetAll([FromQuery] VaccinesFilterRequest filter)
+        public IActionResult GetAll([FromQuery] DevelopedVaccinesFilterRequest filter)
         {
             return Ok(new
             {
-                vaccines = _vaccinesService.GetAll(filter)
+                vaccines = _developedVaccinesService.GetAll(filter)
             });
         }
 
@@ -35,13 +35,13 @@ namespace VacunassistBackend.Controllers
         [Route("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(_vaccinesService.Get(id));
+            return Ok(_developedVaccinesService.Get(id));
         }
 
         [HttpPost]
-        public IActionResult New([FromBody] NewVaccineRequest model)
+        public IActionResult New([FromBody] NewDevelopedVaccineRequest model)
         {
-            var alreadyExist = _vaccinesService.AlreadyExist(model.Name);
+            var alreadyExist = _developedVaccinesService.AlreadyExist(model.Name);
             if (alreadyExist)
             {
                 return BadRequest(new
@@ -51,7 +51,7 @@ namespace VacunassistBackend.Controllers
 
             }
 
-            _vaccinesService.New(model);
+            _developedVaccinesService.New(model);
 
             return Ok(new
             {
@@ -61,14 +61,14 @@ namespace VacunassistBackend.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public IActionResult Edit(int? id, [FromBody] UpdateVaccineRequest model)
+        public IActionResult Edit(int? id, [FromBody] UpdateDevelopedVaccineRequest model)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            _vaccinesService.Update(id.Value, model);
+            _developedVaccinesService.Update(id.Value, model);
             return Ok();
         }
 
@@ -77,14 +77,14 @@ namespace VacunassistBackend.Controllers
         [Helpers.Authorize]
         public IActionResult CanBeDeleted(int id)
         {
-            return Ok(_vaccinesService.CanBeDeleted(id));
+            return Ok(_developedVaccinesService.CanBeDeleted(id));
         }
 
         [HttpDelete]
         [Route("{id}")]
         public IActionResult Delete(int id)
         {
-            var exist = _vaccinesService.Exist(id);
+            var exist = _developedVaccinesService.Exist(id);
             if (exist == false)
             {
                 return BadRequest(new
@@ -94,7 +94,7 @@ namespace VacunassistBackend.Controllers
 
             }
 
-            if (_vaccinesService.CanBeDeleted(id) == false)
+            if (_developedVaccinesService.CanBeDeleted(id) == false)
             {
                 return BadRequest(new
                 {
@@ -102,7 +102,7 @@ namespace VacunassistBackend.Controllers
                 });
             }
 
-            _vaccinesService.Update(id, new UpdateVaccineRequest() { IsActive = false });
+            _developedVaccinesService.Update(id, new UpdateDevelopedVaccineRequest() { IsActive = false });
 
             return Ok(new
             {

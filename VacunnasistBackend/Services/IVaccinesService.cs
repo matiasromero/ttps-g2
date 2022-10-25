@@ -6,24 +6,24 @@ using VacunassistBackend.Models.Filters;
 
 namespace VacunassistBackend.Services
 {
-    public interface IVaccinesService
+    public interface IDevelopedVaccinesService
     {
-        Vaccine[] GetAll(VaccinesFilterRequest filter);
-        Vaccine Get(int id);
+        DevelopedVaccine[] GetAll(DevelopedVaccinesFilterRequest filter);
+        DevelopedVaccine Get(int id);
         bool ExistsApplied(int id);
-        void Update(int id, UpdateVaccineRequest model);
+        void Update(int id, UpdateDevelopedVaccineRequest model);
         bool CanBeDeleted(int id);
         bool Exist(int id);
         bool AlreadyExist(string name);
-        bool New(NewVaccineRequest model);
+        bool New(NewDevelopedVaccineRequest model);
         AppliedVaccine GetApplied(int id);
     }
 
-    public class VaccinesService : IVaccinesService
+    public class DevelopedVaccinesService : IDevelopedVaccinesService
     {
         private DataContext _context;
 
-        public VaccinesService(DataContext context)
+        public DevelopedVaccinesService(DataContext context)
         {
             this._context = context;
         }
@@ -33,9 +33,9 @@ namespace VacunassistBackend.Services
             return _context.AppliedVaccines.Any(x => x.Id == id);
         }
 
-        public Vaccine[] GetAll(VaccinesFilterRequest filter)
+        public DevelopedVaccine[] GetAll(DevelopedVaccinesFilterRequest filter)
         {
-            var query = _context.Vaccines.AsQueryable();
+            var query = _context.DevelopedVaccines.AsQueryable();
             if (filter.IsActive.HasValue)
                 query = query.Where(x => x.IsActive == filter.IsActive);
             if (filter.CanBeRequested.HasValue)
@@ -45,22 +45,22 @@ namespace VacunassistBackend.Services
             return query.ToArray();
         }
 
-        public bool New(NewVaccineRequest model)
+        public bool New(NewDevelopedVaccineRequest model)
         {
             // validate
-            if (_context.Vaccines.Any(x => x.Name == model.Name))
-                throw new ApplicationException("Nombre de vacuna '" + model.Name + "' en uso");
+            if (_context.DevelopedVaccines.Any(x => x.Name == model.Name))
+                throw new ApplicationException("Nombre de vacuna desarrollada '" + model.Name + "' en uso");
 
             try
             {
-                var vaccine = new Vaccine()
+                var vaccine = new DevelopedVaccine()
                 {
                     Name = model.Name,
                     CanBeRequested = model.CanBeRequested
                 };
 
                 // save vaccine
-                _context.Vaccines.Add(vaccine);
+                _context.DevelopedVaccines.Add(vaccine);
                 _context.SaveChanges();
                 return true;
             }
@@ -75,23 +75,23 @@ namespace VacunassistBackend.Services
             return _context.AppliedVaccines.Include(u => u.Vaccine).First(x => x.Id == id);
         }
 
-        public Vaccine Get(int id)
+        public DevelopedVaccine Get(int id)
         {
-            return _context.Vaccines.First(x => x.Id == id);
+            return _context.DevelopedVaccines.First(x => x.Id == id);
         }
 
-        public void Update(int id, UpdateVaccineRequest model)
+        public void Update(int id, UpdateDevelopedVaccineRequest model)
         {
-            var user = _context.Vaccines.FirstOrDefault(x => x.Id == id);
+            var user = _context.DevelopedVaccines.FirstOrDefault(x => x.Id == id);
             if (user == null)
                 throw new HttpResponseException(400, message: "Vacuna no encontrada");
 
             if (string.IsNullOrEmpty(model.Name) == false && model.Name != user.Name)
             {
-                var existOther = _context.Vaccines.Any(x => x.Name == model.Name && x.Id != id);
+                var existOther = _context.DevelopedVaccines.Any(x => x.Name == model.Name && x.Id != id);
                 if (existOther)
                 {
-                    throw new HttpResponseException(400, message: "Nombre de vacuna '" + model.Name + "' en uso");
+                    throw new HttpResponseException(400, message: "Nombre de vacuna desarrollada '" + model.Name + "' en uso");
                 }
                 user.Name = model.Name;
 
@@ -108,15 +108,15 @@ namespace VacunassistBackend.Services
             _context.SaveChanges();
         }
 
-        private static void CheckIfExists(Vaccine? vaccine)
+        private static void CheckIfExists(DevelopedVaccine? vaccine)
         {
             if (vaccine == null)
-                throw new HttpResponseException(400, "Vacuna no encontrada");
+                throw new HttpResponseException(400, "Vacuna desarollada no encontrada");
         }
 
         public bool CanBeDeleted(int id)
         {
-            var vaccine = _context.Vaccines.FirstOrDefault(x => x.Id == id);
+            var vaccine = _context.DevelopedVaccines.FirstOrDefault(x => x.Id == id);
             CheckIfExists(vaccine);
             // TODO: check if there is any invoice/purchase order
             return true;
@@ -124,12 +124,12 @@ namespace VacunassistBackend.Services
 
         public bool Exist(int id)
         {
-            return _context.Vaccines.Any(x => x.Id == id);
+            return _context.DevelopedVaccines.Any(x => x.Id == id);
         }
 
         public bool AlreadyExist(string name)
         {
-            return _context.Vaccines.Any(x => x.Name == name);
+            return _context.DevelopedVaccines.Any(x => x.Name == name);
         }
     }
 }

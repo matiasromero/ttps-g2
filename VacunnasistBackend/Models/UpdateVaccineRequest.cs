@@ -1,6 +1,6 @@
 namespace VacunassistBackend.Models
 {
-    public class UpdateVaccineRequest
+    public class UpdateDevelopedVaccineRequest
     {
         public string? Name { get; set; }
         public bool? CanBeRequested { get; set; }
