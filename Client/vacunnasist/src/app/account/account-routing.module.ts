@@ -1,4 +1,3 @@
-import { PasswordRecoveryComponent } from './password-recovery/password-recovery.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../_helpers/auth.guard';
@@ -15,8 +14,7 @@ const routes: Routes = [
             { path: 'login', component: LoginComponent },
             { path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard] },
             { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-            { path: 'profile/add-vaccine', component: ProfileAddVaccineComponent, pathMatch: 'full', canActivate: [AuthGuard] },
-            { path: 'password-recovery', component: PasswordRecoveryComponent }
+            { path: 'profile/add-vaccine', component: ProfileAddVaccineComponent, pathMatch: 'full', canActivate: [AuthGuard] }
         ]
     },
 ];
