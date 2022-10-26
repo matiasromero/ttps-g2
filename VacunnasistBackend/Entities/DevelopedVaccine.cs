@@ -1,3 +1,7 @@
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
+using VacunassistBackend.Entities.Vaccines;
+
 namespace VacunassistBackend.Entities;
 
 public class DevelopedVaccine
@@ -17,4 +21,19 @@ public class DevelopedVaccine
 
     public string Name { get; set; } = string.Empty;
     public bool IsActive { get; set; } = true;
+
+    [NotMapped]
+    public Vaccine Vaccine { get; set; }
+
+    public string VaccineText
+    {
+        get
+        {
+            return JsonSerializer.Serialize(Vaccine);
+        }
+        set
+        {
+            Vaccine = JsonSerializer.Deserialize<Vaccine>(value);
+        }
+    }
 }

@@ -1,12 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace VacunassistBackend.Entities.Vaccines;
 
-public abstract class Vaccine
+[Serializable]
+public class Vaccine
 {
     public Vaccine(int id, string name, VaccineType type)
     {
         this.Name = name;
         this.Type = type;
         this.Id = id;
+        this.Doses = new VaccineDose[] { };
     }
     public int Id { get; set; }
     public string Name { get; set; }
@@ -21,21 +25,25 @@ public abstract class Vaccine
         return isValid;
     }
 
-    protected abstract bool internalValidation();
+    protected virtual bool internalValidation()
+    {
+        return true;
+    }
 }
 
+[Serializable]
 public class VaccineDose
 {
     public VaccineDose(int id, int number, int? minMonthsOfAge = null, int? daysAfterPreviousDose = null, bool IsReinforcement = false)
     {
-        this.DoseId = id;
+        this.Id = id;
         this.Number = number;
         this.MinMonthsOfAge = minMonthsOfAge;
         this.DaysAfterPreviousDose = daysAfterPreviousDose;
         this.IsReinforcement = IsReinforcement;
     }
 
-    public int DoseId { get; set; }
+    public int Id { get; set; }
     public int Number { get; set; }
     public bool IsReinforcement { get; set; } = false;
     public int? MinMonthsOfAge { get; set; } // Meses minimo

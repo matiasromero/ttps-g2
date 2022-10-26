@@ -73,6 +73,10 @@ namespace VacunnasistBackend.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("VaccineText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("DevelopedVaccines");
@@ -82,19 +86,22 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 1,
                             IsActive = true,
-                            Name = "COVID-19"
+                            Name = "COVID-19",
+                            VaccineText = "{\"Id\":2000,\"Name\":\"COVID-19\",\"Type\":1,\"Doses\":[{\"Id\":2001,\"Number\":0,\"IsReinforcement\":false,\"MinMonthsOfAge\":0,\"DaysAfterPreviousDose\":null},{\"Id\":2002,\"Number\":1,\"IsReinforcement\":false,\"MinMonthsOfAge\":0,\"DaysAfterPreviousDose\":120}]}"
                         },
                         new
                         {
                             Id = 2,
                             IsActive = true,
-                            Name = "Fiebre amarilla"
+                            Name = "Fiebre amarilla",
+                            VaccineText = "{\"Id\":1300,\"Name\":\"Fiebre Amarilla\",\"Type\":0,\"Doses\":[{\"Id\":1301,\"Number\":0,\"IsReinforcement\":false,\"MinMonthsOfAge\":18,\"DaysAfterPreviousDose\":null},{\"Id\":1302,\"Number\":1,\"IsReinforcement\":true,\"MinMonthsOfAge\":132,\"DaysAfterPreviousDose\":null}]}"
                         },
                         new
                         {
                             Id = 3,
                             IsActive = true,
-                            Name = "Gripe"
+                            Name = "Gripe",
+                            VaccineText = "{\"Id\":3000,\"Name\":\"COVID-19\",\"Type\":1,\"Doses\":[{\"Id\":3001,\"Number\":0,\"IsReinforcement\":false,\"MinMonthsOfAge\":0,\"DaysAfterPreviousDose\":365}]}"
                         });
                 });
 
@@ -175,7 +182,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "other",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:7DQsHvyucqpp8sjbC/4BQgVSfrQogEnD:YT/9MDQW1JboLVfT3Jvtwg/+qxCeWhZx",
+                            PasswordHash = "1000:xZ/bt+X0HJUTGObVpYVaA1kOAci5tQW/:0tSVLVyp/Djf3MDZijHQTtBGtO2dvt7p",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "administrator",
@@ -192,7 +199,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "male",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:cA7agxstZBnXiTs2ArDU0tBeq6Z1WRk+:JCGud20r/MioSHly0d1T8MYlW39GHuOx",
+                            PasswordHash = "1000:1s4mYpbWzbg02ltukr8KH7DQmLRxwWML:qvK7Cb7asvkJ4kHCZ0cJ2JOrB2F9idpd",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "operator",
@@ -209,7 +216,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "female",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:F+FOkZi2+dm1gphhuwgqMMHhSbcgYCC1:x5F84rZijXSUhZQy0NZTC0oXwvFQ/xMV",
+                            PasswordHash = "1000:H1p57Rtk3iRL5/bN8UFGQxVZjcMoXU81:QxP+9an4unyST5t0X6uqrIfIMiY1Q1DQ",
                             Pregnant = false,
                             Province = "Salta",
                             Role = "operator",
@@ -226,7 +233,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "male",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:jaREfrCLJk/Phalm0zCU//Am0AppGFpe:WhyUMgQwxNQTeIVqlHgbCB5PD+B6fxuj",
+                            PasswordHash = "1000:pMfNhDIgWFW9WdEEhdFWzgxp6Lsh9UUk:b4IdmRlLnTIl8oYeJ9rjC1ogw60AB+eE",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "analyst",
@@ -243,7 +250,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "other",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:3jqnxm8du+mUygW9ulN16nwqJWZ9sF7M:1K81725vzrBkqEs1f61mdrXE6mh77x5v",
+                            PasswordHash = "1000:tGQ3RwgJN7RH+8mJZR2Tol2DllYV2wWB:tsfiWmFbS7ETKLwoLU9BxiAhn9raXayH",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "vacunator",

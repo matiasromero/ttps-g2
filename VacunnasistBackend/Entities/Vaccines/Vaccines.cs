@@ -1,10 +1,12 @@
 using VacunassistBackend.Entities.Vaccines.Calendar;
+using VacunassistBackend.Entities.Vaccines.Seasonal;
+using VacunassistBackend.Entities.Vaccines.Pandemic;
 
 namespace VacunassistBackend.Entities.Vaccines;
 
 public static class Vaccines
 {
-    // CALENDAR
+    // CALENDARdo
     public static Vaccine A_Tuberculosis = new A_Tuberculosis();
     public static Vaccine B_HepatitisB = new B_HepatitisB();
     public static Vaccine C_Neumococo = new C_Neumococo();
@@ -22,6 +24,10 @@ public static class Vaccines
 
     // PANDEMIC
 
+    public static Vaccine O_COVID = new O_COVID();
+
+    // SEASONAL
+    public static Vaccine P_Antigripal = new P_Antigripal();
 
     private static readonly Vaccine[] all = new[]
            {

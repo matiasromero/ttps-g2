@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using VacunassistBackend.Entities;
+using VacunassistBackend.Entities.Vaccines;
 using VacunassistBackend.Utils;
 
 namespace VacunassistBackend.Data
@@ -108,19 +109,22 @@ namespace VacunassistBackend.Data
                 {
                     Id = 1,
                     Name = "COVID-19",
-                    IsActive = true
+                    IsActive = true,
+                    Vaccine = Vaccines.O_COVID
                 };
                 var vaccine2 = new DevelopedVaccine
                 {
                     Id = 2,
                     Name = "Fiebre amarilla",
                     IsActive = true,
+                    Vaccine = Vaccines.M_FiebreAmarilla
                 };
                 var vaccine3 = new DevelopedVaccine
                 {
                     Id = 3,
                     Name = "Gripe",
-                    IsActive = true
+                    IsActive = true,
+                    Vaccine = Vaccines.P_Antigripal
                 };
 
                 modelBuilder.Entity<DevelopedVaccine>().HasData(vaccine1, vaccine2, vaccine3);
