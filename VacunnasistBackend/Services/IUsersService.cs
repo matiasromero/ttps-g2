@@ -62,7 +62,7 @@ namespace VacunassistBackend.Services
 
         public User[] GetAll(UsersFilterRequest filter)
         {
-            var query = _context.Users.Include(u => u.Vaccines).Where(x => x.Role != UserRoles.Patient).AsQueryable();
+            var query = _context.Users.Include(u => u.Vaccines).AsQueryable();
             if (filter.IsActive.HasValue)
                 query = query.Where(x => x.IsActive == filter.IsActive);
             if (string.IsNullOrEmpty(filter.Role) == false)
@@ -175,7 +175,6 @@ namespace VacunassistBackend.Services
             var newVaccine = new AppliedVaccine();
             newVaccine.AppliedDate = model.AppliedDate;
             newVaccine.VaccineId = model.VaccineId;
-            newVaccine.Comment = model.Comment;
             user.Vaccines.Add(newVaccine);
             _context.SaveChanges();
         }

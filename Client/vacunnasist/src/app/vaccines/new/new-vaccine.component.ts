@@ -27,8 +27,7 @@ export class NewVaccineComponent implements OnInit {
 
     ngOnInit() {
         this.form = this.formBuilder.group({
-            name: ['', [Validators.required, Validators.maxLength(100)]],
-            canBeRequested: [true, Validators.required]
+            name: ['', [Validators.required, Validators.maxLength(100)]]
         });
     }
 

@@ -30,7 +30,6 @@ export class VaccinesComponent implements OnInit {
 
         this.formFilter = this.formBuilder.group({
             name: ['', [Validators.maxLength(100)]],
-            canBeRequested: [null],
             isActive: [true],
         });
         
@@ -48,11 +47,6 @@ export class VaccinesComponent implements OnInit {
                   });
                 }
           
-                if (params.canBeRequested) {
-                  this.formFilter.controls.canBeRequested.setValue(params.canBeRequested === "true", {
-                    onlySelf: true,
-                  });
-                }
                 this.loadData();
               });
     }
@@ -67,10 +61,8 @@ export class VaccinesComponent implements OnInit {
     loadData() {
         const name = this.formFilter.get('name')?.value;
         const isActive = this.formFilter.get('isActive')?.value;
-        const canBeRequested = this.formFilter.get('canBeRequested')?.value;
         this.filter.name =name;
         this.filter.isActive =isActive;
-        this.filter.canBeRequested=canBeRequested;
         this.vaccineService.getAll(this.filter).subscribe((res: any) => {
             this.vaccines = res.vaccines;
         });
@@ -156,7 +148,6 @@ export class VaccinesComponent implements OnInit {
 
         const name = this.formFilter.get('name')?.value;
         const isActive = this.formFilter.get('isActive')?.value;
-        const canBeRequested = this.formFilter.get('canBeRequested')?.value;
         const queryParams: any = {};
 
         queryParams.type = this.route.snapshot.queryParamMap.get('type');
@@ -167,9 +158,6 @@ export class VaccinesComponent implements OnInit {
           }
           if (isActive !== undefined) {
             queryParams.isActive = isActive;
-          }
-          if (canBeRequested !== undefined) {
-            queryParams.canBeRequested = canBeRequested;
           }
 
           this.router.navigate(['/vaccines'], {
@@ -187,7 +175,6 @@ export class VaccinesComponent implements OnInit {
         onlySelf: true,
       });
       this.formFilter.controls.isActive.setValue(true);
-      this.formFilter.controls.canBeRequested.setValue(null);
 
       this.applyFilter();
   }

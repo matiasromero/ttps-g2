@@ -72,9 +72,25 @@ namespace VacunassistBackend.Data
                     PasswordHash = PasswordHash.CreateHash("1234")
                 };
 
-                var vacunador1 = new User
+                var analista1 = new User
                 {
                     Id = 4,
+                    UserName = "Analista1",
+                    Role = UserRoles.Analyst,
+                    Address = "Calle Falsa 9874, Salta",
+                    FullName = "Jose Luis Rodriguez",
+                    BirthDate = DateTime.Now.Date,
+                    DNI = "89785451",
+                    Gender = Gender.Male,
+                    Email = "jr@vacunassist.com",
+                    Province = Province.BuenosAires,
+                    IsActive = true,
+                    PasswordHash = PasswordHash.CreateHash("1234")
+                };
+
+                var vacunador1 = new User
+                {
+                    Id = 5,
                     UserName = "Vacunador",
                     Role = UserRoles.Vacunator,
                     Address = "Calle Falsa 4567, La Plata",
@@ -99,7 +115,6 @@ namespace VacunassistBackend.Data
                     Id = 2,
                     Name = "Fiebre amarilla",
                     IsActive = true,
-                    CanBeRequested = false
                 };
                 var vaccine3 = new DevelopedVaccine
                 {
@@ -109,7 +124,7 @@ namespace VacunassistBackend.Data
                 };
 
                 modelBuilder.Entity<DevelopedVaccine>().HasData(vaccine1, vaccine2, vaccine3);
-                modelBuilder.Entity<User>().HasData(admin, operador1, operador2, vacunador1);
+                modelBuilder.Entity<User>().HasData(admin, operador1, operador2, analista1, vacunador1);
             }
         }
         #endregion

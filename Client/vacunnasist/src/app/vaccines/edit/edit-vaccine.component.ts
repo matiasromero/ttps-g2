@@ -38,14 +38,12 @@ export class EditVaccineComponent implements OnInit {
         this.form.patchValue({
             id: res.id,
             name: res.name,
-            canBeRequested: res.canBeRequested,
             isActive: res.isActive
         });
     });
 
         this.form = this.formBuilder.group({
             name: ['', [Validators.required, Validators.maxLength(100)]],
-            canBeRequested: [true, Validators.required],
             isActive: [true, Validators.required]
         });
     }

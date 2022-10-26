@@ -38,8 +38,6 @@ namespace VacunassistBackend.Services
             var query = _context.DevelopedVaccines.AsQueryable();
             if (filter.IsActive.HasValue)
                 query = query.Where(x => x.IsActive == filter.IsActive);
-            if (filter.CanBeRequested.HasValue)
-                query = query.Where(x => x.CanBeRequested == filter.CanBeRequested);
             if (string.IsNullOrEmpty(filter.Name) == false)
                 query = query.Where(x => x.Name.Contains(filter.Name));
             return query.ToArray();
@@ -55,8 +53,7 @@ namespace VacunassistBackend.Services
             {
                 var vaccine = new DevelopedVaccine()
                 {
-                    Name = model.Name,
-                    CanBeRequested = model.CanBeRequested
+                    Name = model.Name
                 };
 
                 // save vaccine
@@ -95,10 +92,6 @@ namespace VacunassistBackend.Services
                 }
                 user.Name = model.Name;
 
-            }
-            if (model.CanBeRequested.HasValue && model.CanBeRequested != user.CanBeRequested)
-            {
-                user.CanBeRequested = model.CanBeRequested.Value;
             }
             if (model.IsActive.HasValue && model.IsActive != user.IsActive)
             {

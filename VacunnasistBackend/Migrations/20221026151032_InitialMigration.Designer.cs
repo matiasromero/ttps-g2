@@ -12,7 +12,7 @@ using VacunassistBackend.Data;
 namespace VacunnasistBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221025205853_InitialMigration")]
+    [Migration("20221026151032_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,7 +38,10 @@ namespace VacunnasistBackend.Migrations
                     b.Property<DateTime?>("AppliedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Comment")
+                    b.Property<int>("PersonId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Remark")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
@@ -64,9 +67,6 @@ namespace VacunnasistBackend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("CanBeRequested")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -83,21 +83,18 @@ namespace VacunnasistBackend.Migrations
                         new
                         {
                             Id = 1,
-                            CanBeRequested = true,
                             IsActive = true,
                             Name = "COVID-19"
                         },
                         new
                         {
                             Id = 2,
-                            CanBeRequested = false,
                             IsActive = true,
                             Name = "Fiebre amarilla"
                         },
                         new
                         {
                             Id = 3,
-                            CanBeRequested = true,
                             IsActive = true,
                             Name = "Gripe"
                         });
@@ -173,14 +170,14 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 1,
                             Address = "Calle Falsa 1234, La Plata",
-                            BirthDate = new DateTime(2022, 10, 25, 0, 0, 0, 0, DateTimeKind.Local),
+                            BirthDate = new DateTime(2022, 10, 26, 0, 0, 0, 0, DateTimeKind.Local),
                             DNI = "11111111",
                             Email = "admin@vacunassist.com",
                             FullName = "Administrador",
                             Gender = "other",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:czrygEjmkObiLMPUwe9haSqY2R//FE1Z:y1GsIZCTddeY+ej3PXghnUzAD7kE9ixY",
+                            PasswordHash = "1000:7DQsHvyucqpp8sjbC/4BQgVSfrQogEnD:YT/9MDQW1JboLVfT3Jvtwg/+qxCeWhZx",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "administrator",
@@ -190,14 +187,14 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 2,
                             Address = "Calle Falsa 2345, La Plata",
-                            BirthDate = new DateTime(2022, 10, 25, 0, 0, 0, 0, DateTimeKind.Local),
+                            BirthDate = new DateTime(2022, 10, 26, 0, 0, 0, 0, DateTimeKind.Local),
                             DNI = "22345678",
                             Email = "operador1@vacunassist.com",
                             FullName = "Luis Gutierrez",
                             Gender = "male",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:/rXVYY0GbLe2Y1JsmGpjGEjI0cjAR1md:f4cueeqgV6JeqrSjsDG1K0kmuWECQ/1J",
+                            PasswordHash = "1000:cA7agxstZBnXiTs2ArDU0tBeq6Z1WRk+:JCGud20r/MioSHly0d1T8MYlW39GHuOx",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "operator",
@@ -207,14 +204,14 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 3,
                             Address = "Calle Falsa 9874, Salta",
-                            BirthDate = new DateTime(2022, 10, 25, 0, 0, 0, 0, DateTimeKind.Local),
+                            BirthDate = new DateTime(2022, 10, 26, 0, 0, 0, 0, DateTimeKind.Local),
                             DNI = "89785451",
                             Email = "estefania@vacunassist.com",
                             FullName = "Estefania Borzi",
                             Gender = "female",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:/7q9b+6Bi8trzEnk5GueETy+KScyyxIE:19dFIS1Ev8CkWl5TUIv9/s16EGt6uJBf",
+                            PasswordHash = "1000:F+FOkZi2+dm1gphhuwgqMMHhSbcgYCC1:x5F84rZijXSUhZQy0NZTC0oXwvFQ/xMV",
                             Pregnant = false,
                             Province = "Salta",
                             Role = "operator",
@@ -223,15 +220,32 @@ namespace VacunnasistBackend.Migrations
                         new
                         {
                             Id = 4,
+                            Address = "Calle Falsa 9874, Salta",
+                            BirthDate = new DateTime(2022, 10, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            DNI = "89785451",
+                            Email = "jr@vacunassist.com",
+                            FullName = "Jose Luis Rodriguez",
+                            Gender = "male",
+                            HealthWorker = false,
+                            IsActive = true,
+                            PasswordHash = "1000:jaREfrCLJk/Phalm0zCU//Am0AppGFpe:WhyUMgQwxNQTeIVqlHgbCB5PD+B6fxuj",
+                            Pregnant = false,
+                            Province = "Buenos Aires",
+                            Role = "analyst",
+                            UserName = "Analista1"
+                        },
+                        new
+                        {
+                            Id = 5,
                             Address = "Calle Falsa 4567, La Plata",
-                            BirthDate = new DateTime(2022, 10, 25, 0, 0, 0, 0, DateTimeKind.Local),
+                            BirthDate = new DateTime(2022, 10, 26, 0, 0, 0, 0, DateTimeKind.Local),
                             DNI = "11111111",
                             Email = "vacunador@email.com",
                             FullName = "Vacunador",
                             Gender = "other",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:DKiF9r98rfMmLRajhUzOKK7Pib4apRK1:H9eqC1XLLiIQ+wQEdaETdVImeGhgmKuG",
+                            PasswordHash = "1000:3jqnxm8du+mUygW9ulN16nwqJWZ9sF7M:1K81725vzrBkqEs1f61mdrXE6mh77x5v",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "vacunator",
@@ -248,7 +262,7 @@ namespace VacunnasistBackend.Migrations
                         .IsRequired();
 
                     b.HasOne("VacunassistBackend.Entities.DevelopedVaccine", "Vaccine")
-                        .WithMany("Users")
+                        .WithMany()
                         .HasForeignKey("VaccineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -256,11 +270,6 @@ namespace VacunnasistBackend.Migrations
                     b.Navigation("User");
 
                     b.Navigation("Vaccine");
-                });
-
-            modelBuilder.Entity("VacunassistBackend.Entities.DevelopedVaccine", b =>
-                {
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("VacunassistBackend.Entities.User", b =>

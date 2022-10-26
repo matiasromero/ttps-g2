@@ -59,8 +59,8 @@ public static class UserRoles
 {
     public static string Administrator = "administrator";
     public static string Operator = "operator";
+    public static string Analyst = "analyst";
     public static string Vacunator = "vacunator";
-    public static string Patient = "patient";
 }
 
 public static class Province

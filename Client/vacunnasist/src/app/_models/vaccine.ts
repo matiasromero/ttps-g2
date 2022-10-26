@@ -1,7 +1,6 @@
 export class Vaccine {
     public id!: string;
     public name!: string;
-    canBeRequested!: boolean;
     isActive!: boolean;
 
     public canApply(age:number, isRisk: boolean) : Boolean {

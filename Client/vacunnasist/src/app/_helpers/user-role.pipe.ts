@@ -8,13 +8,16 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class UserRolePipe implements PipeTransform {
   transform(value: string): string {
     if (value == 'operator') {
-      return 'Operador provincial';
+      return 'Operador nacional';
     }
     if (value == 'administrator') {
       return 'Administrador';
     }
     if (value == 'vacunator') {
       return 'Vacunador';
+    }
+    if (value == 'analyst') {
+      return 'Analista provincial';
     }
     return 'Paciente';
   }

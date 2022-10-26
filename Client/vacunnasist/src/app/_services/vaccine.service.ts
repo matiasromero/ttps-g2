@@ -25,9 +25,6 @@ export class VaccineService {
         let params = new HttpParams();
         if (filter.isActive !== undefined)
             params = params.append('isActive', filter.isActive.toString());
-          if (filter.canBeRequested !== undefined && filter.canBeRequested !== null) {
-            params = params.append('canBeRequested', filter.canBeRequested!.toString());
-          }
           if (filter.name)
             params = params.append('name', filter.name.toString());
           return this.http.get<Vaccine[]>(`${environment.apiUrl}/vaccines`, 
