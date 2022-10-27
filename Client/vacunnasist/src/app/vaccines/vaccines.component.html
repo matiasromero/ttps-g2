@@ -1,5 +1,5 @@
 <div class="card">
-  <h4 class="card-header">Vacunas Desarrolladas</h4>
+  <h4 class="card-header">Vacunas desarrolladas</h4>
   <div class="card-body">
     <mat-accordion>
       <mat-expansion-panel
@@ -73,6 +73,7 @@
       <table class="table">
         <thead>
           <tr>
+            <th>Vacuna</th>
             <th scope="col">Nombre</th>
             <th scope="col">Estado</th>
             <th></th>
@@ -80,6 +81,9 @@
         </thead>
         <tbody>
           <tr *ngFor="let v of vaccines">
+            <td>
+              {{ v.vaccine.name }}
+            </td>
             <th scope="row">
               {{ v.name }}
             </th>

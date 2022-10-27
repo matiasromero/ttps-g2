@@ -1,5 +1,5 @@
 <div class="card">
-  <h4 class="card-header">Nueva vacuna</h4>
+  <h4 class="card-header">Nueva vacuna desarrollada</h4>
   <div class="card-body">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="form-group">
@@ -20,6 +20,41 @@
           <div *ngIf="f.name.errors?.['required']">El nombre es requerido.</div>
           <div *ngIf="f.name.errors?.['maxlength']">
             El nombre debe contener menos de 100 caracteres.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field appearance="fill">
+          <mat-label>Vacuna</mat-label>
+          <mat-select formControlName="vaccineId">
+            <mat-option *ngFor="let v of vaccines" [value]="v.id">
+              {{ v.name }} ({{ v.type | vaccinetype }})
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <label for="daysToDelivery" class="required"
+          >Días para su entrega</label
+        >
+        <input
+          type="number"
+          min="0"
+          formControlName="daysToDelivery"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.daysToDelivery.errors }"
+        />
+        <div
+          *ngIf="
+            f.daysToDelivery.invalid &&
+            (submitted || f.daysToDelivery.dirty || f.daysToDelivery.touched)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="f.daysToDelivery.errors?.['required']">
+            El campo días para su entrega es requerido.
           </div>
         </div>
       </div>

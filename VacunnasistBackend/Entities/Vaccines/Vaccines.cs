@@ -32,7 +32,9 @@ public static class Vaccines
     private static readonly Vaccine[] all = new[]
            {
                 A_Tuberculosis, B_HepatitisB, C_Neumococo, D_Quintuple, E_Polio, F_Rotavirus, G_Meningococo, H_TripleViral, I_HepatitisA,
-                J_Varicela, K_TripleBacteriana, L_VPH, M_FiebreAmarilla, N_FiebreHemorragica
+                J_Varicela, K_TripleBacteriana, L_VPH, M_FiebreAmarilla, N_FiebreHemorragica,
+                O_COVID,
+                P_Antigripal
             };
 
     public static Vaccine[] All

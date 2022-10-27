@@ -1,4 +1,4 @@
-import { VaccinesFilter } from './../_models/filters/vaccines-filter';
+import { DevelopedVaccinesFilter } from '../_models/filters/developed-vaccines-filter';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -6,8 +6,8 @@ import { first } from 'rxjs/operators';
 import { AccountService } from 'src/app/_services/account.service';
 import { AlertService } from 'src/app/_services/alert.service';
 import Swal from 'sweetalert2';
-import { VaccineService } from '../_services/vaccine.service';
-import { Vaccine } from '../_models/vaccine';
+import { DevelopedVaccineService } from '../_services/developed-vaccine.service';
+import { DevelopedVaccine } from '../_models/developed-vaccine';
 
 @Component({ templateUrl: 'vaccines.component.html' })
 export class VaccinesComponent implements OnInit {
@@ -20,7 +20,7 @@ export class VaccinesComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private accountService: AccountService,
-        private vaccineService: VaccineService,
+        private vaccineService: DevelopedVaccineService,
         private alertService: AlertService,
     ) { 
         // redirect to home if already logged in
@@ -51,8 +51,8 @@ export class VaccinesComponent implements OnInit {
               });
     }
 
-    public vaccines: Vaccine[] = [];
-    public filter = new VaccinesFilter();
+    public vaccines: DevelopedVaccine[] = [];
+    public filter = new DevelopedVaccinesFilter();
 
     ngOnInit() {
        
@@ -74,7 +74,7 @@ export class VaccinesComponent implements OnInit {
     // convenience getter for easy access to form fields
     get f() { return this.formFilter.controls; }
 
-    deleteVaccineQuestion(v: Vaccine) {
+    deleteVaccineQuestion(v: DevelopedVaccine) {
       Swal
       .fire({
         title: '¿Está seguro?',
@@ -92,7 +92,7 @@ export class VaccinesComponent implements OnInit {
       });
     }
 
-    deleteVaccine(v: Vaccine) {
+    deleteVaccine(v: DevelopedVaccine) {
       this.vaccineService.canBeDeleted(+v.id).subscribe((res: boolean) => {
         if (!res) {
           Swal
@@ -107,7 +107,7 @@ export class VaccinesComponent implements OnInit {
     });
   }
 
-  doDelete(v: Vaccine) {
+  doDelete(v: DevelopedVaccine) {
     this.loading = true;
     this.vaccineService.cancel(+v.id).pipe(first())
       .subscribe({
@@ -129,7 +129,7 @@ export class VaccinesComponent implements OnInit {
   }
 
 
-    editVaccine(v: Vaccine) {
+    editVaccine(v: DevelopedVaccine) {
         this.router.navigate(['vaccines/edit/', v.id]);
     }
 

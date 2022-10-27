@@ -1,4 +1,3 @@
-import { VaccineService } from 'src/app/_services/vaccine.service';
 import { AppliedVaccine } from './../../_models/applied-vaccine';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -24,7 +23,6 @@ export class ProfileComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private accountService: AccountService,
-        private vaccineService: VaccineService,
         private alertService: AlertService,
         private dp: DatePipe
     ) { 

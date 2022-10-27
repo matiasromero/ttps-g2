@@ -108,23 +108,26 @@ namespace VacunassistBackend.Data
                 var vaccine1 = new DevelopedVaccine
                 {
                     Id = 1,
-                    Name = "COVID-19",
+                    Name = "Pfizer COVID-19",
                     IsActive = true,
-                    Vaccine = Vaccines.O_COVID
+                    Vaccine = Vaccines.O_COVID,
+                    DaysToDelivery = 30
                 };
                 var vaccine2 = new DevelopedVaccine
                 {
                     Id = 2,
-                    Name = "Fiebre amarilla",
+                    Name = "ROCHE Fiebre amarilla",
                     IsActive = true,
-                    Vaccine = Vaccines.M_FiebreAmarilla
+                    Vaccine = Vaccines.M_FiebreAmarilla,
+                    DaysToDelivery = 60
                 };
                 var vaccine3 = new DevelopedVaccine
                 {
                     Id = 3,
-                    Name = "Gripe",
+                    Name = "Fluarix Antigripal",
                     IsActive = true,
-                    Vaccine = Vaccines.P_Antigripal
+                    Vaccine = Vaccines.P_Antigripal,
+                    DaysToDelivery = 15
                 };
 
                 modelBuilder.Entity<DevelopedVaccine>().HasData(vaccine1, vaccine2, vaccine3);

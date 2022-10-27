@@ -1,4 +1,3 @@
-import { ProfileAddVaccineComponent } from './profile/add-vaccine/add-vaccine.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { NgModule } from '@angular/core';
@@ -35,8 +34,7 @@ export const MY_DATE_FORMATS = {
     LayoutComponent,
     LoginComponent,
     ChangePasswordComponent,
-    ProfileComponent,
-    ProfileAddVaccineComponent
+    ProfileComponent
   ],
   imports: [
     CommonModule,

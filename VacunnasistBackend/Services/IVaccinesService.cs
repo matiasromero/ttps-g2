@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using VacunassistBackend.Entities;
+using VacunassistBackend.Entities.Vaccines;
 using VacunassistBackend.Infrastructure;
 using VacunassistBackend.Models;
 using VacunassistBackend.Models.Filters;
@@ -53,7 +54,9 @@ namespace VacunassistBackend.Services
             {
                 var vaccine = new DevelopedVaccine()
                 {
-                    Name = model.Name
+                    Name = model.Name,
+                    DaysToDelivery = model.DaysToDelivery,
+                    Vaccine = Vaccines.Get(model.VaccineId)
                 };
 
                 // save vaccine
