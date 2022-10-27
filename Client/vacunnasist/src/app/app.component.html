@@ -18,65 +18,14 @@
             >Inicio</a
           >
         </li>
-        <li class="nav-item">
-          <a
-            class="nav-item nav-link"
-            routerLink="appointments/new-appointment"
-            routerLinkActive="active"
-            *ngIf="user && user.role == 'patient'"
-            >Solicitar turno</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-item nav-link"
-            routerLink="appointments/my-appointments"
-            routerLinkActive="active"
-            *ngIf="user && user.role == 'patient'"
-            >Mis turnos</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-item nav-link"
-            routerLink="/users"
-            [queryParams]="{
-              type: 'patient',
-              isActive: 'true',
-              belongsToRiskGroup: 'false'
-            }"
-            routerLinkActive="active"
-            *ngIf="user && user.role == 'administrator'"
-            >Pacientes</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-item nav-link"
-            routerLink="/appointments"
-            routerLinkActive="active"
-            *ngIf="
-              user && (user.role == 'administrator' || user.role == 'vacunator')
-            "
-            >Turnos</a
-          >
-        </li>
+
         <li class="nav-item">
           <a
             class="nav-item nav-link"
             routerLink="/vaccines"
             routerLinkActive="active"
             *ngIf="user && user.role == 'administrator'"
-            >Vacunas</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-item nav-link"
-            routerLink="/offices"
-            routerLinkActive="active"
-            *ngIf="user && user.role == 'administrator'"
-            >Sedes</a
+            >Vacunas desarrolladas</a
           >
         </li>
         <li class="nav-item">
@@ -84,12 +33,11 @@
             class="nav-item nav-link"
             routerLink="/users"
             [queryParams]="{
-              type: 'vacunator',
               isActive: 'true'
             }"
             routerLinkActive="active"
             *ngIf="user && user.role == 'administrator'"
-            >Vacunadores</a
+            >Usuarios</a
           >
         </li>
       </ul>
@@ -128,14 +76,6 @@
           </button>
           <button mat-menu-item (click)="logout()">Salir</button>
         </mat-menu>
-
-        <a
-          class="nav-item nav-link"
-          *ngIf="!user"
-          routerLink="/account/register"
-          routerLinkActive="active"
-          >Registrarse</a
-        >
       </div>
     </div>
   </div>

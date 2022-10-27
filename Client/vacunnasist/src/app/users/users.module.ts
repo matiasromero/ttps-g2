@@ -1,5 +1,4 @@
 import { MatSelectModule } from '@angular/material/select';
-import { NotifyComponent } from './notify/notify.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { EditUserComponent } from './edit/edit-user.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -20,15 +19,14 @@ import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } f
 import { MatInputModule } from '@angular/material/input';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_DATE_FORMATS } from '../account/account.module';
-
-
+import { UserRolePipe } from '../_helpers/user-role.pipe';
 
 @NgModule({
   declarations: [
     UsersComponent,
     NewUserComponent,
     EditUserComponent,
-    NotifyComponent
+    UserRolePipe
   ],
   imports: [
     CommonModule,

@@ -20,7 +20,6 @@ namespace VacunassistBackend.Services
         void AddVaccine(int id, AddVaccineRequest model);
         void DeleteVaccine(int id, int appliedVaccineId);
         void Update(int id, UpdateUserRequest model);
-        AppointmentModel[] GetAppointments(int id);
         bool CanBeDeleted(int id);
     }
 
@@ -63,11 +62,9 @@ namespace VacunassistBackend.Services
 
         public User[] GetAll(UsersFilterRequest filter)
         {
-            var query = _context.Users.Include(u => u.Vaccines).Include(x => x.PreferedOffice).AsQueryable();
+            var query = _context.Users.Include(u => u.Vaccines).AsQueryable();
             if (filter.IsActive.HasValue)
                 query = query.Where(x => x.IsActive == filter.IsActive);
-            if (filter.BelongsToRiskGroup.HasValue)
-                query = query.Where(x => x.BelongsToRiskGroup == filter.BelongsToRiskGroup);
             if (string.IsNullOrEmpty(filter.Role) == false)
                 query = query.Where(x => x.Role == filter.Role);
             if (string.IsNullOrEmpty(filter.UserName) == false)
@@ -90,20 +87,16 @@ namespace VacunassistBackend.Services
                 var user = new User(model.UserName)
                 {
                     Address = model.Address,
-                    BelongsToRiskGroup = model.BelongsToRiskGroup,
                     BirthDate = model.BirthDate,
                     DNI = model.DNI,
                     Email = model.Email,
                     FullName = model.FullName,
                     Gender = model.Gender,
+                    Province = model.Province,
                     PasswordHash = PasswordHash.CreateHash(model.Password),
-                    PhoneNumber = model.PhoneNumber
                 };
 
                 user.Role = model.Role;
-                if (model.PreferedOfficeId.HasValue)
-                    user.PreferedOfficeId = model.PreferedOfficeId;
-
                 // save user
                 _context.Users.Add(user);
                 _context.SaveChanges();
@@ -117,7 +110,7 @@ namespace VacunassistBackend.Services
 
         public void Update(int id, UpdateUserRequest model)
         {
-            var user = _context.Users.Include(x => x.PreferedOffice).FirstOrDefault(x => x.Id == id);
+            var user = _context.Users.FirstOrDefault(x => x.Id == id);
             if (user == null)
                 throw new HttpResponseException(400, message: "Usuario no encontrado");
 
@@ -129,7 +122,6 @@ namespace VacunassistBackend.Services
                     throw new HttpResponseException(400, message: "Nombre de usuario '" + model.UserName + "' en uso");
                 }
                 user.UserName = model.UserName;
-
             }
             if (string.IsNullOrEmpty(model.Password) == false)
             {
@@ -147,29 +139,25 @@ namespace VacunassistBackend.Services
             {
                 user.Address = model.Address;
             }
+            if (string.IsNullOrEmpty(model.Province) == false && model.Province != user.Province)
+            {
+                user.Province = model.Province;
+            }
             if (string.IsNullOrEmpty(model.Email) == false && model.Email != user.Email)
             {
                 user.Email = model.Email;
-            }
-            if (string.IsNullOrEmpty(model.PhoneNumber) == false && model.PhoneNumber != user.PhoneNumber)
-            {
-                user.PhoneNumber = model.PhoneNumber;
             }
             if (string.IsNullOrEmpty(model.Gender) == false && model.Gender != user.Gender)
             {
                 user.Gender = model.Gender;
             }
-            if (model.BelongsToRiskGroup.HasValue && model.BelongsToRiskGroup != user.BelongsToRiskGroup)
+            if (string.IsNullOrEmpty(model.Role) == false && model.Role != user.Role)
             {
-                user.BelongsToRiskGroup = model.BelongsToRiskGroup.Value;
+                user.Role = model.Role;
             }
             if (model.BirthDate.HasValue && model.BirthDate != user.BirthDate)
             {
                 user.BirthDate = model.BirthDate.Value;
-            }
-            if (model.PreferedOfficeId.HasValue && (user.PreferedOffice == null || user.PreferedOfficeId != model.PreferedOfficeId))
-            {
-                user.PreferedOfficeId = model.PreferedOfficeId;
             }
             if (model.IsActive.HasValue && model.IsActive != user.IsActive)
             {
@@ -187,7 +175,6 @@ namespace VacunassistBackend.Services
             var newVaccine = new AppliedVaccine();
             newVaccine.AppliedDate = model.AppliedDate;
             newVaccine.VaccineId = model.VaccineId;
-            newVaccine.Comment = model.Comment;
             user.Vaccines.Add(newVaccine);
             _context.SaveChanges();
         }
@@ -212,61 +199,10 @@ namespace VacunassistBackend.Services
 
         }
 
-        public AppointmentModel[] GetAppointments(int id)
-        {
-            var user = _context.Users.FirstOrDefault(x => x.Id == id);
-            CheckIfExists(user);
-
-            var appointments = _context.Appointments.Where(x => x.Patient == user)
-            .Include(x => x.Patient)
-            .Include(x => x.Vaccine)
-            .Include(x => x.Vaccinator)
-            .Include(x => x.PreferedOffice)
-            .ToArray();
-            return appointments.Select(x => new AppointmentModel()
-            {
-                Id = x.Id,
-                AppliedDate = x.AppliedDate,
-                Date = x.Date,
-                Comment = x.Comment,
-                Notified = x.Notified,
-                PatientId = x.Patient.Id,
-                PatientName = x.Patient.FullName,
-                PatientAge = x.Patient.GetAge(),
-                PatientRisk = x.Patient.BelongsToRiskGroup,
-                PreferedOfficeId = x.PreferedOffice?.Id,
-                PreferedOfficeName = x.PreferedOffice?.Name,
-                PreferedOfficeAddress = x.PreferedOffice?.Address,
-                RequestedAt = x.RequestedAt,
-                Status = x.Status,
-                VaccineId = x.Vaccine.Id,
-                VaccineName = x.Vaccine.Name,
-                VaccinatorId = x.Vaccinator?.Id,
-                VaccinatorName = x.Vaccinator?.FullName,
-
-            }).ToArray();
-        }
-
         public bool CanBeDeleted(int id)
         {
             var user = _context.Users.FirstOrDefault(x => x.Id == id);
             CheckIfExists(user);
-            if (user.Role == UserRoles.Patient)
-            {
-                var appointments = _context.Appointments
-                .Where(x => x.Patient.Id == user.Id &&
-                (x.Status == AppointmentStatus.Pending || x.Status == AppointmentStatus.Confirmed))
-                .ToArray();
-                return appointments.Any() == false;
-            }
-            if (user.Role == UserRoles.Vacunator)
-            {
-                var appointments = _context.Appointments
-                .Where(x => x.Vaccinator.Id == user.Id &&
-                (x.Status == AppointmentStatus.Pending || x.Status == AppointmentStatus.Confirmed))
-                .ToArray();
-                return appointments.Any() == false;
-            }
             return true;
         }
     }

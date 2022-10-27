@@ -1,0 +1,15 @@
+Comenzar de 0 (sumando cambios de modelo locales):
+
+1 - Eliminar archivos dentro de carpeta Migrations del backend
+2 - Limpiar base de datos
+	a - correr script clean_database.sql de la raiz del proyecto (varias veces) y chequear que se hayan droppeado todas las tablas.
+3 - Crear nueva Migration: dotnet ef migrations add InitialMigration
+4 - Actualizar base con esa migration: dotnet ef database update
+
+LISTO, base de datos actualizada con el modelo actual
+-----------------------------------------------------------------
+
+Para regenerar local, porque hay nuevos cambios de modelo en el repo:
+
+Solo paso 2 y paso 4.
+Limpiar base + actualizar base con la migration nueva del repo.

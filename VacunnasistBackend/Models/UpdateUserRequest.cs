@@ -9,10 +9,10 @@ namespace VacunassistBackend.Models
         public string? FullName { get; set; }
 
         public string? Address { get; set; }
-
-        public bool? BelongsToRiskGroup { get; set; }
+        public string? Province { get; set; }
 
         public string? Gender { get; set; }
+        public string? Role { get; set; }
 
         public string? Email { get; set; }
 
@@ -20,9 +20,9 @@ namespace VacunassistBackend.Models
 
         public string? DNI { get; set; }
 
-        public string? PhoneNumber { get; set; }
-
-        public int? PreferedOfficeId { get; set; }
         public bool? IsActive { get; set; }
+
+        public bool? Pregnant { get; set; }
+        public bool? HealthWorker { get; set; }
     }
 }

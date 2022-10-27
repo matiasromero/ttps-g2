@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using VacunassistBackend.Entities;
+using VacunassistBackend.Entities.Vaccines;
 using VacunassistBackend.Utils;
 
 namespace VacunassistBackend.Data
@@ -14,10 +15,8 @@ namespace VacunassistBackend.Data
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Vaccine> Vaccines { get; set; }
+        public DbSet<DevelopedVaccine> DevelopedVaccines { get; set; }
         public DbSet<AppliedVaccine> AppliedVaccines { get; set; }
-        public DbSet<Office> Offices { get; set; }
-        public DbSet<Appointment> Appointments { get; set; }
 
         #region Required
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -26,28 +25,6 @@ namespace VacunassistBackend.Data
 
             if (bool.Parse(Configuration.GetValue<String>("SeedDatabase", "false")))
             {
-                var office1 = new Office
-                {
-                    Id = 1,
-                    Name = "La Plata I",
-                    Address = "Calle 52 113, La Plata",
-                    IsActive = true,
-                };
-                var office2 = new Office
-                {
-                    Id = 2,
-                    Name = "Quilmes",
-                    Address = "Calle Falsa 100, La Plata",
-                    IsActive = true,
-                };
-                var office3 = new Office
-                {
-                    Id = 3,
-                    Name = "La Plata II",
-                    Address = "Calle 14 1140, La Plata",
-                    IsActive = true,
-                };
-
                 var admin = new User
                 {
                     Id = 1,
@@ -58,111 +35,103 @@ namespace VacunassistBackend.Data
                     BirthDate = DateTime.Now.Date,
                     DNI = "11111111",
                     Gender = Gender.Other,
-                    PhoneNumber = "2215897845",
                     Email = "admin@vacunassist.com",
-                    BelongsToRiskGroup = false,
+                    Province = Province.BuenosAires,
+                    IsActive = true,
+                    PasswordHash = PasswordHash.CreateHash("1234")
+                };
+
+                var operador1 = new User
+                {
+                    Id = 2,
+                    UserName = "Operador1",
+                    Role = UserRoles.Operator,
+                    Address = "Calle Falsa 2345, La Plata",
+                    FullName = "Luis Gutierrez",
+                    BirthDate = DateTime.Now.Date,
+                    DNI = "22345678",
+                    Gender = Gender.Male,
+                    Email = "operador1@vacunassist.com",
+                    Province = Province.BuenosAires,
+                    IsActive = true,
+                    PasswordHash = PasswordHash.CreateHash("1234")
+                };
+
+                var operador2 = new User
+                {
+                    Id = 3,
+                    UserName = "Operador2",
+                    Role = UserRoles.Operator,
+                    Address = "Calle Falsa 9874, Salta",
+                    FullName = "Estefania Borzi",
+                    BirthDate = DateTime.Now.Date,
+                    DNI = "89785451",
+                    Gender = Gender.Female,
+                    Email = "estefania@vacunassist.com",
+                    Province = Province.Salta,
+                    IsActive = true,
+                    PasswordHash = PasswordHash.CreateHash("1234")
+                };
+
+                var analista1 = new User
+                {
+                    Id = 4,
+                    UserName = "Analista1",
+                    Role = UserRoles.Analyst,
+                    Address = "Calle Falsa 9874, Salta",
+                    FullName = "Jose Luis Rodriguez",
+                    BirthDate = DateTime.Now.Date,
+                    DNI = "89785451",
+                    Gender = Gender.Male,
+                    Email = "jr@vacunassist.com",
+                    Province = Province.BuenosAires,
                     IsActive = true,
                     PasswordHash = PasswordHash.CreateHash("1234")
                 };
 
                 var vacunador1 = new User
                 {
-                    Id = 2,
+                    Id = 5,
                     UserName = "Vacunador",
                     Role = UserRoles.Vacunator,
                     Address = "Calle Falsa 4567, La Plata",
                     FullName = "Vacunador",
                     BirthDate = DateTime.Now.Date,
+                    Province = Province.BuenosAires,
                     DNI = "11111111",
                     Gender = Gender.Other,
-                    PhoneNumber = "1158987895",
                     Email = "vacunador@email.com",
-                    BelongsToRiskGroup = false,
                     IsActive = true,
                     PasswordHash = PasswordHash.CreateHash("1234"),
                 };
 
-                var patient1 = new User
-                {
-                    Id = 3,
-                    UserName = "Paciente",
-                    Role = UserRoles.Patient,
-                    Address = "Calle Falsa 789, La Plata",
-                    FullName = "Paciente",
-                    PhoneNumber = "11-8795-1478",
-                    Email = "email@email.com",
-                    BirthDate = new DateTime(1987, 07, 06),
-                    DNI = "12548987",
-                    Gender = Gender.Other,
-                    BelongsToRiskGroup = false,
-                    IsActive = true,
-                    PasswordHash = PasswordHash.CreateHash("1234"),
-                    PreferedOfficeId = office1.Id
-                };
-
-                var patient2 = new User
-                {
-                    Id = 4,
-                    UserName = "jperez",
-                    Role = UserRoles.Patient,
-                    Address = "Calle Falsa 111, La Plata",
-                    FullName = "Juan Perez",
-                    PhoneNumber = "211-235-1478",
-                    Email = "email2@email.com",
-                    BirthDate = new DateTime(1987, 06, 07).Date,
-                    DNI = "33170336",
-                    Gender = Gender.Male,
-                    BelongsToRiskGroup = false,
-                    IsActive = true,
-                    PasswordHash = PasswordHash.CreateHash("1234"),
-                    PreferedOfficeId = office2.Id
-                };
-
-                var vaccine1 = new Vaccine
+                var vaccine1 = new DevelopedVaccine
                 {
                     Id = 1,
-                    Name = "COVID-19",
-                    IsActive = true
-                };
-                var vaccine2 = new Vaccine
-                {
-                    Id = 2,
-                    Name = "Fiebre amarilla",
+                    Name = "Pfizer COVID-19",
                     IsActive = true,
-                    CanBeRequested = false
+                    Vaccine = Vaccines.O_COVID,
+                    DaysToDelivery = 30
                 };
-                var vaccine3 = new Vaccine
-                {
-                    Id = 3,
-                    Name = "Gripe",
-                    IsActive = true
-                };
-
-                var applied1 = new AppliedVaccine()
-                {
-                    Id = 1,
-                    UserId = patient1.Id,
-                    VaccineId = vaccine1.Id,
-                    AppliedDate = new DateTime(2022, 03, 12, 10, 30, 01)
-                };
-                var applied2 = new AppliedVaccine()
+                var vaccine2 = new DevelopedVaccine
                 {
                     Id = 2,
-                    UserId = patient1.Id,
-                    VaccineId = vaccine2.Id,
-                    AppliedDate = new DateTime(2022, 05, 10, 14, 30, 25)
+                    Name = "ROCHE Fiebre amarilla",
+                    IsActive = true,
+                    Vaccine = Vaccines.M_FiebreAmarilla,
+                    DaysToDelivery = 60
                 };
-                var applied3 = new AppliedVaccine()
+                var vaccine3 = new DevelopedVaccine
                 {
                     Id = 3,
-                    UserId = patient1.Id,
-                    VaccineId = vaccine3.Id,
+                    Name = "Fluarix Antigripal",
+                    IsActive = true,
+                    Vaccine = Vaccines.P_Antigripal,
+                    DaysToDelivery = 15
                 };
 
-                modelBuilder.Entity<Office>().HasData(office1, office2, office3);
-                modelBuilder.Entity<Vaccine>().HasData(vaccine1, vaccine2, vaccine3);
-                modelBuilder.Entity<User>().HasData(admin, vacunador1, patient1, patient2);
-                modelBuilder.Entity<AppliedVaccine>().HasData(applied1, applied2, applied3);
+                modelBuilder.Entity<DevelopedVaccine>().HasData(vaccine1, vaccine2, vaccine3);
+                modelBuilder.Entity<User>().HasData(admin, operador1, operador2, analista1, vacunador1);
             }
         }
         #endregion

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CertificateModalComponent } from './account/profile/certificate/certificate-modal.component';
 import { User } from './_models/user';
 import { AccountService } from './_services/account.service';
 

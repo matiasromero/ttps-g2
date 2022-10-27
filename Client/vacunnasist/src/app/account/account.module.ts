@@ -1,12 +1,9 @@
-import { CertificateModalComponent } from './profile/certificate/certificate-modal.component';
-import { ProfileAddVaccineComponent } from './profile/add-vaccine/add-vaccine.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { LayoutComponent } from './layout/layout.component';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 import { AccountRoutingModule } from './account-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -19,8 +16,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
 import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { PasswordRecoveryComponent } from './password-recovery/password-recovery.component';
-import { PasswordResetModalComponent } from './profile/password-reset-modal/password-reset-modal.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -38,13 +33,8 @@ export const MY_DATE_FORMATS = {
   declarations: [
     LayoutComponent,
     LoginComponent,
-    RegisterComponent,
     ChangePasswordComponent,
-    PasswordRecoveryComponent,
-    ProfileComponent,
-    ProfileAddVaccineComponent,
-    PasswordResetModalComponent,
-    CertificateModalComponent
+    ProfileComponent
   ],
   imports: [
     CommonModule,

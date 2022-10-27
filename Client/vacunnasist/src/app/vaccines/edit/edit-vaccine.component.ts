@@ -1,15 +1,15 @@
-import { VaccineService } from 'src/app/_services/vaccine.service';
-import { User } from 'src/app/_models/user';
-import { Office } from 'src/app/_models/office';
-import { OfficeService } from 'src/app/_services/office.service';
+
 import { first } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AccountService } from 'src/app/_services/account.service';
 import { AlertService } from 'src/app/_services/alert.service';
-import { AppointmentService } from 'src/app/_services/appointment.service';
 import { DatePipe, Location } from '@angular/common';
+import { DevelopedVaccineService } from 'src/app/_services/developed-vaccine.service';
+import { VaccinesFilter } from 'src/app/_models/filters/vaccines-filter';
+import { Vaccine } from 'src/app/_models/vaccine';
+import { VaccinesService } from 'src/app/_services/vaccines.service';
 
 
 @Component({ templateUrl: 'edit-vaccine.component.html' })
@@ -23,9 +23,9 @@ export class EditVaccineComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private accountService: AccountService,
-        private vaccineService: VaccineService,
+        private developedVaccineService: DevelopedVaccineService,
         private alertService: AlertService,
-        private dp: DatePipe,
+        private vaccinesService: VaccinesService,
         private _location: Location
     ) { 
         if (this.accountService.userValue.role !== 'administrator') {
@@ -34,22 +34,31 @@ export class EditVaccineComponent implements OnInit {
     }
 
     public vaccineId?: number;
-
+    public vaccines: Vaccine[] = [];
+    
     ngOnInit() {
+        let filter = new VaccinesFilter();
+        this.vaccinesService.getAll(filter).subscribe((res: any) => {
+            this.vaccines = res.vaccines;
+        });
 
         this.vaccineId = parseInt(this.route.snapshot.paramMap.get('id')!);
-        this.vaccineService.getById(this.vaccineId).subscribe(res => {
+        this.developedVaccineService.getById(this.vaccineId).subscribe(res  => {
         this.form.patchValue({
             id: res.id,
             name: res.name,
-            canBeRequested: res.canBeRequested,
+            vaccineId: res.vaccine.id,
+            daysToDelivery: res.daysToDelivery,
             isActive: res.isActive
         });
     });
 
+  
+        
         this.form = this.formBuilder.group({
             name: ['', [Validators.required, Validators.maxLength(100)]],
-            canBeRequested: [true, Validators.required],
+            vaccineId: [null, Validators.required],
+            daysToDelivery: [0, Validators.required],
             isActive: [true, Validators.required]
         });
     }
@@ -75,7 +84,7 @@ export class EditVaccineComponent implements OnInit {
 
         this.loading = true;
         
-        this.vaccineService.update(this.vaccineId!, this.form.value)
+        this.developedVaccineService.update(this.vaccineId!, this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {

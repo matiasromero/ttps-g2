@@ -1,10 +1,13 @@
+import { VaccinesService } from 'src/app/_services/vaccines.service';
 import { first } from 'rxjs/operators';
-import { VaccineService } from 'src/app/_services/vaccine.service';
+import { DevelopedVaccineService } from 'src/app/_services/developed-vaccine.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AccountService } from 'src/app/_services/account.service';
 import { AlertService } from 'src/app/_services/alert.service';
+import { Vaccine } from 'src/app/_models/vaccine';
+import { VaccinesFilter } from 'src/app/_models/filters/vaccines-filter';
 
 @Component({ templateUrl: 'new-vaccine.component.html' })
 export class NewVaccineComponent implements OnInit {
@@ -17,18 +20,25 @@ export class NewVaccineComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private accountService: AccountService,
-        private vaccineService: VaccineService,
+        private developedVaccineService: DevelopedVaccineService,
+        private vaccinesService: VaccinesService,
         private alertService: AlertService
     ) { 
-        if (this.accountService.userValue.role !== 'administrator') {
-            this.router.navigate(['/']);
-        }
+
     }
 
+    public vaccines: Vaccine[] = [];
+
     ngOnInit() {
+        let filter = new VaccinesFilter();
+        this.vaccinesService.getAll(filter).subscribe((res: any) => {
+            this.vaccines = res.vaccines;
+        });
+        
         this.form = this.formBuilder.group({
             name: ['', [Validators.required, Validators.maxLength(100)]],
-            canBeRequested: [true, Validators.required]
+            vaccineId: [null, Validators.required],
+            daysToDelivery: [0, Validators.required]
         });
     }
 
@@ -48,11 +58,11 @@ export class NewVaccineComponent implements OnInit {
 
         this.loading = true;
         
-        this.vaccineService.newVaccine(this.form.value)
+        this.developedVaccineService.newVaccine(this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {
-                    this.alertService.success('Vacuna creada correctamente', { keepAfterRouteChange: true });
+                    this.alertService.success('Vacuna desarrollada creada correctamente', { keepAfterRouteChange: true });
                     this.router.navigate(['../../vaccines'],{
                      relativeTo: this.route });
                 },

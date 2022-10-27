@@ -1,18 +1,13 @@
-import { VaccinesFilter } from './../_models/filters/vaccines-filter';
-import { UsersFilter } from 'src/app/_models/filters/users-filter';
-import { AppointmentService } from 'src/app/_services/appointment.service';
+import { DevelopedVaccinesFilter } from '../_models/filters/developed-vaccines-filter';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AccountService } from 'src/app/_services/account.service';
 import { AlertService } from 'src/app/_services/alert.service';
-import { DatePipe } from '@angular/common';
-import { Appointment } from 'src/app/_models/appointment';
 import Swal from 'sweetalert2';
-import { User } from '../_models/user';
-import { VaccineService } from '../_services/vaccine.service';
-import { Vaccine } from '../_models/vaccine';
+import { DevelopedVaccineService } from '../_services/developed-vaccine.service';
+import { DevelopedVaccine } from '../_models/developed-vaccine';
 
 @Component({ templateUrl: 'vaccines.component.html' })
 export class VaccinesComponent implements OnInit {
@@ -24,11 +19,9 @@ export class VaccinesComponent implements OnInit {
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private activatedRoute: ActivatedRoute,
         private accountService: AccountService,
-        private vaccineService: VaccineService,
+        private vaccineService: DevelopedVaccineService,
         private alertService: AlertService,
-        private dp: DatePipe
     ) { 
         // redirect to home if already logged in
         if (this.accountService.userValue.role !== 'administrator') {
@@ -37,7 +30,6 @@ export class VaccinesComponent implements OnInit {
 
         this.formFilter = this.formBuilder.group({
             name: ['', [Validators.maxLength(100)]],
-            canBeRequested: [null],
             isActive: [true],
         });
         
@@ -55,17 +47,12 @@ export class VaccinesComponent implements OnInit {
                   });
                 }
           
-                if (params.canBeRequested) {
-                  this.formFilter.controls.canBeRequested.setValue(params.canBeRequested === "true", {
-                    onlySelf: true,
-                  });
-                }
                 this.loadData();
               });
     }
 
-    public vaccines: Vaccine[] = [];
-    public filter = new VaccinesFilter();
+    public vaccines: DevelopedVaccine[] = [];
+    public filter = new DevelopedVaccinesFilter();
 
     ngOnInit() {
        
@@ -74,10 +61,8 @@ export class VaccinesComponent implements OnInit {
     loadData() {
         const name = this.formFilter.get('name')?.value;
         const isActive = this.formFilter.get('isActive')?.value;
-        const canBeRequested = this.formFilter.get('canBeRequested')?.value;
         this.filter.name =name;
         this.filter.isActive =isActive;
-        this.filter.canBeRequested=canBeRequested;
         this.vaccineService.getAll(this.filter).subscribe((res: any) => {
             this.vaccines = res.vaccines;
         });
@@ -89,7 +74,7 @@ export class VaccinesComponent implements OnInit {
     // convenience getter for easy access to form fields
     get f() { return this.formFilter.controls; }
 
-    deleteVaccineQuestion(v: Vaccine) {
+    deleteVaccineQuestion(v: DevelopedVaccine) {
       Swal
       .fire({
         title: '¿Está seguro?',
@@ -107,7 +92,7 @@ export class VaccinesComponent implements OnInit {
       });
     }
 
-    deleteVaccine(v: Vaccine) {
+    deleteVaccine(v: DevelopedVaccine) {
       this.vaccineService.canBeDeleted(+v.id).subscribe((res: boolean) => {
         if (!res) {
           Swal
@@ -122,7 +107,7 @@ export class VaccinesComponent implements OnInit {
     });
   }
 
-  doDelete(v: Vaccine) {
+  doDelete(v: DevelopedVaccine) {
     this.loading = true;
     this.vaccineService.cancel(+v.id).pipe(first())
       .subscribe({
@@ -144,79 +129,7 @@ export class VaccinesComponent implements OnInit {
   }
 
 
-  reportVaccinesQuestion() {
-    Swal
-    .fire({
-      title: 'Reporte',
-      text: 'Generará un reporte de vacunas aplicadas en este mes',
-      icon: 'info',
-      showCancelButton: true,
-      cancelButtonText: 'No, cancelar',
-      confirmButtonText: 'Si, generar!'
-    })
-    .then(result => {
-      if (result.value) {
-        this.reportVaccines();
-      }
-    });
-  }
-
-  reportVaccines() {
-    this.vaccineService.reportVaccines().pipe(first())
-    .subscribe({
-        next: () => {
-          Swal
-          .fire({
-            title: 'Hecho',
-            text: 'Reporte generado correctamente.',
-            icon: 'success',
-          });
-        },
-        error: (error: string) => {
-            this.alertService.error(error);
-            this.loading = false;
-        }
-    });
-  }
-
-  reportPatientsQuestion() {
-    Swal
-    .fire({
-      title: 'Reporte',
-      text: 'Generará un reporte de pacientes vacunados por día en este mes',
-      icon: 'info',
-      showCancelButton: true,
-      cancelButtonText: 'No, cancelar',
-      confirmButtonText: 'Si, generar!'
-    })
-    .then(result => {
-      if (result.value) {
-        this.reportPatients();
-      }
-    });
-  }
-
-  reportPatients() {
-    this.vaccineService.reportPatients().pipe(first())
-    .subscribe({
-        next: () => {
-          Swal
-          .fire({
-            title: 'Hecho',
-            text: 'Reporte generado correctamente.',
-            icon: 'success',
-          });
-        },
-        error: (error: string) => {
-            this.alertService.error(error);
-            this.loading = false;
-        }
-    });
-  }
-
-  
-
-    editVaccine(v: Vaccine) {
+    editVaccine(v: DevelopedVaccine) {
         this.router.navigate(['vaccines/edit/', v.id]);
     }
 
@@ -235,7 +148,6 @@ export class VaccinesComponent implements OnInit {
 
         const name = this.formFilter.get('name')?.value;
         const isActive = this.formFilter.get('isActive')?.value;
-        const canBeRequested = this.formFilter.get('canBeRequested')?.value;
         const queryParams: any = {};
 
         queryParams.type = this.route.snapshot.queryParamMap.get('type');
@@ -246,9 +158,6 @@ export class VaccinesComponent implements OnInit {
           }
           if (isActive !== undefined) {
             queryParams.isActive = isActive;
-          }
-          if (canBeRequested !== undefined) {
-            queryParams.canBeRequested = canBeRequested;
           }
 
           this.router.navigate(['/vaccines'], {
@@ -266,7 +175,6 @@ export class VaccinesComponent implements OnInit {
         onlySelf: true,
       });
       this.formFilter.controls.isActive.setValue(true);
-      this.formFilter.controls.canBeRequested.setValue(null);
 
       this.applyFilter();
   }

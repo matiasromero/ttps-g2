@@ -1,18 +1,11 @@
 import { User } from 'src/app/_models/user';
-import { Office } from 'src/app/_models/office';
-import { OfficeService } from 'src/app/_services/office.service';
 import { first } from 'rxjs/operators';
-import { Vaccine } from './../../_models/vaccine';
-import { VaccineService } from 'src/app/_services/vaccine.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AccountService } from 'src/app/_services/account.service';
 import { AlertService } from 'src/app/_services/alert.service';
-import { AppointmentService } from 'src/app/_services/appointment.service';
 import { DatePipe, Location } from '@angular/common';
-import { trigger } from '@angular/animations';
-import { OfficesFilter } from 'src/app/_models/filters/offices-filter';
 
 
 @Component({ templateUrl: 'edit-user.component.html' })
@@ -28,18 +21,13 @@ export class EditUserComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private accountService: AccountService,
-        private officesService: OfficeService,
-        private appointmentsService: AppointmentService,
         private alertService: AlertService,
         private dp: DatePipe,
         private _location: Location
     ) { 
-        if (this.accountService.userValue.role !== 'administrator') {
-            this.router.navigate(['/']);
-        }
+
     }
 
-    public offices: Office[] = [];
     public type: String = "patient";
     userId?: number;
     userRole?:string;
@@ -47,12 +35,6 @@ export class EditUserComponent implements OnInit {
 
     ngOnInit() {
         this.minDate = new Date(1900, 0, 1);
-
-        let filter = new OfficesFilter();
-        filter.isActive = true;
-        this.officesService.getAll(filter).subscribe((res: any) => {
-            this.offices = res.offices;
-        });
 
         this.userId = parseInt(this.route.snapshot.paramMap.get('id')!);
         this.accountService.getById(this.userId).subscribe(res => {
@@ -66,21 +48,14 @@ export class EditUserComponent implements OnInit {
                 dni: res.dni,
                 address: res.address,
                 birthDate: res.birthDate,
-                phoneNumber: res.phoneNumber,
                 email: res.email,
                 gender: res.gender,
-                belongsToRiskGroup: res.belongsToRiskGroup,
-                preferedOfficeId: res.preferedOfficeId,
             role: res.role,
-            isActive: res.isActive
+            isActive: res.isActive,
+            province: res.province
         });
 
-        if (this.type == 'vacunator') {
-            this.form.controls['preferedOfficeId'].setValidators([Validators.required]);
-        } else {
-            this.form.controls['preferedOfficeId'].clearValidators();
-        }
-        this.form.controls['preferedOfficeId'].updateValueAndValidity();
+     
     });
 
         this.form = this.formBuilder.group({
@@ -89,16 +64,11 @@ export class EditUserComponent implements OnInit {
             dni: ['', [Validators.required, Validators.maxLength(20)]],
             address: ['', [Validators.required, Validators.maxLength(200)]],
             birthDate: [new Date(), Validators.required],
-            phoneNumber: ['', [Validators.required, Validators.maxLength(30)]],
             email:['', [Validators.required, Validators.email, Validators.maxLength(30)]],
             gender: ['male', Validators.required],
-            belongsToRiskGroup: [false, Validators.required],
-            preferedOfficeId: [null]
+            province: ['', Validators.required],
+            role: ['', Validators.required],
         });
-    }
-
-    addVaccine() {
-        this.router.navigate(['appointments/add-vaccine-to-user', this.userId]);
     }
 
     // convenience getter for easy access to form fields
@@ -129,9 +99,6 @@ export class EditUserComponent implements OnInit {
             .subscribe({
                 next: () => {
                     this.alertService.success((this.type == 'patient' ? 'Paciente ' : (this.type == 'vacunator' ? 'Vacunador ' : 'Usuario')) + ' modificado correctamente', { keepAfterRouteChange: true });
-                    // this.router.navigate(['../../../users'], { 
-                    //     queryParams: {type: this.type, isActive: true, belongsToRiskGroup: false},
-                    //  relativeTo: this.route });
                      this._location.back();
                 },
                 error: error => {

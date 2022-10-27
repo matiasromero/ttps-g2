@@ -3,7 +3,6 @@ export class UsersFilter {
     role?: string;
     userName?: string;
     fullName?: string;
-    belongsToRiskGroup?: boolean;
     email?: string;
   }
   

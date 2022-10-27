@@ -1,8 +1,9 @@
 namespace VacunassistBackend.Models
 {
-    public class NewVaccineRequest
+    public class NewDevelopedVaccineRequest
     {
         public string Name { get; set; }
-        public bool CanBeRequested { get; set; }
+        public int VaccineId { get; set; }
+        public int DaysToDelivery { get; set; }
     }
 }

@@ -1,3 +1,4 @@
+import { VaccineTypePipe } from './../_helpers/vaccine-type.pipe';
 import { VaccinesRoutingModule } from './vaccines-routing.module';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -11,13 +12,14 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { DateAdapter, MatNativeDateModule, MatOptionModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_DATE_FORMATS } from '../account/account.module';
 import { VaccinesComponent } from './vaccines.component';
 import { NewVaccineComponent } from './new/new-vaccine.component';
 import { EditVaccineComponent } from './edit/edit-vaccine.component';
+import { MatSelectModule } from '@angular/material/select';
 
 
 
@@ -25,7 +27,8 @@ import { EditVaccineComponent } from './edit/edit-vaccine.component';
   declarations: [
     VaccinesComponent,
     NewVaccineComponent,
-    EditVaccineComponent
+    EditVaccineComponent,
+    VaccineTypePipe
   ],
   imports: [
     CommonModule,
@@ -41,7 +44,9 @@ import { EditVaccineComponent } from './edit/edit-vaccine.component';
     MatTooltipModule,
     MatNativeDateModule,
     MatInputModule,
-    MatTabsModule
+    MatTabsModule,
+    MatOptionModule,
+    MatSelectModule
   ],
   providers: [
     DatePipe,
