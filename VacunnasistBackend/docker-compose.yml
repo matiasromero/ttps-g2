@@ -14,11 +14,12 @@ services:
       - c:/temp/:/app/temp
     environment:
       - TZ=America/Argentina/Buenos_Aires
+      - ConnectionStrings__DefaultConnection=Server=db;database=vacunassist;User Id=sa;Password=Admin2022
   db:
     image: mcr.microsoft.com/mssql/server:2019-latest
     container_name: sql1
     environment:
-      - SA_PASSWORD=Taller2022!
+      - SA_PASSWORD=Admin2022
       - ACCEPT_EULA=Y
       - TZ=America/Argentina/Buenos_Aires
     ports:
@@ -30,6 +31,8 @@ services:
     build:
       context: .
       dockerfile: Migrations.Dockerfile
+    environment:
+       - ConnectionStrings__DefaultConnection=Server=db;database=vacunassist;User Id=sa;Password=Admin2022 
   proxy:
     image: nginx:alpine
     container_name: nginx
