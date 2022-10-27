@@ -31,6 +31,15 @@
         <li class="nav-item">
           <a
             class="nav-item nav-link"
+            routerLink="/batch-vaccines"
+            routerLinkActive="active"
+            *ngIf="user && user.role == 'administrator'"
+            >Lotes de vacunas</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
             routerLink="/users"
             [queryParams]="{
               isActive: 'true'

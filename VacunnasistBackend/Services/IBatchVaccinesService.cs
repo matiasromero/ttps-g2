@@ -39,10 +39,7 @@ namespace VacunassistBackend.Services
             if (string.IsNullOrEmpty(filter.BatchNumber) == false)
                 query = query.Where(x => x.BatchNumber.ToUpper() == filter.BatchNumber.ToUpper());
 
-            if (allDevVaccines.Any())
-            {
-                query = query.Where(x => allDevVaccines.Contains(x.DevelopedVaccine));
-            }
+            query = query.Where(x => allDevVaccines.Contains(x.DevelopedVaccine));
 
             return query.ToArray();
         }

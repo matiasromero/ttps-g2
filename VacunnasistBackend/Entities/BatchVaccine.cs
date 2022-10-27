@@ -37,6 +37,17 @@ namespace VacunassistBackend.Entities
             }
         }
         public BatchStatus Status { get; set; }
+
+        public void checkOverdue()
+        {
+            if (DueDate < DateTime.Now)
+            {
+                Status = BatchStatus.Overdue;
+                OverdueQuantity = RemainingQuantity;
+                RemainingQuantity = 0;
+            }
+
+        }
     }
 
     public enum BatchStatus

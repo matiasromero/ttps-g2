@@ -3,23 +3,40 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './_helpers/auth.guard';
 
-const accountModule = () => import('./account/account.module').then(x => x.AccountModule);
-const usersModule = () => import('./users/users.module').then(x => x.UsersModule);
-const vaccinesModule = () => import('./vaccines/vaccines.module').then(x => x.VaccinesModule);
+const accountModule = () =>
+  import('./account/account.module').then((x) => x.AccountModule);
+const usersModule = () =>
+  import('./users/users.module').then((x) => x.UsersModule);
+const vaccinesModule = () =>
+  import('./vaccines/vaccines.module').then((x) => x.VaccinesModule);
+const batchVaccinesModule = () =>
+  import('./batch-vaccines/batch-vaccines.module').then(
+    (x) => x.BatchVaccinesModule
+  );
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'account', loadChildren: accountModule },
-  { path: 'users', loadChildren: usersModule, canActivate: [AuthGuard], data: {
-    roles: ['administrator']
-  } },
+  {
+    path: 'users',
+    loadChildren: usersModule,
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['administrator'],
+    },
+  },
   { path: 'vaccines', loadChildren: vaccinesModule, canActivate: [AuthGuard] },
+  {
+    path: 'batch-vaccines',
+    loadChildren: batchVaccinesModule,
+    canActivate: [AuthGuard],
+  },
   // otherwise redirect to home
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

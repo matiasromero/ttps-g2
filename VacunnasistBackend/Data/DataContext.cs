@@ -161,9 +161,16 @@ namespace VacunassistBackend.Data
                     DevelopedVaccineId = vaccine3.Id,
                     DueDate = DateTime.Now.AddDays(98).Date
                 };
+                var batch6 = new BatchVaccine("FLU13214121", 3600)
+                {
+                    Id = 6,
+                    DevelopedVaccineId = vaccine3.Id,
+                    DueDate = DateTime.Now.AddDays(-18).Date,
+                };
+                batch6.checkOverdue();
 
                 modelBuilder.Entity<DevelopedVaccine>().HasData(vaccine1, vaccine2, vaccine3);
-                modelBuilder.Entity<BatchVaccine>().HasData(batch1, batch2, batch3, batch4, batch5);
+                modelBuilder.Entity<BatchVaccine>().HasData(batch1, batch2, batch3, batch4, batch5, batch6);
                 modelBuilder.Entity<User>().HasData(admin, operador1, operador2, analista1, vacunador1);
             }
         }
