@@ -51,6 +51,31 @@ namespace VacunnasistBackend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BatchVaccines",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BatchNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    DevelopedVaccineId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    RemainingQuantity = table.Column<int>(type: "int", nullable: false),
+                    OverdueQuantity = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BatchVaccines", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BatchVaccines_DevelopedVaccines_DevelopedVaccineId",
+                        column: x => x.DevelopedVaccineId,
+                        principalTable: "DevelopedVaccines",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AppliedVaccines",
                 columns: table => new
                 {
@@ -95,11 +120,23 @@ namespace VacunnasistBackend.Migrations
                 columns: new[] { "Id", "Address", "BirthDate", "DNI", "Email", "FullName", "Gender", "HealthWorker", "IsActive", "PasswordHash", "Pregnant", "Province", "Role", "UserName" },
                 values: new object[,]
                 {
-                    { 1, "Calle Falsa 1234, La Plata", new DateTime(2022, 10, 26, 0, 0, 0, 0, DateTimeKind.Local), "11111111", "admin@vacunassist.com", "Administrador", "other", false, true, "1000:AH8kbImBb/pxOQkaZgQb2u5tKLv5v80h:qH2OM4aBB+pqNQaWyzZewsC6LHGmcPss", false, "Buenos Aires", "administrator", "Admin" },
-                    { 2, "Calle Falsa 2345, La Plata", new DateTime(2022, 10, 26, 0, 0, 0, 0, DateTimeKind.Local), "22345678", "operador1@vacunassist.com", "Luis Gutierrez", "male", false, true, "1000:/Mcy0GamTI832cnk6wjGAJKbDYEBPMnX:XaWG9zaWcqhUCcHZYiHZoePeyas1P9v3", false, "Buenos Aires", "operator", "Operador1" },
-                    { 3, "Calle Falsa 9874, Salta", new DateTime(2022, 10, 26, 0, 0, 0, 0, DateTimeKind.Local), "89785451", "estefania@vacunassist.com", "Estefania Borzi", "female", false, true, "1000:ey6xcCsi14qUuT2Sd7hZqX/G3mjWggh5:0q4QVJFpt1OiKqmYqHwjoulrppOPfVW1", false, "Salta", "operator", "Operador2" },
-                    { 4, "Calle Falsa 9874, Salta", new DateTime(2022, 10, 26, 0, 0, 0, 0, DateTimeKind.Local), "89785451", "jr@vacunassist.com", "Jose Luis Rodriguez", "male", false, true, "1000:7YzQIgKRQ99GvYyvPDWACxlGL/h2pD43:n4cJewVaNsQYhR/XFICPV/lgTWr1PiXW", false, "Buenos Aires", "analyst", "Analista1" },
-                    { 5, "Calle Falsa 4567, La Plata", new DateTime(2022, 10, 26, 0, 0, 0, 0, DateTimeKind.Local), "11111111", "vacunador@email.com", "Vacunador", "other", false, true, "1000:XsSVAtK31XwsaW22UlRr3LgaA+3lo+nb:OgPbTqOdK3YGKHUxnWXJ4kTIc+Gjd4tm", false, "Buenos Aires", "vacunator", "Vacunador" }
+                    { 1, "Calle Falsa 1234, La Plata", new DateTime(2022, 10, 27, 0, 0, 0, 0, DateTimeKind.Local), "11111111", "admin@vacunassist.com", "Administrador", "other", false, true, "1000:JsYnz4w2ziq/HIW/AiUY2cgPsEfdChgx:Csn0e3+b6qUAYO02Xk3VH2l8P9sijn2i", false, "Buenos Aires", "administrator", "Admin" },
+                    { 2, "Calle Falsa 2345, La Plata", new DateTime(2022, 10, 27, 0, 0, 0, 0, DateTimeKind.Local), "22345678", "operador1@vacunassist.com", "Luis Gutierrez", "male", false, true, "1000:xJ91azBHbZsVsT/ByGceqE9EiFaTfIQA:fDAT190q0PhnvVLSnv/RPeF0DIKubUpW", false, "Buenos Aires", "operator", "Operador1" },
+                    { 3, "Calle Falsa 9874, Salta", new DateTime(2022, 10, 27, 0, 0, 0, 0, DateTimeKind.Local), "89785451", "estefania@vacunassist.com", "Estefania Borzi", "female", false, true, "1000:WBHqqY/iBeFsQAeyCXHklGQSi8MBgMY9:uAAf53Y2L3NGmi+Ceyp4KQ9cbvAuSsEw", false, "Salta", "operator", "Operador2" },
+                    { 4, "Calle Falsa 9874, Salta", new DateTime(2022, 10, 27, 0, 0, 0, 0, DateTimeKind.Local), "89785451", "jr@vacunassist.com", "Jose Luis Rodriguez", "male", false, true, "1000:0gH6YkjHkGPaL3Cvqp7bA964YpLKKnKb:T+sLoBTMmvjGANfa3KUvHIQoY/TljhYS", false, "Buenos Aires", "analyst", "Analista1" },
+                    { 5, "Calle Falsa 4567, La Plata", new DateTime(2022, 10, 27, 0, 0, 0, 0, DateTimeKind.Local), "11111111", "vacunador@email.com", "Vacunador", "other", false, true, "1000:chBVE4RizQu2nbiOAcoSaS7/bj38nkBl:XehKNKZOIVugyTjI/RD8zTMubInPjZRd", false, "Buenos Aires", "vacunator", "Vacunador" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "BatchVaccines",
+                columns: new[] { "Id", "BatchNumber", "DevelopedVaccineId", "DueDate", "OverdueQuantity", "Quantity", "RemainingQuantity", "Status" },
+                values: new object[,]
+                {
+                    { 1, "PF1000001", 1, new DateTime(2022, 11, 29, 0, 0, 0, 0, DateTimeKind.Local), 0, 800, 800, 0 },
+                    { 2, "PF1000121", 1, new DateTime(2022, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), 0, 400, 400, 0 },
+                    { 3, "R1000001", 2, new DateTime(2022, 12, 19, 0, 0, 0, 0, DateTimeKind.Local), 0, 560, 560, 0 },
+                    { 4, "FLU12214001", 3, new DateTime(2022, 11, 4, 0, 0, 0, 0, DateTimeKind.Local), 0, 1500, 1500, 0 },
+                    { 5, "FLU12214003", 3, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Local), 0, 3600, 3600, 0 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -111,6 +148,17 @@ namespace VacunnasistBackend.Migrations
                 name: "IX_AppliedVaccines_VaccineId",
                 table: "AppliedVaccines",
                 column: "VaccineId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BatchVaccines_BatchNumber",
+                table: "BatchVaccines",
+                column: "BatchNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BatchVaccines_DevelopedVaccineId",
+                table: "BatchVaccines",
+                column: "DevelopedVaccineId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -119,10 +167,13 @@ namespace VacunnasistBackend.Migrations
                 name: "AppliedVaccines");
 
             migrationBuilder.DropTable(
-                name: "DevelopedVaccines");
+                name: "BatchVaccines");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "DevelopedVaccines");
         }
     }
 }

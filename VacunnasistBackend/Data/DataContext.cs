@@ -16,6 +16,7 @@ namespace VacunassistBackend.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<DevelopedVaccine> DevelopedVaccines { get; set; }
+        public DbSet<BatchVaccine> BatchVaccines { get; set; }
         public DbSet<AppliedVaccine> AppliedVaccines { get; set; }
 
         #region Required
@@ -130,7 +131,39 @@ namespace VacunassistBackend.Data
                     DaysToDelivery = 15
                 };
 
+                var batch1 = new BatchVaccine("PF1000001", 800)
+                {
+                    Id = 1,
+                    DevelopedVaccineId = vaccine1.Id,
+                    DueDate = DateTime.Now.AddDays(33).Date
+                };
+                var batch2 = new BatchVaccine("PF1000121", 400)
+                {
+                    Id = 2,
+                    DevelopedVaccineId = vaccine1.Id,
+                    DueDate = DateTime.Now.AddDays(13).Date
+                };
+                var batch3 = new BatchVaccine("R1000001", 560)
+                {
+                    Id = 3,
+                    DevelopedVaccineId = vaccine2.Id,
+                    DueDate = DateTime.Now.AddDays(53).Date
+                };
+                var batch4 = new BatchVaccine("FLU12214001", 1500)
+                {
+                    Id = 4,
+                    DevelopedVaccineId = vaccine3.Id,
+                    DueDate = DateTime.Now.AddDays(8).Date
+                };
+                var batch5 = new BatchVaccine("FLU12214003", 3600)
+                {
+                    Id = 5,
+                    DevelopedVaccineId = vaccine3.Id,
+                    DueDate = DateTime.Now.AddDays(98).Date
+                };
+
                 modelBuilder.Entity<DevelopedVaccine>().HasData(vaccine1, vaccine2, vaccine3);
+                modelBuilder.Entity<BatchVaccine>().HasData(batch1, batch2, batch3, batch4, batch5);
                 modelBuilder.Entity<User>().HasData(admin, operador1, operador2, analista1, vacunador1);
             }
         }
