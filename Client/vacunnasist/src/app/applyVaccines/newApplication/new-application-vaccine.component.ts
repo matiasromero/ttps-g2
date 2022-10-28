@@ -1,7 +1,7 @@
 import { DevelopedVaccinesFilter } from '../../_models/filters/developed-vaccines-filter';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AccountService } from 'src/app/_services/account.service';
 import { AlertService } from 'src/app/_services/alert.service';
@@ -14,7 +14,7 @@ import { VaccinesFilter } from '../../_models/filters/vaccines-filter';
 import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 
-@Component({ templateUrl: 'applyVaccines.component.html' })
+@Component({ templateUrl: 'new-application-vaccine.component.html' })
 export class NewApplyVaccineComponent implements OnInit {
   form!: UntypedFormGroup;
   loading = false;
@@ -28,11 +28,8 @@ export class NewApplyVaccineComponent implements OnInit {
       private developedVaccineService: DevelopedVaccineService,
       private vaccinesService: VaccinesService,
       private alertService: AlertService,
-      private http: HttpClient,
-      private dp: DatePipe
-  ) { 
-
-  }
+      private http: HttpClient
+  ) {}
 
   public vaccines: Vaccine[] = [];
 

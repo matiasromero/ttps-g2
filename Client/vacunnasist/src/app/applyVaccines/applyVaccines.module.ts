@@ -18,8 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { ApplyVaccinesComponent } from './applyVaccines.component';
 import { MatSelectModule } from '@angular/material/select';
-
-
+import { NewApplyVaccineComponent } from './newApplication/new-application-vaccine.component'
 export const MY_DATE_FORMATS = {
     parse: {
       dateInput: 'DD/MM/YYYY',
@@ -34,7 +33,8 @@ export const MY_DATE_FORMATS = {
 
 @NgModule({
   declarations: [
-    ApplyVaccinesComponent
+    ApplyVaccinesComponent,
+    NewApplyVaccineComponent,
   ],
   imports: [
     CommonModule,
