@@ -22,6 +22,8 @@ var _MyCors = "MyCors";
     services.AddTransient<IUsersService, UsersService>();
     services.AddTransient<IDevelopedVaccinesService, DevelopedVaccinesService>();
     services.AddTransient<INotificationsService, NotificationsService>();
+    services.AddTransient<IBatchVaccinesService, BatchVaccinesService>();
+    services.AddTransient<IPurchaseOrdersService, PurchaseOrdersService>();
 
     services.AddDbContext<DataContext>(options =>
     {

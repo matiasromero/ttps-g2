@@ -1,0 +1,196 @@
+<div class="card">
+  <h4 class="card-header">Órdenes de compra</h4>
+  <div class="card-body">
+    <mat-accordion>
+      <mat-expansion-panel
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+      >
+        <mat-expansion-panel-header class="right-aligned-header">
+          <mat-panel-title>Filtros aplicados:</mat-panel-title>
+          <mat-panel-description>
+            <mat-chip-list aria-label="isActive">
+              <mat-chip
+                [matTooltip]="filter.batchNumber"
+                *ngIf="filter.batchNumber"
+                ># Lote: {{ filter.batchNumber }}</mat-chip
+              >
+              <mat-chip *ngIf="filter.status">{{
+                filter.status | purchaseorderstatus
+              }}</mat-chip>
+              <mat-chip *ngIf="filter.purchaseDate"
+                >Fecha: {{ filter.purchaseDate | date: "dd/MM/yyyy" }}</mat-chip
+              >
+              <mat-chip
+                *ngIf="filter.eta"
+                matTooltip="Tiempo estimado de arrivo"
+                >ETA: {{ filter.eta | date: "dd/MM/yyyy" }}</mat-chip
+              >
+            </mat-chip-list>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <hr />
+        <form [formGroup]="formFilter" (ngSubmit)="applyFilter()">
+          <div class="form-group">
+            <label for="batchNumber"># Lote</label>
+            <input
+              type="text"
+              formControlName="batchNumber"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.batchNumber.errors }"
+            />
+          </div>
+          <div class="form-group">
+            <mat-form-field appearance="fill">
+              <mat-label>Estado</mat-label>
+              <mat-select formControlName="status">
+                <mat-option value="">Todos</mat-option>
+                <mat-option value="0">Pendiente</mat-option>
+                <mat-option value="1">Confirmada</mat-option>
+                <mat-option value="2">Entregada</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field appearance="fill">
+              <mat-label>Fecha de órden</mat-label>
+              <input
+                matInput
+                [max]="maxDate"
+                [matDatepicker]="purchaseDate"
+                type="text"
+                formControlName="purchaseDate"
+                [ngClass]="{ 'is-invalid': submitted && f.purchaseDate.errors }"
+              />
+              <mat-hint>DD/MM/YYYY</mat-hint>
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="purchaseDate"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #purchaseDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field appearance="fill">
+              <mat-label>Arrivo estimado</mat-label>
+              <input
+                matInput
+                [matDatepicker]="eta"
+                type="text"
+                formControlName="eta"
+                [ngClass]="{ 'is-invalid': submitted && f.eta.errors }"
+              />
+              <mat-hint>DD/MM/YYYY</mat-hint>
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="eta"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #eta></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <button [disabled]="loading" class="btn btn-primary">
+            <span
+              *ngIf="loading"
+              class="spinner-border spinner-border-sm mr-1"
+            ></span>
+            Aplicar
+          </button>
+          <button
+            [disabled]="loading"
+            class="btn btn-secondary ml-2"
+            (click)="clear()"
+          >
+            <span
+              *ngIf="loading"
+              class="spinner-border spinner-border-sm mr-1"
+            ></span>
+            Limpiar
+          </button>
+        </form>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th># Lote</th>
+            <th scope="col">Vacuna</th>
+            <th scope="col">Vacuna desarrollada</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col" matTooltip="Tiempo estimado de entrega">ETA</th>
+            <th scope="col">Estado</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="mat-row" *ngIf="!purchaseOrders.length">
+            <td class="mat-cell text-center" [attr.colspan]="8">
+              Sin resultados
+            </td>
+          </tr>
+          <tr
+            *ngFor="let v of purchaseOrders"
+            [ngClass]="{ pendingRow: v.status == 0 }"
+          >
+            <td>
+              {{ v.id }}
+            </td>
+            <th scope="row">
+              {{ v.batchNumber }}
+            </th>
+            <td>
+              {{ v.developedVaccine.vaccine.name }}
+            </td>
+            <td>
+              {{ v.developedVaccine.name }}
+            </td>
+            <th scope="row" class="text-right">
+              {{ v.quantity }}
+            </th>
+            <td>
+              {{ v.eta | date: "dd/MM/yyyy" }}
+            </td>
+            <td>
+              {{ v.status | purchaseorderstatus }}
+            </td>
+            <td>
+              <mat-icon
+                mat-button
+                aria-hidden="false"
+                *ngIf="v.status == 0"
+                aria-label="Example delete icon"
+                role="button"
+                [ngStyle]="{ color: 'green' }"
+                matTooltip="Compra confirmada"
+                (click)="confirmPurchaseOrderQuestion(v)"
+                >done_outline</mat-icon
+              >
+              <mat-icon
+                mat-button
+                aria-hidden="false"
+                *ngIf="v.status == 1"
+                aria-label="Example delete icon"
+                role="button"
+                [ngStyle]="{ color: 'darkred' }"
+                matTooltip="Lote arrivado"
+                (click)="deliverPurchaseOrderQuestion(v)"
+                >flight_land</mat-icon
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="text-right">
+        <button
+          type="button"
+          (click)="addPurchaseOrder()"
+          class="btn btn-primary"
+        >
+          Agregar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

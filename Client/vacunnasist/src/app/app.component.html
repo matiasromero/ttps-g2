@@ -24,8 +24,26 @@
             class="nav-item nav-link"
             routerLink="/vaccines"
             routerLinkActive="active"
-            *ngIf="user && user.role == 'administrator'"
+            *ngIf="user && user.role == 'operator'"
             >Vacunas desarrolladas</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
+            routerLink="/batch-vaccines"
+            routerLinkActive="active"
+            *ngIf="user && user.role == 'operator'"
+            >Lotes de vacunas</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
+            routerLink="/purchase-orders"
+            routerLinkActive="active"
+            *ngIf="user && user.role == 'operator'"
+            >Órdenes de compra</a
           >
         </li>
         <li class="nav-item">
@@ -89,6 +107,6 @@
 
 <footer class="py-1 fixed-bottom">
   <div class="container">
-    <p class="m-0 text-center">Grupo 2 | TTPS | 2022</p>
+    <p class="m-0 text-center">Grupo 2 | TTPS | 2022 | v0.2.1</p>
   </div>
 </footer>

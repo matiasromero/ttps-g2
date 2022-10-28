@@ -16,7 +16,9 @@ namespace VacunassistBackend.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<DevelopedVaccine> DevelopedVaccines { get; set; }
+        public DbSet<BatchVaccine> BatchVaccines { get; set; }
         public DbSet<AppliedVaccine> AppliedVaccines { get; set; }
+        public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
 
         #region Required
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -130,7 +132,111 @@ namespace VacunassistBackend.Data
                     DaysToDelivery = 15
                 };
 
+                var po1 = new PurchaseOrder("FLU140012580", 1400, vaccine3.Id)
+                {
+                    Id = 1
+                };
+                var po2 = new PurchaseOrder("FLU140012581", 1200, vaccine3.Id)
+                {
+                    Id = 2
+                };
+
+                var po3 = new PurchaseOrder("PF1000001", 800, vaccine1.Id)
+                {
+                    Id = 3,
+                    PurchaseDate = DateTime.Now.Date.AddDays(-1 * vaccine1.DaysToDelivery),
+                    DeliveredTime = DateTime.Now.Date,
+                    ETA = DateTime.Now.Date,
+                    Status = PurchaseStatus.Delivered
+                };
+                var po4 = new PurchaseOrder("PF1000121", 400, vaccine1.Id)
+                {
+                    Id = 4,
+                    PurchaseDate = DateTime.Now.Date.AddDays(-1 * vaccine1.DaysToDelivery),
+                    DeliveredTime = DateTime.Now.Date,
+                    ETA = DateTime.Now.Date,
+                    Status = PurchaseStatus.Delivered
+                };
+                var po5 = new PurchaseOrder("R1000001", 560, vaccine2.Id)
+                {
+                    Id = 5,
+                    PurchaseDate = DateTime.Now.Date.AddDays(-1 * vaccine2.DaysToDelivery),
+                    DeliveredTime = DateTime.Now.Date,
+                    ETA = DateTime.Now.Date,
+                    Status = PurchaseStatus.Delivered
+                };
+                var po6 = new PurchaseOrder("FLU12214001", 1500, vaccine3.Id)
+                {
+                    Id = 6,
+                    PurchaseDate = DateTime.Now.Date.AddDays(-1 * vaccine3.DaysToDelivery),
+                    DeliveredTime = DateTime.Now.Date,
+                    ETA = DateTime.Now.Date,
+                    Status = PurchaseStatus.Delivered
+                };
+                var po7 = new PurchaseOrder("FLU12214003", 3600, vaccine3.Id)
+                {
+                    Id = 7,
+                    PurchaseDate = DateTime.Now.Date.AddDays(-1 * vaccine3.DaysToDelivery),
+                    DeliveredTime = DateTime.Now.Date,
+                    ETA = DateTime.Now.Date,
+                    Status = PurchaseStatus.Delivered
+                };
+                var po8 = new PurchaseOrder("FLU13214121", 3600, vaccine3.Id)
+                {
+                    Id = 8,
+                    PurchaseDate = DateTime.Now.Date.AddDays((-1 * vaccine3.DaysToDelivery) - 18),
+                    DeliveredTime = DateTime.Now.Date.AddDays(-18),
+                    ETA = DateTime.Now.Date.AddDays(-18),
+                    Status = PurchaseStatus.Delivered
+                };
+
+                var batch1 = new BatchVaccine("PF1000001", 800)
+                {
+                    Id = 1,
+                    DevelopedVaccineId = vaccine1.Id,
+                    DueDate = DateTime.Now.AddDays(33).Date,
+                    PurchaseOrderId = po3.Id
+                };
+                var batch2 = new BatchVaccine("PF1000121", 400)
+                {
+                    Id = 2,
+                    DevelopedVaccineId = vaccine1.Id,
+                    DueDate = DateTime.Now.AddDays(13).Date,
+                    PurchaseOrderId = po4.Id
+                };
+                var batch3 = new BatchVaccine("R1000001", 560)
+                {
+                    Id = 3,
+                    DevelopedVaccineId = vaccine2.Id,
+                    DueDate = DateTime.Now.AddDays(53).Date,
+                    PurchaseOrderId = po5.Id
+                };
+                var batch4 = new BatchVaccine("FLU12214001", 1500)
+                {
+                    Id = 4,
+                    DevelopedVaccineId = vaccine3.Id,
+                    DueDate = DateTime.Now.AddDays(8).Date,
+                    PurchaseOrderId = po6.Id
+                };
+                var batch5 = new BatchVaccine("FLU12214003", 3600)
+                {
+                    Id = 5,
+                    DevelopedVaccineId = vaccine3.Id,
+                    DueDate = DateTime.Now.AddDays(98).Date,
+                    PurchaseOrderId = po7.Id
+                };
+                var batch6 = new BatchVaccine("FLU13214121", 3600)
+                {
+                    Id = 6,
+                    DevelopedVaccineId = vaccine3.Id,
+                    DueDate = DateTime.Now.AddDays(-18).Date,
+                    PurchaseOrderId = po8.Id
+                };
+                batch6.checkOverdue();
+
                 modelBuilder.Entity<DevelopedVaccine>().HasData(vaccine1, vaccine2, vaccine3);
+                modelBuilder.Entity<PurchaseOrder>().HasData(po1, po2, po3, po4, po5, po6, po7, po8);
+                modelBuilder.Entity<BatchVaccine>().HasData(batch1, batch2, batch3, batch4, batch5, batch6);
                 modelBuilder.Entity<User>().HasData(admin, operador1, operador2, analista1, vacunador1);
             }
         }

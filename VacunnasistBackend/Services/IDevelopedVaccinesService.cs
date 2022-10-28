@@ -41,6 +41,8 @@ namespace VacunassistBackend.Services
                 query = query.Where(x => x.IsActive == filter.IsActive);
             if (string.IsNullOrEmpty(filter.Name) == false)
                 query = query.Where(x => x.Name.Contains(filter.Name));
+            if (filter.VaccineId.HasValue)
+                query = query.ToArray().Where(x => x.Vaccine.Id == filter.VaccineId.Value).AsQueryable();
             return query.ToArray();
         }
 

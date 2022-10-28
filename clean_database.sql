@@ -2,6 +2,15 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Appli
 DROP TABLE [dbo].[AppliedVaccines]
 GO
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[BatchVaccines]') AND type in (N'U'))
+DROP TABLE [dbo].[BatchVaccines]
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PurchaseOrders]') AND type in (N'U'))
+DROP TABLE [dbo].[PurchaseOrders]
+GO
+
+
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DevelopedVaccines]') AND type in (N'U'))
 DROP TABLE [dbo].[DevelopedVaccines]
 GO
