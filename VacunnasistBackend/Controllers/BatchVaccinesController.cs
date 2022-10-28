@@ -34,26 +34,5 @@ namespace VacunassistBackend.Controllers
         {
             return Ok(_batchVaccinesService.Get(id));
         }
-
-        [HttpPost]
-        public IActionResult New([FromBody] NewDevelopedVaccineRequest model)
-        {
-            // var alreadyExist = _developedVaccinesService.AlreadyExist(model.Name);
-            // if (alreadyExist)
-            // {
-            //     return BadRequest(new
-            //     {
-            //         message = "Ya existe una vacuna desarrollada con el mismo nombre"
-            //     });
-
-            // }
-
-            // _developedVaccinesService.New(model);
-
-            return Ok(new
-            {
-                message = "Vacuna desarrollada creada correctamente"
-            });
-        }
     }
 }

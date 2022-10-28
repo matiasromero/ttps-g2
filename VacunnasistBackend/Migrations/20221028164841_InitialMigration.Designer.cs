@@ -12,7 +12,7 @@ using VacunassistBackend.Data;
 namespace VacunnasistBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221028143415_InitialMigration")]
+    [Migration("20221028164841_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -162,7 +162,7 @@ namespace VacunnasistBackend.Migrations
                             OverdueQuantity = 0,
                             PurchaseOrderId = 7,
                             Quantity = 3600,
-                            RemainingQuantity = 3600,
+                            RemainingQuantity = 3200,
                             Status = 0
                         },
                         new
@@ -233,6 +233,53 @@ namespace VacunnasistBackend.Migrations
                         });
                 });
 
+            modelBuilder.Entity("VacunassistBackend.Entities.LocalBatchVaccine", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("BatchVaccineId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DistributionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OverdueQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Province")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RemainingQuantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BatchVaccineId");
+
+                    b.ToTable("LocalBatchVaccines", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BatchVaccineId = 5,
+                            DistributionDate = new DateTime(2022, 10, 28, 13, 48, 41, 90, DateTimeKind.Local).AddTicks(5544),
+                            OverdueQuantity = 0,
+                            Province = "Buenos Aires",
+                            Quantity = 600,
+                            RemainingQuantity = 600
+                        });
+                });
+
             modelBuilder.Entity("VacunassistBackend.Entities.PurchaseOrder", b =>
                 {
                     b.Property<int>("Id")
@@ -279,7 +326,7 @@ namespace VacunnasistBackend.Migrations
                             Id = 1,
                             BatchNumber = "FLU140012580",
                             DevelopedVaccineId = 3,
-                            PurchaseDate = new DateTime(2022, 10, 28, 11, 34, 15, 581, DateTimeKind.Local).AddTicks(5373),
+                            PurchaseDate = new DateTime(2022, 10, 28, 13, 48, 41, 90, DateTimeKind.Local).AddTicks(5446),
                             Quantity = 1400,
                             Status = 0
                         },
@@ -288,7 +335,7 @@ namespace VacunnasistBackend.Migrations
                             Id = 2,
                             BatchNumber = "FLU140012581",
                             DevelopedVaccineId = 3,
-                            PurchaseDate = new DateTime(2022, 10, 28, 11, 34, 15, 581, DateTimeKind.Local).AddTicks(5380),
+                            PurchaseDate = new DateTime(2022, 10, 28, 13, 48, 41, 90, DateTimeKind.Local).AddTicks(5452),
                             Quantity = 1200,
                             Status = 0
                         },
@@ -437,7 +484,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "other",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:RjOrsizrGp/PAHdDpXeJQfDabcfNjN3g:HewdJLH1UVzSDCXUiDlmG1FjRpkOWjPZ",
+                            PasswordHash = "1000:Imoq+B5td/RqXfViGb59o6cBxDC6rhyw:2REqRyMEXkzN0Jgu/RhcVkGFTCQ+oBtx",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "administrator",
@@ -454,7 +501,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "male",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:yifzj29Uy65beDL96KR+OcJXFVLsskOQ:/kYxHj1Uk2qh63ijrkaa7kKw5DtwKhmO",
+                            PasswordHash = "1000:QT8SThbwitPhOcSlPW1YtOWXJ+eVsKiA:+UcNd4DKEVw4lSPPahh5ksBaANZR3HWs",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "operator",
@@ -471,7 +518,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "female",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:3wsf2XcUpP1r3vCNQyXteSiikLiUizCF:t8zrIhYVywL8HLcpT5sxy4szcTIJkMzd",
+                            PasswordHash = "1000:XwLR4bpKTH/XlR9AZSuJeCjhYNKyO/cK:9QLtibTZEiQMAZR1FQ0S5IiKjPo8rOv9",
                             Pregnant = false,
                             Province = "Salta",
                             Role = "operator",
@@ -488,7 +535,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "male",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:DPde7cTqjAuxuWx5jMVhpKnLMO0S1B3Y:arVuIw7rxthR5Jnw4+CDAKlBC+oQx3nj",
+                            PasswordHash = "1000:xNNM8tMs0rLnQ0tZXB1K75GVbouRzhK/:k8e/okg/5etUscvReEAMayqPhL5F55h3",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "analyst",
@@ -505,7 +552,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "other",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:+ZeaMU7MUNpiQDEHbWOh84spQZwKKUsl:jZxVLTpm3MnSM/8Inng/ro64eJrhXan0",
+                            PasswordHash = "1000:m9q4JRvesgnM795LCsN4AEc24Vc0pdku:XII3nsTOu4f/BAWYtg8UIufl+WEn+A7A",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "vacunator",
@@ -551,6 +598,17 @@ namespace VacunnasistBackend.Migrations
                     b.Navigation("PurchaseOrder");
                 });
 
+            modelBuilder.Entity("VacunassistBackend.Entities.LocalBatchVaccine", b =>
+                {
+                    b.HasOne("VacunassistBackend.Entities.BatchVaccine", "BatchVaccine")
+                        .WithMany("Distributions")
+                        .HasForeignKey("BatchVaccineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BatchVaccine");
+                });
+
             modelBuilder.Entity("VacunassistBackend.Entities.PurchaseOrder", b =>
                 {
                     b.HasOne("VacunassistBackend.Entities.DevelopedVaccine", "DevelopedVaccine")
@@ -560,6 +618,11 @@ namespace VacunnasistBackend.Migrations
                         .IsRequired();
 
                     b.Navigation("DevelopedVaccine");
+                });
+
+            modelBuilder.Entity("VacunassistBackend.Entities.BatchVaccine", b =>
+                {
+                    b.Navigation("Distributions");
                 });
 
             modelBuilder.Entity("VacunassistBackend.Entities.User", b =>

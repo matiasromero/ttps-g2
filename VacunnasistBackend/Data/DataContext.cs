@@ -17,6 +17,7 @@ namespace VacunassistBackend.Data
         public DbSet<User> Users { get; set; }
         public DbSet<DevelopedVaccine> DevelopedVaccines { get; set; }
         public DbSet<BatchVaccine> BatchVaccines { get; set; }
+        public DbSet<LocalBatchVaccine> LocalBatchVaccines { get; set; }
         public DbSet<AppliedVaccine> AppliedVaccines { get; set; }
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
 
@@ -223,7 +224,8 @@ namespace VacunassistBackend.Data
                     Id = 5,
                     DevelopedVaccineId = vaccine3.Id,
                     DueDate = DateTime.Now.AddDays(98).Date,
-                    PurchaseOrderId = po7.Id
+                    PurchaseOrderId = po7.Id,
+                    RemainingQuantity = 3200
                 };
                 var batch6 = new BatchVaccine("FLU13214121", 3600)
                 {
@@ -234,9 +236,15 @@ namespace VacunassistBackend.Data
                 };
                 batch6.checkOverdue();
 
+                var localBatch1 = new LocalBatchVaccine(600, Province.BuenosAires, batch5.Id)
+                {
+                    Id = 1
+                };
+
                 modelBuilder.Entity<DevelopedVaccine>().HasData(vaccine1, vaccine2, vaccine3);
                 modelBuilder.Entity<PurchaseOrder>().HasData(po1, po2, po3, po4, po5, po6, po7, po8);
                 modelBuilder.Entity<BatchVaccine>().HasData(batch1, batch2, batch3, batch4, batch5, batch6);
+                modelBuilder.Entity<LocalBatchVaccine>().HasData(localBatch1);
                 modelBuilder.Entity<User>().HasData(admin, operador1, operador2, analista1, vacunador1);
             }
         }
