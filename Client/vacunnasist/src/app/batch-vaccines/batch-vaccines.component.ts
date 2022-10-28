@@ -154,8 +154,4 @@ export class BatchVaccinesComponent implements OnInit {
 
     this.applyFilter();
   }
-
-  addVaccine() {
-    this.router.navigate(['batch-vaccines', 'new']);
-  }
 }
