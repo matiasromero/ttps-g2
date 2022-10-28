@@ -11,7 +11,7 @@ GO
 BEGIN TRANSACTION;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221027002345_InitialMigration')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221028143415_InitialMigration')
 BEGIN
     CREATE TABLE [DevelopedVaccines] (
         [Id] int NOT NULL IDENTITY,
@@ -24,7 +24,7 @@ BEGIN
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221027002345_InitialMigration')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221028143415_InitialMigration')
 BEGIN
     CREATE TABLE [Users] (
         [Id] int NOT NULL IDENTITY,
@@ -46,7 +46,24 @@ BEGIN
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221027002345_InitialMigration')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221028143415_InitialMigration')
+BEGIN
+    CREATE TABLE [PurchaseOrders] (
+        [Id] int NOT NULL IDENTITY,
+        [PurchaseDate] datetime2 NOT NULL,
+        [ETA] datetime2 NULL,
+        [DeliveredTime] datetime2 NULL,
+        [BatchNumber] nvarchar(20) NOT NULL,
+        [DevelopedVaccineId] int NOT NULL,
+        [Quantity] int NOT NULL,
+        [Status] int NOT NULL,
+        CONSTRAINT [PK_PurchaseOrders] PRIMARY KEY ([Id]),
+        CONSTRAINT [FK_PurchaseOrders_DevelopedVaccines_DevelopedVaccineId] FOREIGN KEY ([DevelopedVaccineId]) REFERENCES [DevelopedVaccines] ([Id]) ON DELETE CASCADE
+    );
+END;
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221028143415_InitialMigration')
 BEGIN
     CREATE TABLE [AppliedVaccines] (
         [Id] int NOT NULL IDENTITY,
@@ -63,7 +80,26 @@ BEGIN
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221027002345_InitialMigration')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221028143415_InitialMigration')
+BEGIN
+    CREATE TABLE [BatchVaccines] (
+        [Id] int NOT NULL IDENTITY,
+        [DueDate] datetime2 NOT NULL,
+        [BatchNumber] nvarchar(20) NOT NULL,
+        [DevelopedVaccineId] int NOT NULL,
+        [PurchaseOrderId] int NOT NULL,
+        [Quantity] int NOT NULL,
+        [RemainingQuantity] int NOT NULL,
+        [OverdueQuantity] int NOT NULL,
+        [Status] int NOT NULL,
+        CONSTRAINT [PK_BatchVaccines] PRIMARY KEY ([Id]),
+        CONSTRAINT [FK_BatchVaccines_DevelopedVaccines_DevelopedVaccineId] FOREIGN KEY ([DevelopedVaccineId]) REFERENCES [DevelopedVaccines] ([Id]),
+        CONSTRAINT [FK_BatchVaccines_PurchaseOrders_PurchaseOrderId] FOREIGN KEY ([PurchaseOrderId]) REFERENCES [PurchaseOrders] ([Id]) ON DELETE CASCADE
+    );
+END;
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221028143415_InitialMigration')
 BEGIN
     IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'DaysToDelivery', N'IsActive', N'Name', N'VaccineText') AND [object_id] = OBJECT_ID(N'[DevelopedVaccines]'))
         SET IDENTITY_INSERT [DevelopedVaccines] ON;
@@ -76,37 +112,101 @@ BEGIN
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221027002345_InitialMigration')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221028143415_InitialMigration')
 BEGIN
     IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'Address', N'BirthDate', N'DNI', N'Email', N'FullName', N'Gender', N'HealthWorker', N'IsActive', N'PasswordHash', N'Pregnant', N'Province', N'Role', N'UserName') AND [object_id] = OBJECT_ID(N'[Users]'))
         SET IDENTITY_INSERT [Users] ON;
     EXEC(N'INSERT INTO [Users] ([Id], [Address], [BirthDate], [DNI], [Email], [FullName], [Gender], [HealthWorker], [IsActive], [PasswordHash], [Pregnant], [Province], [Role], [UserName])
-    VALUES (1, N''Calle Falsa 1234, La Plata'', ''2022-10-26T00:00:00.0000000-03:00'', N''11111111'', N''admin@vacunassist.com'', N''Administrador'', N''other'', CAST(0 AS bit), CAST(1 AS bit), N''1000:AH8kbImBb/pxOQkaZgQb2u5tKLv5v80h:qH2OM4aBB+pqNQaWyzZewsC6LHGmcPss'', CAST(0 AS bit), N''Buenos Aires'', N''administrator'', N''Admin''),
-    (2, N''Calle Falsa 2345, La Plata'', ''2022-10-26T00:00:00.0000000-03:00'', N''22345678'', N''operador1@vacunassist.com'', N''Luis Gutierrez'', N''male'', CAST(0 AS bit), CAST(1 AS bit), N''1000:/Mcy0GamTI832cnk6wjGAJKbDYEBPMnX:XaWG9zaWcqhUCcHZYiHZoePeyas1P9v3'', CAST(0 AS bit), N''Buenos Aires'', N''operator'', N''Operador1''),
-    (3, N''Calle Falsa 9874, Salta'', ''2022-10-26T00:00:00.0000000-03:00'', N''89785451'', N''estefania@vacunassist.com'', N''Estefania Borzi'', N''female'', CAST(0 AS bit), CAST(1 AS bit), N''1000:ey6xcCsi14qUuT2Sd7hZqX/G3mjWggh5:0q4QVJFpt1OiKqmYqHwjoulrppOPfVW1'', CAST(0 AS bit), N''Salta'', N''operator'', N''Operador2''),
-    (4, N''Calle Falsa 9874, Salta'', ''2022-10-26T00:00:00.0000000-03:00'', N''89785451'', N''jr@vacunassist.com'', N''Jose Luis Rodriguez'', N''male'', CAST(0 AS bit), CAST(1 AS bit), N''1000:7YzQIgKRQ99GvYyvPDWACxlGL/h2pD43:n4cJewVaNsQYhR/XFICPV/lgTWr1PiXW'', CAST(0 AS bit), N''Buenos Aires'', N''analyst'', N''Analista1''),
-    (5, N''Calle Falsa 4567, La Plata'', ''2022-10-26T00:00:00.0000000-03:00'', N''11111111'', N''vacunador@email.com'', N''Vacunador'', N''other'', CAST(0 AS bit), CAST(1 AS bit), N''1000:XsSVAtK31XwsaW22UlRr3LgaA+3lo+nb:OgPbTqOdK3YGKHUxnWXJ4kTIc+Gjd4tm'', CAST(0 AS bit), N''Buenos Aires'', N''vacunator'', N''Vacunador'')');
+    VALUES (1, N''Calle Falsa 1234, La Plata'', ''2022-10-28T00:00:00.0000000-03:00'', N''11111111'', N''admin@vacunassist.com'', N''Administrador'', N''other'', CAST(0 AS bit), CAST(1 AS bit), N''1000:RjOrsizrGp/PAHdDpXeJQfDabcfNjN3g:HewdJLH1UVzSDCXUiDlmG1FjRpkOWjPZ'', CAST(0 AS bit), N''Buenos Aires'', N''administrator'', N''Admin''),
+    (2, N''Calle Falsa 2345, La Plata'', ''2022-10-28T00:00:00.0000000-03:00'', N''22345678'', N''operador1@vacunassist.com'', N''Luis Gutierrez'', N''male'', CAST(0 AS bit), CAST(1 AS bit), N''1000:yifzj29Uy65beDL96KR+OcJXFVLsskOQ:/kYxHj1Uk2qh63ijrkaa7kKw5DtwKhmO'', CAST(0 AS bit), N''Buenos Aires'', N''operator'', N''Operador1''),
+    (3, N''Calle Falsa 9874, Salta'', ''2022-10-28T00:00:00.0000000-03:00'', N''89785451'', N''estefania@vacunassist.com'', N''Estefania Borzi'', N''female'', CAST(0 AS bit), CAST(1 AS bit), N''1000:3wsf2XcUpP1r3vCNQyXteSiikLiUizCF:t8zrIhYVywL8HLcpT5sxy4szcTIJkMzd'', CAST(0 AS bit), N''Salta'', N''operator'', N''Operador2''),
+    (4, N''Calle Falsa 9874, Salta'', ''2022-10-28T00:00:00.0000000-03:00'', N''89785451'', N''jr@vacunassist.com'', N''Jose Luis Rodriguez'', N''male'', CAST(0 AS bit), CAST(1 AS bit), N''1000:DPde7cTqjAuxuWx5jMVhpKnLMO0S1B3Y:arVuIw7rxthR5Jnw4+CDAKlBC+oQx3nj'', CAST(0 AS bit), N''Buenos Aires'', N''analyst'', N''Analista1''),
+    (5, N''Calle Falsa 4567, La Plata'', ''2022-10-28T00:00:00.0000000-03:00'', N''11111111'', N''vacunador@email.com'', N''Vacunador'', N''other'', CAST(0 AS bit), CAST(1 AS bit), N''1000:+ZeaMU7MUNpiQDEHbWOh84spQZwKKUsl:jZxVLTpm3MnSM/8Inng/ro64eJrhXan0'', CAST(0 AS bit), N''Buenos Aires'', N''vacunator'', N''Vacunador'')');
     IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'Address', N'BirthDate', N'DNI', N'Email', N'FullName', N'Gender', N'HealthWorker', N'IsActive', N'PasswordHash', N'Pregnant', N'Province', N'Role', N'UserName') AND [object_id] = OBJECT_ID(N'[Users]'))
         SET IDENTITY_INSERT [Users] OFF;
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221027002345_InitialMigration')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221028143415_InitialMigration')
+BEGIN
+    IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'BatchNumber', N'DeliveredTime', N'DevelopedVaccineId', N'ETA', N'PurchaseDate', N'Quantity', N'Status') AND [object_id] = OBJECT_ID(N'[PurchaseOrders]'))
+        SET IDENTITY_INSERT [PurchaseOrders] ON;
+    EXEC(N'INSERT INTO [PurchaseOrders] ([Id], [BatchNumber], [DeliveredTime], [DevelopedVaccineId], [ETA], [PurchaseDate], [Quantity], [Status])
+    VALUES (1, N''FLU140012580'', NULL, 3, NULL, ''2022-10-28T11:34:15.5815373-03:00'', 1400, 0),
+    (2, N''FLU140012581'', NULL, 3, NULL, ''2022-10-28T11:34:15.5815380-03:00'', 1200, 0),
+    (3, N''PF1000001'', ''2022-10-28T00:00:00.0000000-03:00'', 1, ''2022-10-28T00:00:00.0000000-03:00'', ''2022-09-28T00:00:00.0000000-03:00'', 800, 2),
+    (4, N''PF1000121'', ''2022-10-28T00:00:00.0000000-03:00'', 1, ''2022-10-28T00:00:00.0000000-03:00'', ''2022-09-28T00:00:00.0000000-03:00'', 400, 2),
+    (5, N''R1000001'', ''2022-10-28T00:00:00.0000000-03:00'', 2, ''2022-10-28T00:00:00.0000000-03:00'', ''2022-08-29T00:00:00.0000000-03:00'', 560, 2),
+    (6, N''FLU12214001'', ''2022-10-28T00:00:00.0000000-03:00'', 3, ''2022-10-28T00:00:00.0000000-03:00'', ''2022-10-13T00:00:00.0000000-03:00'', 1500, 2),
+    (7, N''FLU12214003'', ''2022-10-28T00:00:00.0000000-03:00'', 3, ''2022-10-28T00:00:00.0000000-03:00'', ''2022-10-13T00:00:00.0000000-03:00'', 3600, 2),
+    (8, N''FLU13214121'', ''2022-10-10T00:00:00.0000000-03:00'', 3, ''2022-10-10T00:00:00.0000000-03:00'', ''2022-09-25T00:00:00.0000000-03:00'', 3600, 2)');
+    IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'BatchNumber', N'DeliveredTime', N'DevelopedVaccineId', N'ETA', N'PurchaseDate', N'Quantity', N'Status') AND [object_id] = OBJECT_ID(N'[PurchaseOrders]'))
+        SET IDENTITY_INSERT [PurchaseOrders] OFF;
+END;
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221028143415_InitialMigration')
+BEGIN
+    IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'BatchNumber', N'DevelopedVaccineId', N'DueDate', N'OverdueQuantity', N'PurchaseOrderId', N'Quantity', N'RemainingQuantity', N'Status') AND [object_id] = OBJECT_ID(N'[BatchVaccines]'))
+        SET IDENTITY_INSERT [BatchVaccines] ON;
+    EXEC(N'INSERT INTO [BatchVaccines] ([Id], [BatchNumber], [DevelopedVaccineId], [DueDate], [OverdueQuantity], [PurchaseOrderId], [Quantity], [RemainingQuantity], [Status])
+    VALUES (1, N''PF1000001'', 1, ''2022-11-30T00:00:00.0000000-03:00'', 0, 3, 800, 800, 0),
+    (2, N''PF1000121'', 1, ''2022-11-10T00:00:00.0000000-03:00'', 0, 4, 400, 400, 0),
+    (3, N''R1000001'', 2, ''2022-12-20T00:00:00.0000000-03:00'', 0, 5, 560, 560, 0),
+    (4, N''FLU12214001'', 3, ''2022-11-05T00:00:00.0000000-03:00'', 0, 6, 1500, 1500, 0),
+    (5, N''FLU12214003'', 3, ''2023-02-03T00:00:00.0000000-03:00'', 0, 7, 3600, 3600, 0),
+    (6, N''FLU13214121'', 3, ''2022-10-10T00:00:00.0000000-03:00'', 3600, 8, 3600, 0, 1)');
+    IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'BatchNumber', N'DevelopedVaccineId', N'DueDate', N'OverdueQuantity', N'PurchaseOrderId', N'Quantity', N'RemainingQuantity', N'Status') AND [object_id] = OBJECT_ID(N'[BatchVaccines]'))
+        SET IDENTITY_INSERT [BatchVaccines] OFF;
+END;
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221028143415_InitialMigration')
 BEGIN
     CREATE INDEX [IX_AppliedVaccines_UserId] ON [AppliedVaccines] ([UserId]);
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221027002345_InitialMigration')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221028143415_InitialMigration')
 BEGIN
     CREATE INDEX [IX_AppliedVaccines_VaccineId] ON [AppliedVaccines] ([VaccineId]);
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221027002345_InitialMigration')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221028143415_InitialMigration')
+BEGIN
+    CREATE UNIQUE INDEX [IX_BatchVaccines_BatchNumber] ON [BatchVaccines] ([BatchNumber]);
+END;
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221028143415_InitialMigration')
+BEGIN
+    CREATE INDEX [IX_BatchVaccines_DevelopedVaccineId] ON [BatchVaccines] ([DevelopedVaccineId]);
+END;
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221028143415_InitialMigration')
+BEGIN
+    CREATE INDEX [IX_BatchVaccines_PurchaseOrderId] ON [BatchVaccines] ([PurchaseOrderId]);
+END;
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221028143415_InitialMigration')
+BEGIN
+    CREATE UNIQUE INDEX [IX_PurchaseOrders_BatchNumber] ON [PurchaseOrders] ([BatchNumber]);
+END;
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221028143415_InitialMigration')
+BEGIN
+    CREATE INDEX [IX_PurchaseOrders_DevelopedVaccineId] ON [PurchaseOrders] ([DevelopedVaccineId]);
+END;
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221028143415_InitialMigration')
 BEGIN
     INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-    VALUES (N'20221027002345_InitialMigration', N'6.0.4');
+    VALUES (N'20221028143415_InitialMigration', N'6.0.4');
 END;
 GO
 
