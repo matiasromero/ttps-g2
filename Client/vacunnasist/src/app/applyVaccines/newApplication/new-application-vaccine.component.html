@@ -1,0 +1,176 @@
+<div class="card">
+  <h4 class="card-header">Nueva Aplicación de Vacuna</h4>
+  <div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="dni" class="required">DNI</label>
+        <input
+          type="number"
+          formControlName="dni"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.dni.errors }"
+          (keyup)="onKeyUp($event)"
+        />
+
+        <div
+          *ngIf="
+            f.dni.invalid &&
+            (submitted || f.dni.dirty || f.dni.touched)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="f.dni.errors?.['required']">
+            El DNI es requerido.
+          </div>
+          <div *ngIf="f.dni.errors?.['maxlength']">
+            El DNI debe contener menos de 20 caracteres.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="name" class="required">Nombre</label>
+        <input
+          type="text"
+          formControlName="name"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
+          readonly
+        />
+
+        <div
+          *ngIf="
+            f.name.invalid &&
+            (submitted || f.name.dirty || f.name.touched)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="f.name.errors?.['required']">
+            El nombre es requerido.
+          </div>
+          <div *ngIf="f.name.errors?.['maxlength']">
+            El nombre debe contener menos de 100 caracteres.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="surname" class="required">Apellido</label>
+        <input
+          type="text"
+          formControlName="surname"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.surname.errors }"
+          readonly
+        />
+
+        <div
+          *ngIf="
+            f.surname.invalid &&
+            (submitted || f.surname.dirty || f.surname.touched)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="f.surname.errors?.['required']">
+            El apellido es requerido.
+          </div>
+          <div *ngIf="f.surname.errors?.['maxlength']">
+            El apellido debe contener menos de 100 caracteres.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="gender" class="required">Genero</label>
+        <input
+          type="text"
+          formControlName="gender"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.gender.errors }"
+          readonly
+        />
+
+        <div
+          *ngIf="
+            f.gender.invalid &&
+            (submitted || f.gender.dirty || f.gender.touched)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="f.gender.errors?.['required']">
+            El género es requerido.
+          </div>     
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="birthDate" class="required">Fecha de nacimiento</label>
+        <input
+          type="text"
+          formControlName="birthDate"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.birthDate.errors }"
+          readonly
+        />
+
+        <div
+          *ngIf="
+            f.birthDate.invalid &&
+            (submitted || f.surname.dirty || f.birthDate.touched)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="f.birthDate.errors?.['required']">
+            La fecha de nacimiento es requerida.
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="province" class="required">Jurisdicción</label>
+        <input
+          type="text"
+          formControlName="province"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.province.errors }"
+          readonly
+        />
+
+        <div
+          *ngIf="
+            f.province.invalid &&
+            (submitted || f.province.dirty || f.province.touched)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="f.province.errors?.['required']">
+            La jurisdicción es requerida.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <mat-checkbox formControlName="pregnant" class="form-control" [disabled]="true">Embarazada</mat-checkbox>
+      </div>
+
+      <div class="form-group">
+        <mat-checkbox formControlName="healthWorker" class="form-control" [disabled]="true">Personal de salud</mat-checkbox>
+      </div>
+
+      <!--ACA DEBRIA IR EL SELECTOR DE VACUNAS PARA ELEGIR ENTRE LAS DISPONIBLES-->
+      
+      <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">
+          <span
+            *ngIf="loading"
+            class="spinner-border spinner-border-sm mr-1"
+          ></span>
+          Confirmar
+        </button>
+        <a
+          routerLink="../../apply-vaccines"
+          class="btn btn-link"
+          >Cancelar</a
+        >
+      </div>
+    </form>
+  </div>
+</div>

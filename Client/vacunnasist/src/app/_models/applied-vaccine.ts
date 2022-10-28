@@ -4,8 +4,9 @@ export class AppliedVaccine {
     id!: number;
     userId!: number;
     vaccineId!: number;
-    vaccine!:DevelopedVaccine;
+    batchNumber!: string;
+    vaccine!: DevelopedVaccine;
     appliedDate!: Date;
-    appliedBy?: String;
+    appliedBy?: string;
     comment?: string;
 }

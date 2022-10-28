@@ -13,6 +13,10 @@ const batchVaccinesModule = () =>
   import('./batch-vaccines/batch-vaccines.module').then(
     (x) => x.BatchVaccinesModule
   );
+const applyVaccinesModule = () =>
+  import('./applyVaccines/applyVaccines.module').then(
+    (x) => x.ApplyVaccinesModule
+  );
 const purchaseOrdersModule = () =>
   import('./purchase-orders/purchase-orders.module').then(
     (x) => x.PurchaseOrdersModule
@@ -51,6 +55,13 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {
       roles: ['operator'],
+    },
+  },
+  { path: 'apply-vaccines', 
+    loadChildren: applyVaccinesModule, 
+    canActivate: [AuthGuard], 
+    data: {
+      roles: ['vacunator'],
     },
   },
   // otherwise redirect to home
