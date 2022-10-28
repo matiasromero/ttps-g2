@@ -13,6 +13,10 @@ const batchVaccinesModule = () =>
   import('./batch-vaccines/batch-vaccines.module').then(
     (x) => x.BatchVaccinesModule
   );
+const purchaseOrdersModule = () =>
+  import('./purchase-orders/purchase-orders.module').then(
+    (x) => x.PurchaseOrdersModule
+  );
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -25,11 +29,29 @@ const routes: Routes = [
       roles: ['administrator'],
     },
   },
-  { path: 'vaccines', loadChildren: vaccinesModule, canActivate: [AuthGuard] },
+  {
+    path: 'vaccines',
+    loadChildren: vaccinesModule,
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['operator', 'analyst'],
+    },
+  },
   {
     path: 'batch-vaccines',
     loadChildren: batchVaccinesModule,
     canActivate: [AuthGuard],
+    data: {
+      roles: ['operator', 'analyst'],
+    },
+  },
+  {
+    path: 'purchase-orders',
+    loadChildren: purchaseOrdersModule,
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['operator'],
+    },
   },
   // otherwise redirect to home
   { path: '**', redirectTo: '' },

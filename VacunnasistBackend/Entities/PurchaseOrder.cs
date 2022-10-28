@@ -17,7 +17,7 @@ namespace VacunassistBackend.Entities
         public int Id { get; set; }
         public DateTime PurchaseDate { get; set; }
         public DateTime? ETA { get; set; }
-        public DateTime? ArrivedTime { get; set; }
+        public DateTime? DeliveredTime { get; set; }
         private string _batchNumber;
         public string BatchNumber => _batchNumber;
         public DevelopedVaccine DevelopedVaccine { get; set; }
@@ -33,9 +33,9 @@ namespace VacunassistBackend.Entities
                 this.ETA = PurchaseDate.AddDays(DevelopedVaccine.DaysToDelivery);
             }
 
-            if (newStatus == PurchaseStatus.Confirmed)
+            if (newStatus == PurchaseStatus.Delivered)
             {
-                this.ArrivedTime = DateTime.Now;
+                this.DeliveredTime = DateTime.Now;
             }
         }
     }
@@ -44,6 +44,6 @@ namespace VacunassistBackend.Entities
     {
         Pending, // Pendiente
         Confirmed,  // Confirmada
-        Arrived // Entregada
+        Delivered // Entregada
     }
 }

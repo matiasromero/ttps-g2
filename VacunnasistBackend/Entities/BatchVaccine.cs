@@ -23,8 +23,8 @@ namespace VacunassistBackend.Entities
         public DevelopedVaccine DevelopedVaccine { get; set; }
         public int DevelopedVaccineId { get; set; }
 
-        // public PurchaseOrder PurchaseOrder { get; set; }
-        // public int PurchaseOrderId { get; set; }
+        public PurchaseOrder PurchaseOrder { get; set; }
+        public int PurchaseOrderId { get; set; }
 
         public int Quantity { get; set; }
         public int RemainingQuantity { get; set; }

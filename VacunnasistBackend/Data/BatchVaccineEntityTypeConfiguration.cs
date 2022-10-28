@@ -9,8 +9,8 @@ namespace VacunassistBackend.Data
         public void Configure(EntityTypeBuilder<BatchVaccine> builder)
         {
             builder.ToTable("BatchVaccines");
-            builder.HasOne(b => b.DevelopedVaccine).WithMany().IsRequired();
-            // builder.HasOne(b => b.PurchaseOrder).U.WithMany().IsRequired();
+            builder.HasOne(b => b.DevelopedVaccine).WithMany().OnDelete(DeleteBehavior.NoAction).IsRequired();
+            builder.HasOne(b => b.PurchaseOrder).WithMany().IsRequired();
             builder.HasIndex(b => b.BatchNumber).IsUnique();
             builder.Property(b => b.BatchNumber).HasField("_batchNumber").HasMaxLength(20).IsRequired();
         }
