@@ -18,6 +18,7 @@ namespace VacunassistBackend.Data
         public DbSet<DevelopedVaccine> DevelopedVaccines { get; set; }
         public DbSet<BatchVaccine> BatchVaccines { get; set; }
         public DbSet<AppliedVaccine> AppliedVaccines { get; set; }
+        public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
 
         #region Required
         protected override void OnModelCreating(ModelBuilder modelBuilder)

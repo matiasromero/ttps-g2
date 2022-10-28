@@ -36,6 +36,7 @@ namespace VacunassistBackend.Services
 
         public DevelopedVaccine[] GetAll(DevelopedVaccinesFilterRequest filter)
         {
+            var query = _context.DevelopedVaccines.AsQueryable();
             if (filter.IsActive.HasValue)
                 query = query.Where(x => x.IsActive == filter.IsActive);
             if (string.IsNullOrEmpty(filter.Name) == false)
