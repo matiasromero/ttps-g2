@@ -63,7 +63,7 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="form-group">
+          <div class="form-group" *ngIf="user && user.role == 'operator'">
             <mat-form-field appearance="fill">
               <mat-label>Jurisdicción</mat-label>
               <mat-select formControlName="province">
@@ -129,7 +129,9 @@
             <th scope="col"># Lote</th>
             <th scope="col">Disponible</th>
             <th scope="col">Vencimiento</th>
-            <th scope="col">Jurisdicción</th>
+            <th scope="col" *ngIf="user && user.role == 'operator'">
+              Jurisdicción
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -159,7 +161,7 @@
             <td>
               {{ v.batchVaccine.dueDate | date: "dd/MM/yyyy" }}
             </td>
-            <td>
+            <td *ngIf="user && user.role == 'operator'">
               {{ v.province }}
             </td>
           </tr>

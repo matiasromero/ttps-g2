@@ -1,3 +1,4 @@
+import { AccountService } from 'src/app/_services/account.service';
 import { Vaccine } from './../_models/vaccine';
 import { DevelopedVaccine } from './../_models/developed-vaccine';
 import { Component, OnInit } from '@angular/core';
@@ -11,6 +12,7 @@ import { DevelopedVaccinesFilter } from '../_models/filters/developed-vaccines-f
 import { LocalBatchVaccineService } from '../_services/local-batch-vaccine.service';
 import { LocalBatchVaccine } from '../_models/local-batch-vaccine';
 import { LocalBatchVaccinesFilter } from '../_models/filters/local-batch-vaccines-filter';
+import { User } from '../_models/user';
 
 @Component({ templateUrl: 'local-batch-vaccines.component.html' })
 export class LocalBatchVaccinesComponent implements OnInit {
@@ -22,11 +24,14 @@ export class LocalBatchVaccinesComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private accountService: AccountService,
     private localBatchVaccineService: LocalBatchVaccineService,
     private vaccineService: VaccinesService,
     private developedVaccineService: DevelopedVaccineService,
     private alertService: AlertService
   ) {
+    this.accountService.user.subscribe((x) => (this.user = <User>x));
+
     this.formFilter = this.formBuilder.group({
       batchNumber: ['', [Validators.maxLength(20)]],
       vaccineId: [''],
@@ -62,6 +67,7 @@ export class LocalBatchVaccinesComponent implements OnInit {
   public filter = new LocalBatchVaccinesFilter();
   public vaccines: Vaccine[] = [];
   public developedVaccines: DevelopedVaccine[] = [];
+  user?: User;
 
   ngOnInit() {
     let vaccinesFilter = new VaccinesFilter();

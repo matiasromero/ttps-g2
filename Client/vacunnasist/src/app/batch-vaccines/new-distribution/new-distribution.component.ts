@@ -12,9 +12,7 @@ import {
 import { AlertService } from 'src/app/_services/alert.service';
 import { Vaccine } from 'src/app/_models/vaccine';
 import { VaccinesFilter } from 'src/app/_models/filters/vaccines-filter';
-import { PurchaseOrdersService } from 'src/app/_services/purchase-orders.service';
 import { DevelopedVaccine } from 'src/app/_models/developed-vaccine';
-import { DevelopedVaccinesFilter } from 'src/app/_models/filters/developed-vaccines-filter';
 
 @Component({ templateUrl: 'new-distribution.component.html' })
 export class NewDistributionOrderComponent implements OnInit {

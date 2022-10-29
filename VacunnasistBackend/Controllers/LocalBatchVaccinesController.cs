@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using VacunassistBackend.Entities;
 using VacunassistBackend.Helpers;
 using VacunassistBackend.Models.Filters;
 using VacunassistBackend.Services;
@@ -21,6 +22,11 @@ namespace VacunassistBackend.Controllers
         [HttpGet]
         public IActionResult GetAll([FromQuery] LocalBatchVaccinesFilterRequest filter)
         {
+            var user = (User)HttpContext.Items["User"];
+            if (user.Role == UserRoles.Analyst)
+            {
+                filter.Province = user.Province;
+            }
             return Ok(new
             {
                 vaccines = _localBatchVaccinesService.GetAll(filter)
