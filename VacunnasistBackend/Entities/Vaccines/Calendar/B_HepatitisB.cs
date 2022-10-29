@@ -1,3 +1,5 @@
+using VacunnasistBackend.Entities;
+
 namespace VacunassistBackend.Entities.Vaccines.Calendar;
 
 public class B_HepatitisB : Vaccine
@@ -13,8 +15,8 @@ public class B_HepatitisB : Vaccine
         }; // se puede llegar a dar las 4, si cumplio 11 años, arranca con las 3 dosis
     }
 
-    protected override bool internalValidation()
+    protected override int? internalValidation(Patient patient)
     {
-        return true;
+        return null;
     }
 }

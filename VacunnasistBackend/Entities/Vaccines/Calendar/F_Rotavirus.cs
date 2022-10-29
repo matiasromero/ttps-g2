@@ -1,3 +1,5 @@
+using VacunnasistBackend.Entities;
+
 namespace VacunassistBackend.Entities.Vaccines.Calendar;
 
 public class F_Rotavirus : Vaccine
@@ -11,8 +13,8 @@ public class F_Rotavirus : Vaccine
         };
     }
 
-    protected override bool internalValidation()
+    protected override int? internalValidation(Patient patient)
     {
-        return true;
+        return null;
     }
 }

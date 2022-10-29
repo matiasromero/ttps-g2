@@ -1,3 +1,5 @@
+using VacunnasistBackend.Entities;
+
 namespace VacunassistBackend.Entities.Vaccines.Calendar;
 
 public class K_TripleBacteriana : Vaccine
@@ -10,8 +12,8 @@ public class K_TripleBacteriana : Vaccine
         };
     }
 
-    protected override bool internalValidation()
+    protected override int? internalValidation(Patient patient)
     {
-        return true;
+        return null;
     }
 }

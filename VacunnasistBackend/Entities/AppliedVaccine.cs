@@ -5,14 +5,14 @@ namespace VacunassistBackend.Entities
 {
     public class AppliedVaccine
     {
-        public AppliedVaccine() 
+        public AppliedVaccine()
         {
             AppliedDate = DateTime.Now.Date;
         }
 
         [Key]
         public int Id { get; set; }
-        public DateTime? AppliedDate { get; set; }
+        public DateTime AppliedDate { get; set; }
 
         public int PatientId { get; set; }
         public Patient Patient { get; set; }
