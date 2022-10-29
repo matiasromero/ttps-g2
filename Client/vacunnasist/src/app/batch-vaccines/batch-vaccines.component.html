@@ -1,5 +1,5 @@
 <div class="card">
-  <h4 class="card-header">Lote de vacunas</h4>
+  <h4 class="card-header">Lotes de vacunas</h4>
   <div class="card-body">
     <mat-accordion>
       <mat-expansion-panel
@@ -103,7 +103,10 @@
           </tr>
           <tr
             *ngFor="let v of batchVaccines"
-            [ngClass]="{ overdueRow: v.status == 1 }"
+            [ngClass]="{
+              noStock: v.remainingQuantity == 0,
+              overdueRow: v.status == 1
+            }"
             class="hoverable-row"
             (click)="select(v)"
           >
@@ -125,6 +128,15 @@
           </tr>
         </tbody>
       </table>
+      <div class="text-center">
+        <button
+          type="button"
+          (click)="newDistribution()"
+          class="btn btn-primary"
+        >
+          Distribuir
+        </button>
+      </div>
     </div>
   </div>
 </div>

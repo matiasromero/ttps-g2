@@ -1,7 +1,7 @@
 <div class="card">
   <h4 class="card-header">Vacunas aplicadas</h4>
   <div class="card-body">
-   <!-- <mat-accordion>
+    <!-- <mat-accordion>
       <mat-expansion-panel
         (opened)="panelOpenState = true"
         (closed)="panelOpenState = false"
@@ -75,7 +75,7 @@
           <tr>
             <th scope="col">DNI</th>
             <th scope="col">Nombre</th>
-            <th scope="col">Provincia</th>
+            <th scope="col">Jurisdicción</th>
             <th scope="col">Fecha de aplicación</th>
             <th scope="col">Vacuna</th>
             <th scope="col">Vacuna desarrollada</th>
@@ -115,7 +115,11 @@
         </tbody>
       </table>
       <div class="text-right">
-        <button type="button" (click)="addApplication()" class="btn btn-primary">
+        <button
+          type="button"
+          (click)="addApplication()"
+          class="btn btn-primary"
+        >
           Realizar nueva aplicación
         </button>
       </div>

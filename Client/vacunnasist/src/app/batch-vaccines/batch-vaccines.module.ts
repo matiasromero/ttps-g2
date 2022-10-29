@@ -25,11 +25,13 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_DATE_FORMATS } from '../account/account.module';
 import { MatSelectModule } from '@angular/material/select';
 import { BatchVaccinesComponent } from './batch-vaccines.component';
+import { NewDistributionOrderComponent } from './new-distribution/new-distribution.component';
 
 @NgModule({
   declarations: [
     BatchVaccinesComponent,
     ViewBatchVaccineComponent,
+    NewDistributionOrderComponent,
     BatchVaccineStatusPipe,
   ],
   imports: [

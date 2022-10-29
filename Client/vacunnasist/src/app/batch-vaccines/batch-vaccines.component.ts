@@ -158,4 +158,8 @@ export class BatchVaccinesComponent implements OnInit {
   select(batch: BatchVaccine) {
     this.router.navigate(['batch-vaccines', batch.id]);
   }
+
+  newDistribution() {
+    this.router.navigate(['batch-vaccines', 'new-distribution']);
+  }
 }

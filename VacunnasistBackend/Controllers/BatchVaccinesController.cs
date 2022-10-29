@@ -34,5 +34,17 @@ namespace VacunassistBackend.Controllers
         {
             return Ok(_batchVaccinesService.Get(id));
         }
+
+        [HttpPost]
+        [Route("distribution")]
+        public IActionResult New([FromBody] NewDistributionRequest model)
+        {
+            var summary = _batchVaccinesService.NewDistribution(model);
+
+            return Ok(new
+            {
+                message = summary
+            });
+        }
     }
 }
