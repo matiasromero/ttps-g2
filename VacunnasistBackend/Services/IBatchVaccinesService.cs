@@ -41,7 +41,9 @@ namespace VacunassistBackend.Services
 
             query = query.Where(x => allDevVaccines.Contains(x.DevelopedVaccine));
 
-            return query.ToArray();
+            var result = query.Include(x => x.Distributions).ToArray();
+
+            return result;
         }
 
         public bool New(NewBatchVaccineRequest model)
@@ -73,7 +75,7 @@ namespace VacunassistBackend.Services
 
         public BatchVaccine Get(int id)
         {
-            return _context.BatchVaccines.Include(x => x.DevelopedVaccine).First(x => x.Id == id);
+            return _context.BatchVaccines.Include(x => x.DevelopedVaccine).Include(x => x.Distributions).First(x => x.Id == id);
         }
 
         public bool Exist(int id)

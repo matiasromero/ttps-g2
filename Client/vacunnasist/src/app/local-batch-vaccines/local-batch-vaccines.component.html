@@ -1,5 +1,5 @@
 <div class="card">
-  <h4 class="card-header">Lote de vacunas</h4>
+  <h4 class="card-header">Lotes provinciales</h4>
   <div class="card-body">
     <mat-accordion>
       <mat-expansion-panel
@@ -19,6 +19,7 @@
               <mat-chip *ngIf="filter.developedVaccineId"
                 >Por vacuna desarrollada</mat-chip
               >
+              <mat-chip *ngIf="filter.province">{{ filter.province }}</mat-chip>
             </mat-chip-list>
           </mat-panel-description>
         </mat-expansion-panel-header>
@@ -62,6 +63,41 @@
               </mat-select>
             </mat-form-field>
           </div>
+          <div class="form-group">
+            <mat-form-field appearance="fill">
+              <mat-label>Provincia</mat-label>
+              <mat-select formControlName="province">
+                <mat-option value="">Todas</mat-option>
+                <mat-option value="Buenos Aires">Buenos Aires</mat-option>
+                <mat-option value="Catamarca">Catamarca</mat-option>
+                <mat-option value="Chaco">Chaco</mat-option>
+                <mat-option value="Chubut">Chubut</mat-option>
+                <mat-option value="Córdoba">Córdoba</mat-option>
+                <mat-option value="Corrientes">Corrientes</mat-option>
+                <mat-option value="Entre Ríos">Entre Ríos</mat-option>
+                <mat-option value="Formosa">Formosa</mat-option>
+                <mat-option value="Jujuy">Jujuy</mat-option>
+                <mat-option value="La Pampa">La Pampa</mat-option>
+                <mat-option value="La Rioja">La Rioja</mat-option>
+                <mat-option value="Mendoza">Mendoza</mat-option>
+                <mat-option value="Misiones">Misiones</mat-option>
+                <mat-option value="Neuquén">Neuquén</mat-option>
+                <mat-option value="Río Negro">Río Negro</mat-option>
+                <mat-option value="Salta">Salta</mat-option>
+                <mat-option value="San Juan">San Juan</mat-option>
+                <mat-option value="San Luis">San Luis</mat-option>
+                <mat-option value="Santa Cruz">Santa Cruz</mat-option>
+                <mat-option value="Santa Fe">Santa Fe</mat-option>
+                <mat-option value="Santiago del Estero"
+                  >Santiago del Estero</mat-option
+                >
+                <mat-option value="Tierra del Fuego"
+                  >Tierra del Fuego</mat-option
+                >
+                <mat-option value="Tucumán">Tucumán</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
 
           <button [disabled]="loading" class="btn btn-primary">
             <span
@@ -91,36 +127,40 @@
             <th>Vacuna</th>
             <th>Vacuna desarrollada</th>
             <th scope="col"># Lote</th>
-            <th scope="col">Cantidad disponible</th>
+            <th scope="col">Disponible</th>
             <th scope="col">Vencimiento</th>
+            <th scope="col">Provincia</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="mat-row" *ngIf="!batchVaccines.length">
+          <tr class="mat-row" *ngIf="!localBatchVaccines.length">
             <td class="mat-cell text-center" [attr.colspan]="5">
               Sin resultados
             </td>
           </tr>
           <tr
-            *ngFor="let v of batchVaccines"
-            [ngClass]="{ overdueRow: v.status == 1 }"
+            *ngFor="let v of localBatchVaccines"
             class="hoverable-row"
+            [ngClass]="{ overdueRow: v.batchVaccine.status == 1 }"
             (click)="select(v)"
           >
             <td>
-              {{ v.developedVaccine.vaccine.name }}
+              {{ v.batchVaccine.developedVaccine.vaccine.name }}
             </td>
             <td>
-              {{ v.developedVaccine.name }}
+              {{ v.batchVaccine.developedVaccine.name }}
             </td>
             <th scope="row">
-              {{ v.batchNumber }}
+              {{ v.batchVaccine.batchNumber }}
             </th>
-            <td class="text-right" style="width: 150px">
+            <td class="text-right" style="width: 80px">
               {{ v.remainingQuantity }}
             </td>
             <td>
-              {{ v.dueDate | date: "dd/MM/yyyy" }}
+              {{ v.batchVaccine.dueDate | date: "dd/MM/yyyy" }}
+            </td>
+            <td>
+              {{ v.province }}
             </td>
           </tr>
         </tbody>

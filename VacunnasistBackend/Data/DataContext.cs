@@ -243,8 +243,8 @@ namespace VacunassistBackend.Data
 
                 modelBuilder.Entity<DevelopedVaccine>().HasData(vaccine1, vaccine2, vaccine3);
                 modelBuilder.Entity<PurchaseOrder>().HasData(po1, po2, po3, po4, po5, po6, po7, po8);
-                modelBuilder.Entity<BatchVaccine>().HasData(batch1, batch2, batch3, batch4, batch5, batch6);
                 modelBuilder.Entity<LocalBatchVaccine>().HasData(localBatch1);
+                modelBuilder.Entity<BatchVaccine>().HasData(batch1, batch2, batch3, batch4, batch5, batch6);
                 modelBuilder.Entity<User>().HasData(admin, operador1, operador2, analista1, vacunador1);
             }
         }

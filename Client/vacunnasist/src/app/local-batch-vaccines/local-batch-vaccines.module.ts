@@ -1,6 +1,4 @@
-import { ViewBatchVaccineComponent } from './view/view-batch-vaccine.component';
-import { BatchVaccineStatusPipe } from './../_helpers/batch-vaccine-status.pipe';
-import { BatchVaccinesRoutingModule } from './batch-vaccines-routing.module';
+import { ViewLocalBatchVaccineComponent } from './view/view-local-batch-vaccine.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,18 +22,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_DATE_FORMATS } from '../account/account.module';
 import { MatSelectModule } from '@angular/material/select';
-import { BatchVaccinesComponent } from './batch-vaccines.component';
+import { LocalBatchVaccinesComponent } from './local-batch-vaccines.component';
+import { LocalBatchVaccinesRoutingModule } from './local-batch-vaccines-routing.module';
 
 @NgModule({
-  declarations: [
-    BatchVaccinesComponent,
-    ViewBatchVaccineComponent,
-    BatchVaccineStatusPipe,
-  ],
+  declarations: [LocalBatchVaccinesComponent, ViewLocalBatchVaccineComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    BatchVaccinesRoutingModule,
+    LocalBatchVaccinesRoutingModule,
     MatIconModule,
     MatRadioModule,
     MatFormFieldModule,
@@ -61,4 +56,4 @@ import { BatchVaccinesComponent } from './batch-vaccines.component';
     { provide: MAT_DATE_LOCALE, useValue: 'es-AR' },
   ],
 })
-export class BatchVaccinesModule {}
+export class LocalBatchVaccinesModule {}

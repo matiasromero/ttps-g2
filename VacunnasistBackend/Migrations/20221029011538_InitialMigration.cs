@@ -175,11 +175,11 @@ namespace VacunnasistBackend.Migrations
                 columns: new[] { "Id", "Address", "BirthDate", "DNI", "Email", "FullName", "Gender", "HealthWorker", "IsActive", "PasswordHash", "Pregnant", "Province", "Role", "UserName" },
                 values: new object[,]
                 {
-                    { 1, "Calle Falsa 1234, La Plata", new DateTime(2022, 10, 28, 0, 0, 0, 0, DateTimeKind.Local), "11111111", "admin@vacunassist.com", "Administrador", "other", false, true, "1000:Imoq+B5td/RqXfViGb59o6cBxDC6rhyw:2REqRyMEXkzN0Jgu/RhcVkGFTCQ+oBtx", false, "Buenos Aires", "administrator", "Admin" },
-                    { 2, "Calle Falsa 2345, La Plata", new DateTime(2022, 10, 28, 0, 0, 0, 0, DateTimeKind.Local), "22345678", "operador1@vacunassist.com", "Luis Gutierrez", "male", false, true, "1000:QT8SThbwitPhOcSlPW1YtOWXJ+eVsKiA:+UcNd4DKEVw4lSPPahh5ksBaANZR3HWs", false, "Buenos Aires", "operator", "Operador1" },
-                    { 3, "Calle Falsa 9874, Salta", new DateTime(2022, 10, 28, 0, 0, 0, 0, DateTimeKind.Local), "89785451", "estefania@vacunassist.com", "Estefania Borzi", "female", false, true, "1000:XwLR4bpKTH/XlR9AZSuJeCjhYNKyO/cK:9QLtibTZEiQMAZR1FQ0S5IiKjPo8rOv9", false, "Salta", "operator", "Operador2" },
-                    { 4, "Calle Falsa 9874, Salta", new DateTime(2022, 10, 28, 0, 0, 0, 0, DateTimeKind.Local), "89785451", "jr@vacunassist.com", "Jose Luis Rodriguez", "male", false, true, "1000:xNNM8tMs0rLnQ0tZXB1K75GVbouRzhK/:k8e/okg/5etUscvReEAMayqPhL5F55h3", false, "Buenos Aires", "analyst", "Analista1" },
-                    { 5, "Calle Falsa 4567, La Plata", new DateTime(2022, 10, 28, 0, 0, 0, 0, DateTimeKind.Local), "11111111", "vacunador@email.com", "Vacunador", "other", false, true, "1000:m9q4JRvesgnM795LCsN4AEc24Vc0pdku:XII3nsTOu4f/BAWYtg8UIufl+WEn+A7A", false, "Buenos Aires", "vacunator", "Vacunador" }
+                    { 1, "Calle Falsa 1234, La Plata", new DateTime(2022, 10, 28, 0, 0, 0, 0, DateTimeKind.Local), "11111111", "admin@vacunassist.com", "Administrador", "other", false, true, "1000:yHIk2T3MlC0FvPAe2rDs7ptmFMdFatp6:S/F5wG17+Fgru1/zxkTDbYjQCvlz5q85", false, "Buenos Aires", "administrator", "Admin" },
+                    { 2, "Calle Falsa 2345, La Plata", new DateTime(2022, 10, 28, 0, 0, 0, 0, DateTimeKind.Local), "22345678", "operador1@vacunassist.com", "Luis Gutierrez", "male", false, true, "1000:lts3wX5PMNDU3pSWFhVGK/PDTMPj/Aqv:qN+/UJx6as7fMm4GMVlmZy7g9lcnkrz4", false, "Buenos Aires", "operator", "Operador1" },
+                    { 3, "Calle Falsa 9874, Salta", new DateTime(2022, 10, 28, 0, 0, 0, 0, DateTimeKind.Local), "89785451", "estefania@vacunassist.com", "Estefania Borzi", "female", false, true, "1000:QDmD44fxrQugIj4YvqMCp2WF2Tx2V7Hj:e8Eyozwx3EKmRnLqOvuWCtrt+1NTZ/cf", false, "Salta", "operator", "Operador2" },
+                    { 4, "Calle Falsa 9874, Salta", new DateTime(2022, 10, 28, 0, 0, 0, 0, DateTimeKind.Local), "89785451", "jr@vacunassist.com", "Jose Luis Rodriguez", "male", false, true, "1000:RD90kBEtaEQEbu4ZIa4Slg9qBX8Xm3Vd:kjO3WkhOrMt+l7SkE6YiyaheLsMl7XaK", false, "Buenos Aires", "analyst", "Analista1" },
+                    { 5, "Calle Falsa 4567, La Plata", new DateTime(2022, 10, 28, 0, 0, 0, 0, DateTimeKind.Local), "11111111", "vacunador@email.com", "Vacunador", "other", false, true, "1000:99KD4tPp/E3IYFVr5R/SsRoIfoy9QFUR:5XZQ8ofLfZc5yMPr+mXD6ixoC2QfupMS", false, "Buenos Aires", "vacunator", "Vacunador" }
                 });
 
             migrationBuilder.InsertData(
@@ -187,8 +187,8 @@ namespace VacunnasistBackend.Migrations
                 columns: new[] { "Id", "BatchNumber", "DeliveredTime", "DevelopedVaccineId", "ETA", "PurchaseDate", "Quantity", "Status" },
                 values: new object[,]
                 {
-                    { 1, "FLU140012580", null, 3, null, new DateTime(2022, 10, 28, 13, 48, 41, 90, DateTimeKind.Local).AddTicks(5446), 1400, 0 },
-                    { 2, "FLU140012581", null, 3, null, new DateTime(2022, 10, 28, 13, 48, 41, 90, DateTimeKind.Local).AddTicks(5452), 1200, 0 },
+                    { 1, "FLU140012580", null, 3, null, new DateTime(2022, 10, 28, 22, 15, 37, 920, DateTimeKind.Local).AddTicks(5174), 1400, 0 },
+                    { 2, "FLU140012581", null, 3, null, new DateTime(2022, 10, 28, 22, 15, 37, 920, DateTimeKind.Local).AddTicks(5187), 1200, 0 },
                     { 3, "PF1000001", new DateTime(2022, 10, 28, 0, 0, 0, 0, DateTimeKind.Local), 1, new DateTime(2022, 10, 28, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2022, 9, 28, 0, 0, 0, 0, DateTimeKind.Local), 800, 2 },
                     { 4, "PF1000121", new DateTime(2022, 10, 28, 0, 0, 0, 0, DateTimeKind.Local), 1, new DateTime(2022, 10, 28, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2022, 9, 28, 0, 0, 0, 0, DateTimeKind.Local), 400, 2 },
                     { 5, "R1000001", new DateTime(2022, 10, 28, 0, 0, 0, 0, DateTimeKind.Local), 2, new DateTime(2022, 10, 28, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2022, 8, 29, 0, 0, 0, 0, DateTimeKind.Local), 560, 2 },
@@ -213,7 +213,7 @@ namespace VacunnasistBackend.Migrations
             migrationBuilder.InsertData(
                 table: "LocalBatchVaccines",
                 columns: new[] { "Id", "BatchVaccineId", "DistributionDate", "OverdueQuantity", "Province", "Quantity", "RemainingQuantity" },
-                values: new object[] { 1, 5, new DateTime(2022, 10, 28, 13, 48, 41, 90, DateTimeKind.Local).AddTicks(5544), 0, "Buenos Aires", 600, 600 });
+                values: new object[] { 1, 5, new DateTime(2022, 10, 28, 22, 15, 37, 920, DateTimeKind.Local).AddTicks(5497), 0, "Buenos Aires", 600, 600 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppliedVaccines_UserId",

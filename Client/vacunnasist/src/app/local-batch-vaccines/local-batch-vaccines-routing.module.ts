@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from '../account/layout/layout.component';
-import { BatchVaccinesComponent } from './batch-vaccines.component';
-import { ViewBatchVaccineComponent } from './view/view-batch-vaccine.component';
+import { LocalBatchVaccinesComponent } from './local-batch-vaccines.component';
+import { ViewLocalBatchVaccineComponent } from './view/view-local-batch-vaccine.component';
 
 const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
     children: [
-      { path: '', component: BatchVaccinesComponent },
-      { path: ':id', component: ViewBatchVaccineComponent },
+      { path: '', component: LocalBatchVaccinesComponent },
+      { path: ':id', component: ViewLocalBatchVaccineComponent },
     ],
   },
 ];
@@ -19,4 +19,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class BatchVaccinesRoutingModule {}
+export class LocalBatchVaccinesRoutingModule {}

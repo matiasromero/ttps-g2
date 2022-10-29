@@ -12,7 +12,7 @@ using VacunassistBackend.Data;
 namespace VacunnasistBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221028164841_InitialMigration")]
+    [Migration("20221029011538_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -272,7 +272,7 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 1,
                             BatchVaccineId = 5,
-                            DistributionDate = new DateTime(2022, 10, 28, 13, 48, 41, 90, DateTimeKind.Local).AddTicks(5544),
+                            DistributionDate = new DateTime(2022, 10, 28, 22, 15, 37, 920, DateTimeKind.Local).AddTicks(5497),
                             OverdueQuantity = 0,
                             Province = "Buenos Aires",
                             Quantity = 600,
@@ -326,7 +326,7 @@ namespace VacunnasistBackend.Migrations
                             Id = 1,
                             BatchNumber = "FLU140012580",
                             DevelopedVaccineId = 3,
-                            PurchaseDate = new DateTime(2022, 10, 28, 13, 48, 41, 90, DateTimeKind.Local).AddTicks(5446),
+                            PurchaseDate = new DateTime(2022, 10, 28, 22, 15, 37, 920, DateTimeKind.Local).AddTicks(5174),
                             Quantity = 1400,
                             Status = 0
                         },
@@ -335,7 +335,7 @@ namespace VacunnasistBackend.Migrations
                             Id = 2,
                             BatchNumber = "FLU140012581",
                             DevelopedVaccineId = 3,
-                            PurchaseDate = new DateTime(2022, 10, 28, 13, 48, 41, 90, DateTimeKind.Local).AddTicks(5452),
+                            PurchaseDate = new DateTime(2022, 10, 28, 22, 15, 37, 920, DateTimeKind.Local).AddTicks(5187),
                             Quantity = 1200,
                             Status = 0
                         },
@@ -484,7 +484,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "other",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:Imoq+B5td/RqXfViGb59o6cBxDC6rhyw:2REqRyMEXkzN0Jgu/RhcVkGFTCQ+oBtx",
+                            PasswordHash = "1000:yHIk2T3MlC0FvPAe2rDs7ptmFMdFatp6:S/F5wG17+Fgru1/zxkTDbYjQCvlz5q85",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "administrator",
@@ -501,7 +501,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "male",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:QT8SThbwitPhOcSlPW1YtOWXJ+eVsKiA:+UcNd4DKEVw4lSPPahh5ksBaANZR3HWs",
+                            PasswordHash = "1000:lts3wX5PMNDU3pSWFhVGK/PDTMPj/Aqv:qN+/UJx6as7fMm4GMVlmZy7g9lcnkrz4",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "operator",
@@ -518,7 +518,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "female",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:XwLR4bpKTH/XlR9AZSuJeCjhYNKyO/cK:9QLtibTZEiQMAZR1FQ0S5IiKjPo8rOv9",
+                            PasswordHash = "1000:QDmD44fxrQugIj4YvqMCp2WF2Tx2V7Hj:e8Eyozwx3EKmRnLqOvuWCtrt+1NTZ/cf",
                             Pregnant = false,
                             Province = "Salta",
                             Role = "operator",
@@ -535,7 +535,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "male",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:xNNM8tMs0rLnQ0tZXB1K75GVbouRzhK/:k8e/okg/5etUscvReEAMayqPhL5F55h3",
+                            PasswordHash = "1000:RD90kBEtaEQEbu4ZIa4Slg9qBX8Xm3Vd:kjO3WkhOrMt+l7SkE6YiyaheLsMl7XaK",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "analyst",
@@ -552,7 +552,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "other",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:m9q4JRvesgnM795LCsN4AEc24Vc0pdku:XII3nsTOu4f/BAWYtg8UIufl+WEn+A7A",
+                            PasswordHash = "1000:99KD4tPp/E3IYFVr5R/SsRoIfoy9QFUR:5XZQ8ofLfZc5yMPr+mXD6ixoC2QfupMS",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "vacunator",

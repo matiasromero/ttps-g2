@@ -11323,3 +11323,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .pendingRow {
   background-color: #ece1be;
 }
+
+.hoverable-row:hover {
+  background-color: #C5FFA8;
+  cursor:pointer;
+}

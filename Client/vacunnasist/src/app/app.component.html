@@ -40,6 +40,15 @@
         <li class="nav-item">
           <a
             class="nav-item nav-link"
+            routerLink="/local-batch-vaccines"
+            routerLinkActive="active"
+            *ngIf="user && (user.role == 'operator' || user.role == 'analyst')"
+            >Vacunas provinciales</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
             routerLink="/purchase-orders"
             routerLinkActive="active"
             *ngIf="user && user.role == 'operator'"

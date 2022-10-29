@@ -1,19 +1,19 @@
 import { Vaccine } from './../_models/vaccine';
 import { DevelopedVaccine } from './../_models/developed-vaccine';
-import { BatchVaccinesFilter } from './../_models/filters/batch-vaccines-filter';
-import { BatchVaccine } from './../_models/batch-vaccine';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/_services/alert.service';
-import { BatchVaccineService } from '../_services/batch-vaccine.service';
 import { VaccinesFilter } from '../_models/filters/vaccines-filter';
 import { VaccinesService } from '../_services/vaccines.service';
 import { DevelopedVaccineService } from '../_services/developed-vaccine.service';
 import { DevelopedVaccinesFilter } from '../_models/filters/developed-vaccines-filter';
+import { LocalBatchVaccineService } from '../_services/local-batch-vaccine.service';
+import { LocalBatchVaccine } from '../_models/local-batch-vaccine';
+import { LocalBatchVaccinesFilter } from '../_models/filters/local-batch-vaccines-filter';
 
-@Component({ templateUrl: 'batch-vaccines.component.html' })
-export class BatchVaccinesComponent implements OnInit {
+@Component({ templateUrl: 'local-batch-vaccines.component.html' })
+export class LocalBatchVaccinesComponent implements OnInit {
   formFilter!: FormGroup;
   loading = false;
   submitted = false;
@@ -22,7 +22,7 @@ export class BatchVaccinesComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private batchVaccineService: BatchVaccineService,
+    private localBatchVaccineService: LocalBatchVaccineService,
     private vaccineService: VaccinesService,
     private developedVaccineService: DevelopedVaccineService,
     private alertService: AlertService
@@ -31,6 +31,7 @@ export class BatchVaccinesComponent implements OnInit {
       batchNumber: ['', [Validators.maxLength(20)]],
       vaccineId: [''],
       developedVaccineId: [''],
+      province: [''],
     });
 
     this.route.queryParams.subscribe((params) => {
@@ -47,13 +48,18 @@ export class BatchVaccinesComponent implements OnInit {
           +params.developedVaccineId
         );
       }
+      if (params.province) {
+        this.formFilter.controls.province.setValue(params.province, {
+          onlySelf: true,
+        });
+      }
 
       this.loadData();
     });
   }
 
-  public batchVaccines: BatchVaccine[] = [];
-  public filter = new BatchVaccinesFilter();
+  public localBatchVaccines: LocalBatchVaccine[] = [];
+  public filter = new LocalBatchVaccinesFilter();
   public vaccines: Vaccine[] = [];
   public developedVaccines: DevelopedVaccine[] = [];
 
@@ -75,11 +81,13 @@ export class BatchVaccinesComponent implements OnInit {
     const batchNumber = this.formFilter.get('batchNumber')?.value;
     const vaccineId = this.formFilter.get('vaccineId')?.value;
     const developedVaccineId = this.formFilter.get('developedVaccineId')?.value;
+    const province = this.formFilter.get('province')?.value;
     this.filter.batchNumber = batchNumber;
     this.filter.vaccineId = vaccineId;
     this.filter.developedVaccineId = developedVaccineId;
-    this.batchVaccineService.getAll(this.filter).subscribe((res: any) => {
-      this.batchVaccines = res.vaccines;
+    this.filter.province = province;
+    this.localBatchVaccineService.getAll(this.filter).subscribe((res: any) => {
+      this.localBatchVaccines = res.vaccines;
     });
   }
 
@@ -119,6 +127,7 @@ export class BatchVaccinesComponent implements OnInit {
     const batchNumber = this.formFilter.get('batchNumber')?.value;
     const vaccineId = this.formFilter.get('vaccineId')?.value;
     const developedVaccineId = this.formFilter.get('developedVaccineId')?.value;
+    const province = this.formFilter.get('province')?.value;
     const queryParams: any = {};
 
     if (batchNumber) {
@@ -130,8 +139,11 @@ export class BatchVaccinesComponent implements OnInit {
     if (developedVaccineId) {
       queryParams.developedVaccineId = developedVaccineId;
     }
+    if (province) {
+      queryParams.province = province;
+    }
 
-    this.router.navigate(['/batch-vaccines'], {
+    this.router.navigate(['/local-batch-vaccines'], {
       queryParams,
     });
 
@@ -151,11 +163,14 @@ export class BatchVaccinesComponent implements OnInit {
     this.formFilter.controls.developedVaccineId.setValue('', {
       onlySelf: true,
     });
+    this.formFilter.controls.province.setValue('', {
+      onlySelf: true,
+    });
 
     this.applyFilter();
   }
 
-  select(batch: BatchVaccine) {
-    this.router.navigate(['batch-vaccines', batch.id]);
+  select(batch: LocalBatchVaccine) {
+    this.router.navigate(['local-batch-vaccines', batch.id]);
   }
 }
