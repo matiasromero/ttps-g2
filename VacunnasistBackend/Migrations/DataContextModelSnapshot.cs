@@ -30,31 +30,45 @@ namespace VacunnasistBackend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("AppliedBy")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("AppliedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PersonId")
+                    b.Property<int>("LocalBatchVaccineId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Remark")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("VaccineId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("LocalBatchVaccineId");
+
+                    b.HasIndex("PatientId");
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("VaccineId");
+                    b.ToTable("AppliedVaccines", (string)null);
 
-                    b.ToTable("AppliedVaccines");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AppliedDate = new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            LocalBatchVaccineId = 1,
+                            PatientId = 1,
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AppliedDate = new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            LocalBatchVaccineId = 1,
+                            PatientId = 2,
+                            UserId = 5
+                        });
                 });
 
             modelBuilder.Entity("VacunassistBackend.Entities.BatchVaccine", b =>
@@ -270,7 +284,7 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 1,
                             BatchVaccineId = 5,
-                            DistributionDate = new DateTime(2022, 10, 29, 12, 2, 51, 495, DateTimeKind.Local).AddTicks(111),
+                            DistributionDate = new DateTime(2022, 10, 29, 14, 47, 6, 343, DateTimeKind.Local).AddTicks(360),
                             OverdueQuantity = 0,
                             Province = "Buenos Aires",
                             Quantity = 600,
@@ -324,7 +338,7 @@ namespace VacunnasistBackend.Migrations
                             Id = 1,
                             BatchNumber = "FLU140012580",
                             DevelopedVaccineId = 3,
-                            PurchaseDate = new DateTime(2022, 10, 29, 12, 2, 51, 495, DateTimeKind.Local).AddTicks(44),
+                            PurchaseDate = new DateTime(2022, 10, 29, 14, 47, 6, 343, DateTimeKind.Local).AddTicks(325),
                             Quantity = 1400,
                             Status = 0
                         },
@@ -333,7 +347,7 @@ namespace VacunnasistBackend.Migrations
                             Id = 2,
                             BatchNumber = "FLU140012581",
                             DevelopedVaccineId = 3,
-                            PurchaseDate = new DateTime(2022, 10, 29, 12, 2, 51, 495, DateTimeKind.Local).AddTicks(47),
+                            PurchaseDate = new DateTime(2022, 10, 29, 14, 47, 6, 343, DateTimeKind.Local).AddTicks(326),
                             Quantity = 1200,
                             Status = 0
                         },
@@ -482,7 +496,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "other",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:OUFYfzYhkatp3ntXoWui8/U7q6Sc59qo:QOqPNO0LSueXCUIttXbzmBXSkW1tCEqA",
+                            PasswordHash = "1000:p0gWRFtrhvLZBBOsky4CvU5tAYnsYZav:0Waq0mDmITGwetUwPr6NJf/Vbk+rNi/a",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "administrator",
@@ -499,7 +513,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "male",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:jEkmLOWS7BkVbPcZfZuQNRnwvBSeKkgE:8pQIeSb5Thjq5V9NlY2NUKTnwTcCnji+",
+                            PasswordHash = "1000:KF6wHcOxhZ187OZVRne6vwLAB98gKBZE:/h75TeSOz/5/33saZwCN5sq42BS6O4XX",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "operator",
@@ -516,7 +530,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "female",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:nwrkKU5t/ajJm4X+UmhIJBFkOAwVIeIr:CN423NERrYlGBUfktzKiGPMYAmkKq9rn",
+                            PasswordHash = "1000:KG1H61p3/Wyoa7mMov/11WmnkxSG4jSy:sZLFjzpVZmaIVB7nHZI8ZtzCjeQHdu7k",
                             Pregnant = false,
                             Province = "Salta",
                             Role = "operator",
@@ -533,7 +547,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "male",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:Z799BnChEdpVp1KW+XSpWAHgs0Nz36qj:nt7wR64d9svzbAykLpL5owRRnysi1gwj",
+                            PasswordHash = "1000:LXgOeBaHzXoBYSpl13yi9iTDr7lA1KLY:3Bj28XqXLxIHg19vxlpC1NbBEv7T37uD",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "analyst",
@@ -550,7 +564,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "other",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:C8LrwzlH226zEfkhv2vJQv/saSGZVvUf:ne8r6eFagzys6MC3YNJbA63N8Oh536QE",
+                            PasswordHash = "1000:aMu5zS6J9Bto5/2ROJ7gfkYTg2LvkNF7:0XJ5JNjS2CbK10l8amsRhIo1fszfexcc",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "vacunator",
@@ -558,23 +572,100 @@ namespace VacunnasistBackend.Migrations
                         });
                 });
 
+            modelBuilder.Entity("VacunnasistBackend.Entities.Patient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("BirthDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DNI")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("HealthWorker")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Pregnant")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Province")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Patient");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BirthDate = "29/10/2022 00:00:00",
+                            DNI = "29999998",
+                            Gender = "male",
+                            HealthWorker = false,
+                            Name = "Paciente",
+                            Pregnant = false,
+                            Province = "Buenos Aires",
+                            Surname = "Prueba"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BirthDate = "29/10/2022 00:00:00",
+                            DNI = "29999999",
+                            Gender = "female",
+                            HealthWorker = false,
+                            Name = "Paciente2",
+                            Pregnant = false,
+                            Province = "Buenos Aires",
+                            Surname = "Prueba2"
+                        });
+                });
+
             modelBuilder.Entity("VacunassistBackend.Entities.AppliedVaccine", b =>
                 {
+                    b.HasOne("VacunassistBackend.Entities.LocalBatchVaccine", "LocalBatchVaccine")
+                        .WithMany()
+                        .HasForeignKey("LocalBatchVaccineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VacunnasistBackend.Entities.Patient", "Patient")
+                        .WithMany("AppliedVaccines")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("VacunassistBackend.Entities.User", "User")
                         .WithMany("Vaccines")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("VacunassistBackend.Entities.DevelopedVaccine", "Vaccine")
-                        .WithMany()
-                        .HasForeignKey("VaccineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("LocalBatchVaccine");
+
+                    b.Navigation("Patient");
 
                     b.Navigation("User");
-
-                    b.Navigation("Vaccine");
                 });
 
             modelBuilder.Entity("VacunassistBackend.Entities.BatchVaccine", b =>
@@ -626,6 +717,11 @@ namespace VacunnasistBackend.Migrations
             modelBuilder.Entity("VacunassistBackend.Entities.User", b =>
                 {
                     b.Navigation("Vaccines");
+                });
+
+            modelBuilder.Entity("VacunnasistBackend.Entities.Patient", b =>
+                {
+                    b.Navigation("AppliedVaccines");
                 });
 #pragma warning restore 612, 618
         }

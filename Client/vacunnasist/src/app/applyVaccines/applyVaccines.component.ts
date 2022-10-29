@@ -87,28 +87,20 @@ export class ApplyVaccinesComponent {
   public user: User = new User;
 
 loadData(){
-  this.accountService.myProfile().subscribe((res: any) => {
-    this.user = res;      
-  });
-
   const dni = this.formFilter.get('dni')?.value;
-  const batchNumber = this.formFilter.get('batchNumber')?.value;
+  //const batchNumber = this.formFilter.get('batchNumber')?.value;
   //const fullName = this.formFilter.get('fullName')?.value;
   const province = this.formFilter.get('province')?.value;
-  const appliedDate = this.formFilter.get('appliedDate')?.value;
+ // const appliedDate = this.formFilter.get('appliedDate')?.value;
   const vaccineId = this.formFilter.get('vaccineId')?.value;
   const developedVaccineId = this.formFilter.get('developedVaccineId')?.value;
 
-  this.filter.appliedBy = this.user.id;
   this.filter.dni = dni;
-  this.filter.appliedDate = appliedDate;
-  this.filter.batchNumber = batchNumber;
   this.filter.province = province;
   this.filter.vaccineId = vaccineId;
   this.filter.developedVaccineId = developedVaccineId;
 
-  //Obtener las vacunas aplicadas por el user.id
-
+  //Obtener las vacunas aplicadas por el user.username
   this.appliedVaccinesService.getAll(this.filter).subscribe((res: any) => {
     this.appliedVaccines = res.vaccines;
   });

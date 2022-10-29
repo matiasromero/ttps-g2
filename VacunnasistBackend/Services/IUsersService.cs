@@ -42,12 +42,12 @@ namespace VacunassistBackend.Services
 
         public User Get(int id)
         {
-            return _context.Users.Include(u => u.Vaccines).ThenInclude(v => v.Vaccine).First(x => x.Id == id);
+            return _context.Users.Include(u => u.Vaccines).ThenInclude(v => v.LocalBatchVaccine).ThenInclude(b => b.BatchVaccine).ThenInclude(dv => dv.DevelopedVaccine).ThenInclude(v => v.Vaccine).First(x => x.Id == id);
         }
 
         public User Get(string userName)
         {
-            return _context.Users.Include(u => u.Vaccines).ThenInclude(v => v.Vaccine).First(x => x.UserName == userName);
+            return _context.Users.Include(u => u.Vaccines).ThenInclude(l => l.LocalBatchVaccine).ThenInclude(b => b.BatchVaccine).ThenInclude(dv => dv.DevelopedVaccine).ThenInclude(v => v.Vaccine).First(x => x.UserName == userName);
         }
 
         public bool Exists(string userName)
@@ -172,11 +172,11 @@ namespace VacunassistBackend.Services
             var user = _context.Users.FirstOrDefault(x => x.Id == id);
             CheckIfExists(user);
 
-            var newVaccine = new AppliedVaccine();
+            /*var newVaccine = new AppliedVaccine();
             newVaccine.AppliedDate = model.AppliedDate;
             newVaccine.VaccineId = model.VaccineId;
             user.Vaccines.Add(newVaccine);
-            _context.SaveChanges();
+            _context.SaveChanges();*/
         }
 
         private static void CheckIfExists(User? user)

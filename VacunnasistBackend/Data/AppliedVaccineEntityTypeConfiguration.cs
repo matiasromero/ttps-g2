@@ -8,8 +8,10 @@ namespace VacunassistBackend.Data
     {
         public void Configure(EntityTypeBuilder<AppliedVaccine> builder)
         {
-            builder.HasOne(av => av.User).WithMany(u => u.Vaccines);
-            builder.HasOne(av => av.Vaccine);
+            builder.ToTable("AppliedVaccines");
+            builder.HasOne(av => av.User).WithMany(u => u.Vaccines).HasForeignKey(av => av.UserId).IsRequired();
+            builder.HasOne(av => av.LocalBatchVaccine);
+            builder.HasOne(av => av.Patient).WithMany(p => p.AppliedVaccines).HasForeignKey(av => av.PatientId).IsRequired();
         }
     }
 }

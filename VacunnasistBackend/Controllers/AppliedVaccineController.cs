@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using VacunassistBackend.Entities;
 using VacunassistBackend.Models;
 using VacunassistBackend.Models.Filters;
 using VacunassistBackend.Services;
@@ -25,6 +26,11 @@ namespace VacunnasistBackend.Controllers
         [HttpGet]
         public IActionResult GetAll([FromQuery] AppliedVaccinesFilterRequest filter)
         {
+            var user = (User)HttpContext.Items["User"];
+            if (user.Role == UserRoles.Vacunator)
+            {
+                filter.AppliedById = user.Id;
+            }
             return Ok(new
             {
                 vaccines = _appliedVaccinesService.GetAll(filter)
@@ -38,7 +44,7 @@ namespace VacunnasistBackend.Controllers
         }
 
         /*[HttpPost]
-        public IActionResult NewVaccineApplication([FromBody] NewApplicationRequest model)
+        public IActionResult NewVaccineApplication([FromBody] NewAppliedVaccineRequest model)
         {
             // var alreadyExist = _developedVaccinesService.AlreadyExist(model.Name);
             // if (alreadyExist)

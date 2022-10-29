@@ -26,6 +26,26 @@ namespace VacunnasistBackend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Patient",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DNI = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Province = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BirthDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Pregnant = table.Column<bool>(type: "bit", nullable: false),
+                    HealthWorker = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Patient", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -71,36 +91,6 @@ namespace VacunnasistBackend.Migrations
                         name: "FK_PurchaseOrders_DevelopedVaccines_DevelopedVaccineId",
                         column: x => x.DevelopedVaccineId,
                         principalTable: "DevelopedVaccines",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AppliedVaccines",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AppliedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    AppliedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PersonId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    VaccineId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppliedVaccines", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AppliedVaccines_DevelopedVaccines_VaccineId",
-                        column: x => x.VaccineId,
-                        principalTable: "DevelopedVaccines",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AppliedVaccines_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -160,6 +150,40 @@ namespace VacunnasistBackend.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "AppliedVaccines",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AppliedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PatientId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    LocalBatchVaccineId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppliedVaccines", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AppliedVaccines_LocalBatchVaccines_LocalBatchVaccineId",
+                        column: x => x.LocalBatchVaccineId,
+                        principalTable: "LocalBatchVaccines",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AppliedVaccines_Patient_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Patient",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AppliedVaccines_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "DevelopedVaccines",
                 columns: new[] { "Id", "DaysToDelivery", "IsActive", "Name", "VaccineText" },
@@ -171,15 +195,24 @@ namespace VacunnasistBackend.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Patient",
+                columns: new[] { "Id", "BirthDate", "DNI", "Gender", "HealthWorker", "Name", "Pregnant", "Province", "Surname" },
+                values: new object[,]
+                {
+                    { 1, "29/10/2022 00:00:00", "29999998", "male", false, "Paciente", false, "Buenos Aires", "Prueba" },
+                    { 2, "29/10/2022 00:00:00", "29999999", "female", false, "Paciente2", false, "Buenos Aires", "Prueba2" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Address", "BirthDate", "DNI", "Email", "FullName", "Gender", "HealthWorker", "IsActive", "PasswordHash", "Pregnant", "Province", "Role", "UserName" },
                 values: new object[,]
                 {
-                    { 1, "Calle Falsa 1234, La Plata", new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), "11111111", "admin@vacunassist.com", "Administrador", "other", false, true, "1000:OUFYfzYhkatp3ntXoWui8/U7q6Sc59qo:QOqPNO0LSueXCUIttXbzmBXSkW1tCEqA", false, "Buenos Aires", "administrator", "Admin" },
-                    { 2, "Calle Falsa 2345, La Plata", new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), "22345678", "operador1@vacunassist.com", "Luis Gutierrez", "male", false, true, "1000:jEkmLOWS7BkVbPcZfZuQNRnwvBSeKkgE:8pQIeSb5Thjq5V9NlY2NUKTnwTcCnji+", false, "Buenos Aires", "operator", "Operador1" },
-                    { 3, "Calle Falsa 9874, Salta", new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), "89785451", "estefania@vacunassist.com", "Estefania Borzi", "female", false, true, "1000:nwrkKU5t/ajJm4X+UmhIJBFkOAwVIeIr:CN423NERrYlGBUfktzKiGPMYAmkKq9rn", false, "Salta", "operator", "Operador2" },
-                    { 4, "Calle Falsa 9874, Salta", new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), "89785451", "jr@vacunassist.com", "Jose Luis Rodriguez", "male", false, true, "1000:Z799BnChEdpVp1KW+XSpWAHgs0Nz36qj:nt7wR64d9svzbAykLpL5owRRnysi1gwj", false, "Buenos Aires", "analyst", "Analista1" },
-                    { 5, "Calle Falsa 4567, La Plata", new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), "11111111", "vacunador@email.com", "Vacunador", "other", false, true, "1000:C8LrwzlH226zEfkhv2vJQv/saSGZVvUf:ne8r6eFagzys6MC3YNJbA63N8Oh536QE", false, "Buenos Aires", "vacunator", "Vacunador" }
+                    { 1, "Calle Falsa 1234, La Plata", new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), "11111111", "admin@vacunassist.com", "Administrador", "other", false, true, "1000:p0gWRFtrhvLZBBOsky4CvU5tAYnsYZav:0Waq0mDmITGwetUwPr6NJf/Vbk+rNi/a", false, "Buenos Aires", "administrator", "Admin" },
+                    { 2, "Calle Falsa 2345, La Plata", new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), "22345678", "operador1@vacunassist.com", "Luis Gutierrez", "male", false, true, "1000:KF6wHcOxhZ187OZVRne6vwLAB98gKBZE:/h75TeSOz/5/33saZwCN5sq42BS6O4XX", false, "Buenos Aires", "operator", "Operador1" },
+                    { 3, "Calle Falsa 9874, Salta", new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), "89785451", "estefania@vacunassist.com", "Estefania Borzi", "female", false, true, "1000:KG1H61p3/Wyoa7mMov/11WmnkxSG4jSy:sZLFjzpVZmaIVB7nHZI8ZtzCjeQHdu7k", false, "Salta", "operator", "Operador2" },
+                    { 4, "Calle Falsa 9874, Salta", new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), "89785451", "jr@vacunassist.com", "Jose Luis Rodriguez", "male", false, true, "1000:LXgOeBaHzXoBYSpl13yi9iTDr7lA1KLY:3Bj28XqXLxIHg19vxlpC1NbBEv7T37uD", false, "Buenos Aires", "analyst", "Analista1" },
+                    { 5, "Calle Falsa 4567, La Plata", new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), "11111111", "vacunador@email.com", "Vacunador", "other", false, true, "1000:aMu5zS6J9Bto5/2ROJ7gfkYTg2LvkNF7:0XJ5JNjS2CbK10l8amsRhIo1fszfexcc", false, "Buenos Aires", "vacunator", "Vacunador" }
                 });
 
             migrationBuilder.InsertData(
@@ -187,8 +220,8 @@ namespace VacunnasistBackend.Migrations
                 columns: new[] { "Id", "BatchNumber", "DeliveredTime", "DevelopedVaccineId", "ETA", "PurchaseDate", "Quantity", "Status" },
                 values: new object[,]
                 {
-                    { 1, "FLU140012580", null, 3, null, new DateTime(2022, 10, 29, 12, 2, 51, 495, DateTimeKind.Local).AddTicks(44), 1400, 0 },
-                    { 2, "FLU140012581", null, 3, null, new DateTime(2022, 10, 29, 12, 2, 51, 495, DateTimeKind.Local).AddTicks(47), 1200, 0 },
+                    { 1, "FLU140012580", null, 3, null, new DateTime(2022, 10, 29, 14, 47, 6, 343, DateTimeKind.Local).AddTicks(325), 1400, 0 },
+                    { 2, "FLU140012581", null, 3, null, new DateTime(2022, 10, 29, 14, 47, 6, 343, DateTimeKind.Local).AddTicks(326), 1200, 0 },
                     { 3, "PF1000001", new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), 1, new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2022, 9, 29, 0, 0, 0, 0, DateTimeKind.Local), 800, 2 },
                     { 4, "PF1000121", new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), 1, new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2022, 9, 29, 0, 0, 0, 0, DateTimeKind.Local), 400, 2 },
                     { 5, "R1000001", new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), 2, new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2022, 8, 30, 0, 0, 0, 0, DateTimeKind.Local), 560, 2 },
@@ -213,17 +246,32 @@ namespace VacunnasistBackend.Migrations
             migrationBuilder.InsertData(
                 table: "LocalBatchVaccines",
                 columns: new[] { "Id", "BatchVaccineId", "DistributionDate", "OverdueQuantity", "Province", "Quantity", "RemainingQuantity" },
-                values: new object[] { 1, 5, new DateTime(2022, 10, 29, 12, 2, 51, 495, DateTimeKind.Local).AddTicks(111), 0, "Buenos Aires", 600, 600 });
+                values: new object[] { 1, 5, new DateTime(2022, 10, 29, 14, 47, 6, 343, DateTimeKind.Local).AddTicks(360), 0, "Buenos Aires", 600, 600 });
+
+            migrationBuilder.InsertData(
+                table: "AppliedVaccines",
+                columns: new[] { "Id", "AppliedDate", "LocalBatchVaccineId", "PatientId", "UserId" },
+                values: new object[] { 1, new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), 1, 1, 5 });
+
+            migrationBuilder.InsertData(
+                table: "AppliedVaccines",
+                columns: new[] { "Id", "AppliedDate", "LocalBatchVaccineId", "PatientId", "UserId" },
+                values: new object[] { 2, new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), 1, 2, 5 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppliedVaccines_LocalBatchVaccineId",
+                table: "AppliedVaccines",
+                column: "LocalBatchVaccineId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppliedVaccines_PatientId",
+                table: "AppliedVaccines",
+                column: "PatientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppliedVaccines_UserId",
                 table: "AppliedVaccines",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppliedVaccines_VaccineId",
-                table: "AppliedVaccines",
-                column: "VaccineId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BatchVaccines_BatchNumber",
@@ -265,6 +313,9 @@ namespace VacunnasistBackend.Migrations
 
             migrationBuilder.DropTable(
                 name: "LocalBatchVaccines");
+
+            migrationBuilder.DropTable(
+                name: "Patient");
 
             migrationBuilder.DropTable(
                 name: "Users");

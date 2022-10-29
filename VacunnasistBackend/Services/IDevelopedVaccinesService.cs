@@ -74,7 +74,7 @@ namespace VacunassistBackend.Services
 
         public AppliedVaccine GetApplied(int id)
         {
-            return _context.AppliedVaccines.Include(u => u.Vaccine).First(x => x.Id == id);
+            return _context.AppliedVaccines.Include(l => l.LocalBatchVaccine).ThenInclude(b => b.BatchVaccine).ThenInclude(dv => dv.DevelopedVaccine).ThenInclude(v => v.Vaccine).First(x => x.Id == id);
         }
 
         public DevelopedVaccine Get(int id)

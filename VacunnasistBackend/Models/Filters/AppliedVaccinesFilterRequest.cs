@@ -10,8 +10,11 @@
 
         public string? Province { get; set; }
 
-        public string? AppliedBy { get; set; }
+        public int? AppliedById { get; set; }
 
+        public string? BatchNumber { get; set; }
+
+        public int? DNI { get; set; }
 
     }
 }
