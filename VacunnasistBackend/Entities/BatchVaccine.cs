@@ -43,7 +43,7 @@ namespace VacunassistBackend.Entities
 
         public void checkOverdue()
         {
-            if (DueDate < DateTime.Now)
+            if (DueDate < DateTime.Now.Date)
             {
                 Status = BatchStatus.Overdue;
                 OverdueQuantity = RemainingQuantity;

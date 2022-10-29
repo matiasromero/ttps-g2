@@ -46,4 +46,11 @@ export class BatchVaccineService {
       d
     );
   }
+
+  fireCron() {
+    return this.http.post(
+      `${environment.apiUrl}/batchVaccines/fire-cron`,
+      null
+    );
+  }
 }

@@ -22,5 +22,15 @@ namespace VacunassistBackend.Entities
         public int OverdueQuantity { get; set; }
         public string Province { get; set; }
         public DateTime DistributionDate { get; set; }
+
+        public void checkOverdue()
+        {
+            if (BatchVaccine.DueDate < DateTime.Now.Date)
+            {
+                OverdueQuantity = RemainingQuantity;
+                RemainingQuantity = 0;
+            }
+
+        }
     }
 }

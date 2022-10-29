@@ -234,7 +234,6 @@ namespace VacunassistBackend.Data
                     DueDate = DateTime.Now.AddDays(-18).Date,
                     PurchaseOrderId = po8.Id
                 };
-                batch6.checkOverdue();
 
                 var localBatch1 = new LocalBatchVaccine(600, Province.BuenosAires, batch5.Id)
                 {
