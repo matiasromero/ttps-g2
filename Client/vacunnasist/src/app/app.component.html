@@ -70,12 +70,12 @@
         <li class="nav-item">
           <a
             class="nav-item nav-link"
-            routerLink="/applyVaccine"
+            routerLink="/apply-vaccines"
             [queryParams]="{
               isActive: 'true'
             }"
             routerLinkActive="active"
-            *ngIf="user && user.role == 'vacunator'"
+            *ngIf="user && user.role != 'administrator'"
             >Vacunación</a
           >
         </li>

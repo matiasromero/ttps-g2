@@ -11,6 +11,7 @@ using VacunassistBackend.Infrastructure;
 using Microsoft.OpenApi.Models;
 using Quartz;
 using VacunassistBackend.Jobs;
+using VacunnasistBackend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var _MyCors = "MyCors";
@@ -27,6 +28,7 @@ var _MyCors = "MyCors";
     services.AddTransient<IBatchVaccinesService, BatchVaccinesService>();
     services.AddTransient<ILocalBatchVaccinesService, LocalBatchVaccinesService>();
     services.AddTransient<IPurchaseOrdersService, PurchaseOrdersService>();
+    services.AddTransient<IAppliedVaccineService, AppliedVaccineService>();
 
     services.AddDbContext<DataContext>(options =>
     {

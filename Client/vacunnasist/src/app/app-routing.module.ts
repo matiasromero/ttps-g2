@@ -13,7 +13,7 @@ const batchVaccinesModule = () =>
   import('./batch-vaccines/batch-vaccines.module').then(
     (x) => x.BatchVaccinesModule
   );
-  
+
 const localBatchVaccinesModule = () =>
   import('./local-batch-vaccines/local-batch-vaccines.module').then(
     (x) => x.LocalBatchVaccinesModule
@@ -62,12 +62,13 @@ const routes: Routes = [
       roles: ['operator'],
     },
   },
-  
-  { path: 'apply-vaccines', 
-    loadChildren: applyVaccinesModule, 
-    canActivate: [AuthGuard], 
+
+  {
+    path: 'apply-vaccines',
+    loadChildren: applyVaccinesModule,
+    canActivate: [AuthGuard],
     data: {
-      roles: ['vacunator'],
+      roles: ['operator', 'analyst', 'vacunator'],
     },
   },
   {
