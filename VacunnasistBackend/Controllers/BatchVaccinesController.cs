@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Quartz;
 using VacunassistBackend.Helpers;
 using VacunassistBackend.Models;
 using VacunassistBackend.Models.Filters;
@@ -11,12 +12,15 @@ namespace VacunassistBackend.Controllers
     [ApiController]
     public class BatchVaccinesController : ControllerBase
     {
+        private readonly ISchedulerFactory _factory;
+
         private readonly DataContext _context;
         private readonly IBatchVaccinesService _batchVaccinesService;
-        public BatchVaccinesController(DataContext context, IBatchVaccinesService batchVaccinesService, IConfiguration configuration)
+        public BatchVaccinesController(DataContext context, IBatchVaccinesService batchVaccinesService, ISchedulerFactory factory)
         {
             this._batchVaccinesService = batchVaccinesService;
             this._context = context;
+            this._factory = factory;
         }
 
         [HttpGet]
@@ -45,6 +49,17 @@ namespace VacunassistBackend.Controllers
             {
                 message = summary
             });
+        }
+
+        [HttpPost]
+        [Route("fire-cron")]
+        public async Task<OkObjectResult> FireCron()
+        {
+            IScheduler scheduler = await _factory.GetScheduler();
+
+            await scheduler.TriggerJob(new JobKey("CheckVaccinesDueDateJob"));
+
+            return Ok(new OkObjectResult("Ok"));
         }
     }
 }
