@@ -72,6 +72,7 @@ export class ApplyVaccinesComponent implements OnInit {
       }
       this.loadData();
     });
+    this.isHiddenButton = this.user?.role == 'vacunator';
   }
 
   public filter = new AppliedVaccinesFilter();
@@ -79,6 +80,7 @@ export class ApplyVaccinesComponent implements OnInit {
   public developedVaccines: DevelopedVaccine[] = [];
   public appliedVaccines: AppliedVaccine[] = [];
   user?: User;
+  isHiddenButton: boolean;
 
   ngOnInit() {
     let vaccinesFilter = new VaccinesFilter();
