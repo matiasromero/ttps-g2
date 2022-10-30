@@ -228,7 +228,7 @@ namespace VacunassistBackend.Data
                     DevelopedVaccineId = vaccine3.Id,
                     DueDate = DateTime.Now.AddDays(98).Date,
                     PurchaseOrderId = po7.Id,
-                    RemainingQuantity = 3200
+                    RemainingQuantity = 3000
                 };
                 var batch6 = new BatchVaccine("FLU13214121", 3600)
                 {
