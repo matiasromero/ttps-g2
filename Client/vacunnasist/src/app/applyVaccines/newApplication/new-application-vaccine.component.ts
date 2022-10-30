@@ -38,7 +38,7 @@ export class NewApplyVaccineComponent implements OnInit {
 
   ngOnInit() {    
       this.form = this.formBuilder.group({
-          dni: ['',  [Validators.required, Validators.maxLength(20)]],
+          dni: [null,  [Validators.required]],
           name: ['', [Validators.required, Validators.maxLength(100)]],
           surname: ['', [Validators.required, Validators.maxLength(100)]],
           gender: ['', Validators.required],
@@ -46,7 +46,7 @@ export class NewApplyVaccineComponent implements OnInit {
           province: ['', Validators.required],
           pregnant: [false],
           healthWorker: [false],
-          developedVaccineId: ['', Validators.required]
+          developedVaccineId: [null, Validators.required]
       });
 
       this.localBatchVaccineService.getAll(this.filterBatch).subscribe((res: any) => {

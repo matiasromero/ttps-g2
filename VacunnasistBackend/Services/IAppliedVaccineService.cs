@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VacunassistBackend.Entities;
+using VacunassistBackend.Entities.Vaccines;
 using VacunassistBackend.Infrastructure;
 using VacunnasistBackend.Entities;
 using VacunnasistBackend.Models;
@@ -57,30 +58,34 @@ namespace VacunnasistBackend.Services
         public bool New(NewAppliedVaccineRequest model)
         {
             try
-            {
-                var patient = new Patient()
-                {
-                    Name = model.Name,
-                    Surname = model.Surname,
-                    DNI = model.DNI,
-                    BirthDate = model.BirthDate,
-                    Gender = model.Gender,
-                    Province = model.Province,
-                    Pregnant = model.Pregnant,
-                    HealthWorker = model.HealthWorker
-                };
+            {                
+                var patient = _context.Patients.Include(x => x.AppliedVaccines).Any(x => x.DNI == model.DNI.ToString()) ? 
+                    _context.Patients.Include(x => x.AppliedVaccines).First(x => x.DNI == model.DNI.ToString()) : 
+                    new Patient()
+                    {
+                        Name = model.Name,
+                        Surname = model.Surname,
+                        DNI = model.DNI.ToString(),
+                        BirthDate = model.BirthDate,
+                        Gender = model.Gender,
+                        Province = model.Province,
+                        Pregnant = model.Pregnant,
+                        HealthWorker = model.HealthWorker
+                    };
 
                 var user = _context.Users.ToArray().First(x => x.Id == model.ApplyBy);
-                var provinceBatch = _context.LocalBatchVaccines.ToArray().First(b => b.Province == user.Province && b.BatchVaccine.DevelopedVaccineId == model.DevelopedVaccineId);
 
-                var validationApplied = provinceBatch.BatchVaccine.DevelopedVaccine.Vaccine.CanApply(patient);
+                var provinceBatch = _context.LocalBatchVaccines.Include(x => x.BatchVaccine).ThenInclude(x => x.DevelopedVaccine).First(b => b.Province == user.Province && b.BatchVaccine.DevelopedVaccineId == model.DevelopedVaccineId);
+
+                var vaccine = Vaccines.Get(provinceBatch.BatchVaccine.DevelopedVaccine.Vaccine.Id);
+                var validationApplied = vaccine.CanApply(patient);
 
                 if (!validationApplied.HasValue)
                 {
-                    throw new HttpResponseException(400, message: "La persona '" + model.Name + " " + model.Surname + " con DNI " + model.DNI + "' no puede aplicarse la vacuna.");
+                    throw new HttpResponseException(400, message: "La persona '" + model.Name + " " + model.Surname + " con DNI " + model.DNI.ToString() + "' no puede aplicarse la vacuna.");
                 }
 
-                provinceBatch.RemainingQuantity = provinceBatch.RemainingQuantity--;
+                provinceBatch.RemainingQuantity--;
 
                 var appliedVaccine = new AppliedVaccine()
                 {
@@ -92,11 +97,10 @@ namespace VacunnasistBackend.Services
 
                 _context.AppliedVaccines.Add(appliedVaccine);
                 patient.AppliedVaccines.Add(appliedVaccine);
-                _context.Patients.Update(patient);
                 _context.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return false;
             }
