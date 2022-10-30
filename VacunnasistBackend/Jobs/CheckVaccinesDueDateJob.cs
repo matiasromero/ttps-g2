@@ -12,8 +12,8 @@ namespace VacunassistBackend.Jobs
         }
         public Task Execute(IJobExecutionContext context)
         {
-            var batchVaccines = _context.BatchVaccines.Where(x => x.DueDate < DateTime.Now.Date && x.RemainingQuantity > 0).ToArray();
-            var localBatchVaccines = _context.LocalBatchVaccines.Include(x => x.BatchVaccine).Where(x => x.BatchVaccine.DueDate < DateTime.Now.Date && x.RemainingQuantity > 0).ToArray();
+            var batchVaccines = _context.BatchVaccines.Where(x => x.DueDate < DateTime.Now.Date).ToArray();
+            var localBatchVaccines = _context.LocalBatchVaccines.Include(x => x.BatchVaccine).Where(x => x.BatchVaccine.DueDate < DateTime.Now.Date).ToArray();
 
             foreach (var batch in batchVaccines)
             {
