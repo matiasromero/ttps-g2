@@ -96,7 +96,7 @@ export class ProfileComponent implements OnInit {
         Swal
       .fire({
         title: '¿Está seguro?',
-        text: 'Va a eliminar la vacuna: ' + v.vaccine.name,
+        text: 'Va a eliminar la vacuna: ',
         icon: 'warning',
         showCancelButton: true,
         cancelButtonText: 'No, cancelar',

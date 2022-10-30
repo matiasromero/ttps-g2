@@ -154,9 +154,61 @@
       <div class="form-group">
         <mat-checkbox formControlName="healthWorker" class="form-control" [disabled]="true">Personal de salud</mat-checkbox>
       </div>
-
+      <div>
+        <label>Vacunas aplicadas</label>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>                
+                <th scope="col">Fecha de aplicación</th>
+                <th scope="col">Vacuna</th>
+                <th scope="col">Vacuna desarrollada</th>
+                <th scope="col"># Lote</th>
+                <th scope="col">Jurisdicción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="mat-row" *ngIf="!previousAppliance.length">
+                <td class="mat-cell text-center" [attr.colspan]="5">
+                  Sin aplicaciones previas
+                </td>
+              </tr>
+              <tr *ngFor="let a of previousAppliance">
+                <td scope="row">
+                  {{ a.appliedDate }}
+                </td>
+                <td scope="row">
+                  {{ a.localBatchVaccine.batchVaccine.developedVaccine.vaccine.name }}
+                </td>
+                <td scope="row">
+                  {{ a.localBatchVaccine.batchVaccine.developedVaccine.name }}
+                </td>
+                <td scope="row">
+                  {{ a.localBatchVaccine.batchVaccine.batchNumber }}
+                </td>
+                <td scope="row">
+                  {{ a.localBatchVaccine.province }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
       <!--ACA DEBRIA IR EL SELECTOR DE VACUNAS PARA ELEGIR ENTRE LAS DISPONIBLES-->
-      
+      <div class="form-group">
+        <mat-form-field appearance="fill" class="ml-3">
+          <mat-label>Vacuna a aplicar</mat-label>
+          <mat-select formControlName="developedVaccineId">
+            <mat-option
+              *ngFor="let vaccine of developedVaccines"
+              [value]="vaccine.id"
+            >
+              {{ vaccine.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
       <div class="form-group">
         <button [disabled]="loading" class="btn btn-primary">
           <span

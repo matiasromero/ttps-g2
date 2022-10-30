@@ -89,28 +89,28 @@
             </td>
           </tr>
           <tr *ngFor="let a of appliedVaccines">
-            <th scope="row">
-              {{ a.dni }}
-            </th>
+            <td scope="row">
+              {{ a.patient.dni }}
+            </td>
 
-            <th scope="row">
-              {{ a.fullName }}
-            </th>
-            <th scope="row">
-              {{ a.province }}
-            </th>
-            <th scope="row">
+            <td scope="row">
+              {{ a.patient.name }} {{ a.patient.surname }}
+            </td>
+            <td scope="row">
+              {{ a.localBatchVaccine.province }}
+            </td>
+            <td scope="row">
               {{ a.appliedDate }}
-            </th>
-            <th scope="row">
-              {{ a.vaccineId }}
-            </th>
-            <th scope="row">
-              {{ a.developedVaccineId }}
-            </th>
-            <th scope="row">
-              {{ a.batchNumber }}
-            </th>
+            </td>
+            <td scope="row">
+              {{ a.localBatchVaccine.batchVaccine.developedVaccine.vaccine.name }}
+            </td>
+            <td scope="row">
+              {{ a.localBatchVaccine.batchVaccine.developedVaccine.name }}
+            </td>
+            <td scope="row">
+              {{ a.localBatchVaccine.batchVaccine.batchNumber }}
+            </td>
           </tr>
         </tbody>
       </table>

@@ -1,15 +1,11 @@
-import { DevelopedVaccine } from "./developed-vaccine";
+import { LocalBatchVaccine } from "./local-batch-vaccine";
+import { Patient } from "./patient";
+import { User } from "./user";
 
 export class AppliedVaccine {
     id!: number;
-    userId!: number;
-    vaccineId!: number;
-    developedVaccineId!: number;
-    batchNumber!: string;
-    vaccine!: DevelopedVaccine;
+    user!: User;
+    patient!: Patient;
     appliedDate!: Date;
-    appliedBy?: string;
-    province?: string;
-    fullName?: string;
-    dni?: string;
+    localBatchVaccine!: LocalBatchVaccine;
 }

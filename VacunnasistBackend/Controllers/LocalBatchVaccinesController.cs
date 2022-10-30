@@ -23,7 +23,7 @@ namespace VacunassistBackend.Controllers
         public IActionResult GetAll([FromQuery] LocalBatchVaccinesFilterRequest filter)
         {
             var user = (User)HttpContext.Items["User"];
-            if (user.Role == UserRoles.Analyst)
+            if (user.Role == UserRoles.Analyst || user.Role == UserRoles.Vacunator)
             {
                 filter.Province = user.Province;
             }

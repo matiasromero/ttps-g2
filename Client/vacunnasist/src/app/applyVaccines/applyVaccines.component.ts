@@ -36,12 +36,9 @@ export class ApplyVaccinesComponent {
       private dp: DatePipe
   ) { 
     this.formFilter = this.formBuilder.group({
-      batchNumber: ['', [Validators.maxLength(20)]],
-      //fullName: ['', [Validators.maxLength(100)]],
       province: [''],
       vaccineId: [''],
       developedVaccineId: [''],
-      appliedDate: [null],
       dni: ['']
     });
 
@@ -51,9 +48,7 @@ export class ApplyVaccinesComponent {
           onlySelf: true,
         });
       }
-      /*if (params.fullName) {
-        this.formFilter.controls.fullName.setValue(params.fullName, { onlySelf: true, });
-      }*/
+
       if (params.province) {
         this.formFilter.controls.province.setValue(params.province, {
           onlySelf: true,
@@ -84,14 +79,11 @@ export class ApplyVaccinesComponent {
 
   public filter = new AppliedVaccinesFilter();
   public appliedVaccines: AppliedVaccine[] = [];
-  public user: User = new User;
+
 
 loadData(){
   const dni = this.formFilter.get('dni')?.value;
-  //const batchNumber = this.formFilter.get('batchNumber')?.value;
-  //const fullName = this.formFilter.get('fullName')?.value;
   const province = this.formFilter.get('province')?.value;
- // const appliedDate = this.formFilter.get('appliedDate')?.value;
   const vaccineId = this.formFilter.get('vaccineId')?.value;
   const developedVaccineId = this.formFilter.get('developedVaccineId')?.value;
 
@@ -100,7 +92,6 @@ loadData(){
   this.filter.vaccineId = vaccineId;
   this.filter.developedVaccineId = developedVaccineId;
 
-  //Obtener las vacunas aplicadas por el user.username
   this.appliedVaccinesService.getAll(this.filter).subscribe((res: any) => {
     this.appliedVaccines = res.vaccines;
   });

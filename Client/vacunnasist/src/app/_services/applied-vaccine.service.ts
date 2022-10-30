@@ -16,18 +16,16 @@ export class AppliedVaccinesService {
     );
 
     let params = new HttpParams();
-    if (filter.batchNumber)
-      params = params.append('batchNumber', filter.batchNumber.toString());
-    if (filter.appliedBy) params = params.append('appliedBy', filter.appliedBy.toString());
-    if (filter.appliedDate)
-      params = params.append('appliedDate', filter.appliedDate.toString());
+    if (filter.appliedById) params = params.append('appliedById', filter.appliedById.toString());
     if (filter.province)
       params = params.append('province', filter.province.toString());
     if (filter.vaccineId)
      params = params.append('vaccineId', filter.vaccineId.toString());
     if (filter.developedVaccineId)
      params = params.append('developedVaccineId', filter.developedVaccineId.toString());
-    
+    if(filter.dni)
+      params = params.append('dni', filter.dni.toString())
+
     return this.http.get<AppliedVaccine[]>(
       `${environment.apiUrl}/appliedVaccine`,
       {
@@ -43,7 +41,7 @@ export class AppliedVaccinesService {
     );
   }
 
-  newPurchaseOrder(po: NewApplicationVaccineRequest) {
-    return this.http.post(`${environment.apiUrl}/appliedVaccine`, po);
+  newApplication(po: NewApplicationVaccineRequest) {
+    return this.http.post(`${environment.apiUrl}/appliedVaccine/new`, po);
   }
 }

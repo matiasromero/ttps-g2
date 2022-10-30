@@ -4,6 +4,7 @@ using VacunassistBackend.Entities;
 using VacunassistBackend.Models;
 using VacunassistBackend.Models.Filters;
 using VacunassistBackend.Services;
+using VacunnasistBackend.Models;
 using VacunnasistBackend.Models.Filters;
 using VacunnasistBackend.Services;
 
@@ -43,26 +44,22 @@ namespace VacunnasistBackend.Controllers
             return Ok(_appliedVaccinesService.Get(id));
         }
 
-        /*[HttpPost]
-        public IActionResult NewVaccineApplication([FromBody] NewAppliedVaccineRequest model)
+        [HttpPost]
+        public IActionResult New([FromBody] NewAppliedVaccineRequest model)
         {
-            // var alreadyExist = _developedVaccinesService.AlreadyExist(model.Name);
-            // if (alreadyExist)
-            // {
-            //     return BadRequest(new
-            //     {
-            //         message = "Ya existe una vacuna desarrollada con el mismo nombre"
-            //     });
+            var user = (User)HttpContext.Items["User"];
+            if (user.Role == UserRoles.Vacunator)
+            {
+                model.ApplyBy = user.Id;
+            }
 
-            // }
-
-            // _developedVaccinesService.New(model);
+            _appliedVaccinesService.New(model);
 
             return Ok(new
             {
-                message = "Vacuna desarrollada creada correctamente"
+                message = "Aplicación realizada correctamente"
             });
-        }*/
+        }
 
     }
 }

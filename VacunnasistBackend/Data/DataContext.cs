@@ -22,6 +22,7 @@ namespace VacunassistBackend.Data
         public DbSet<LocalBatchVaccine> LocalBatchVaccines { get; set; }
         public DbSet<AppliedVaccine> AppliedVaccines { get; set; }
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+        public DbSet<Patient> Patients { get; set; }
 
         #region Required
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -274,6 +275,7 @@ namespace VacunassistBackend.Data
                     PatientId = patient.Id,
                     LocalBatchVaccineId = localBatch1.Id,
                     UserId = vacunador1.Id,
+                    AppliedDose = 3001
                 };
 
                 var applied2 = new AppliedVaccine()
@@ -282,6 +284,7 @@ namespace VacunassistBackend.Data
                     PatientId = patient2.Id,
                     LocalBatchVaccineId = localBatch1.Id,
                     UserId = vacunador1.Id,
+                    AppliedDose = 3001
                 };
 
 
