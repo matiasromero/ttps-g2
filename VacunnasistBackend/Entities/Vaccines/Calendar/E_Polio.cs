@@ -21,31 +21,14 @@ public class E_Polio : Vaccine
         var iDate = Convert.ToDateTime(patient.BirthDate);
         switch (alreadyApplied.Length)
         {
-            case 0:     
-                if (iDate.AddMonths(2) > DateTime.Now)
-                    return 501;
-                else 
-                    return null;
+            case 0: return (iDate.AddMonths(2) > DateTime.Now) ? 501 : null;
                 break;
-            case 1:
-                if (alreadyApplied[0].AppliedDate.AddDays(60) < DateTime.Now)
-                    return null;
-                else
-                    return 502;
+            case 1: return (alreadyApplied[0].AppliedDate.AddDays(60) < DateTime.Now) ? null : 502;
                 break;
-            case 2:
-                if (alreadyApplied[1].AppliedDate.AddDays(60) < DateTime.Now)
-                    return null;
-                else
-                    return 503;
+            case 2: return (alreadyApplied[1].AppliedDate.AddDays(60) < DateTime.Now) ? null : 503;
                 break;
-            case 3:
-                if (alreadyApplied[2].AppliedDate.AddMonths(66) < DateTime.Now)
-                    return null;
-                else
-                    return 504;
+            case 3: return (alreadyApplied[2].AppliedDate.AddMonths(66) < DateTime.Now) ? null : 504;
                 break;
-
         }
         return null;
     }

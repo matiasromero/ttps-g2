@@ -18,13 +18,15 @@ public class B_HepatitisB : Vaccine
     protected override int? internalValidation(Patient patient)
     {
         var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
-        if (alreadyApplied.Any())
+        var iDate = Convert.ToDateTime(patient.BirthDate);
+
+        switch (alreadyApplied.Length)
         {
-            if (alreadyApplied.Any(x => x.AppliedDate.AddMonths(132) < DateTime.Now)) // tiene una dosis y la distancia es menor a 132 meses.
-                return null;
-            else if(alreadyApplied.Any(x => x.AppliedDate.AddMonths(132).AddDays(60) < DateTime.Now))
-                return 2002; // tiene una dosis, y la distancia es mayor a 120 dias.
+            case 0: return (iDate.AddMonths(132) >= DateTime.Now) ? 202 : 201; break;
+            case 1: return (iDate.AddMonths(132) >= DateTime.Now && alreadyApplied[0].AppliedDate.AddDays(60) < DateTime.Now) ? null : 203; break;
+            case 2: return (iDate.AddMonths(132) >= DateTime.Now && alreadyApplied[0].AppliedDate.AddDays(180) < DateTime.Now) ? null : 204; break;
+
         }
-        return 201;
+        return null;
     }
 }
