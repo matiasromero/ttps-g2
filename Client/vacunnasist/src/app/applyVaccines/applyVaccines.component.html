@@ -125,7 +125,6 @@
           <tr>
             <th scope="col">DNI</th>
             <th scope="col">Nombre</th>
-            <th scope="col">Jurisdicción</th>
             <th scope="col">Fecha de aplicación</th>
             <th scope="col">Vacuna</th>
             <th scope="col">Vacuna desarrollada</th>
@@ -148,9 +147,6 @@
             </td>
 
             <td scope="row">{{ a.patient.name }} {{ a.patient.surname }}</td>
-            <td scope="row">
-              {{ a.localBatchVaccine.province }}
-            </td>
             <td scope="row">
               {{ a.appliedDate | date: "dd/MM/yyyy" }}
             </td>
