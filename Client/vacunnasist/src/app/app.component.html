@@ -40,6 +40,15 @@
         <li class="nav-item">
           <a
             class="nav-item nav-link"
+            routerLink="/local-batch-vaccines"
+            routerLinkActive="active"
+            *ngIf="user && (user.role == 'operator' || user.role == 'analyst')"
+            >Lotes provinciales</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
             routerLink="/purchase-orders"
             routerLinkActive="active"
             *ngIf="user && user.role == 'operator'"
@@ -56,6 +65,15 @@
             routerLinkActive="active"
             *ngIf="user && user.role == 'administrator'"
             >Usuarios</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
+            routerLink="/apply-vaccines"
+            routerLinkActive="active"
+            *ngIf="user && user.role != 'administrator'"
+            >Vacunación</a
           >
         </li>
       </ul>

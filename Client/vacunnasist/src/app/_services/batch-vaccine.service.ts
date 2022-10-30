@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BatchVaccinesFilter } from '../_models/filters/batch-vaccines-filter';
+import { NewDistributionRequest } from '../_models/new-distribution-request';
 
 @Injectable({ providedIn: 'root' })
 export class BatchVaccineService {
@@ -36,6 +37,20 @@ export class BatchVaccineService {
   getById(id: number) {
     return this.http.get<BatchVaccine>(
       `${environment.apiUrl}/batchVaccines/${id}`
+    );
+  }
+
+  newDistribution(d: NewDistributionRequest) {
+    return this.http.post(
+      `${environment.apiUrl}/batchVaccines/distribution`,
+      d
+    );
+  }
+
+  fireCron() {
+    return this.http.post(
+      `${environment.apiUrl}/batchVaccines/fire-cron`,
+      null
     );
   }
 }

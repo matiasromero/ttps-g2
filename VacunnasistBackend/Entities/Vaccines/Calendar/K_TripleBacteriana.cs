@@ -1,3 +1,5 @@
+using VacunnasistBackend.Entities;
+
 namespace VacunassistBackend.Entities.Vaccines.Calendar;
 
 public class K_TripleBacteriana : Vaccine
@@ -10,8 +12,13 @@ public class K_TripleBacteriana : Vaccine
         };
     }
 
-    protected override bool internalValidation()
+    protected override int? internalValidation(Patient patient)
     {
-        return true;
+        var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
+        if (alreadyApplied.Any())
+            return null;
+
+        var iDate = Convert.ToDateTime(patient.BirthDate);
+        return (iDate.AddMonths(60) < DateTime.Now) ? null : 1101;
     }
 }

@@ -1,0 +1,172 @@
+<div class="card">
+  <h4 class="card-header">Lotes provinciales</h4>
+  <div class="card-body">
+    <mat-accordion>
+      <mat-expansion-panel
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+      >
+        <mat-expansion-panel-header class="right-aligned-header">
+          <mat-panel-title>Filtros aplicados:</mat-panel-title>
+          <mat-panel-description>
+            <mat-chip-list aria-label="isActive">
+              <mat-chip
+                [matTooltip]="filter.batchNumber"
+                *ngIf="filter.batchNumber"
+                ># Lote: {{ filter.batchNumber }}</mat-chip
+              >
+              <mat-chip *ngIf="filter.vaccineId">Por vacuna</mat-chip>
+              <mat-chip *ngIf="filter.developedVaccineId"
+                >Por vacuna desarrollada</mat-chip
+              >
+              <mat-chip *ngIf="filter.province">{{ filter.province }}</mat-chip>
+            </mat-chip-list>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <hr />
+        <form [formGroup]="formFilter" (ngSubmit)="applyFilter()">
+          <div class="form-group">
+            <label for="batchNumber"># Lote</label>
+            <input
+              type="text"
+              formControlName="batchNumber"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.batchNumber.errors }"
+            />
+          </div>
+          <div class="form-group">
+            <mat-form-field appearance="fill">
+              <mat-label>Vacuna</mat-label>
+              <mat-select
+                formControlName="vaccineId"
+                (valueChange)="changeVaccine($event)"
+              >
+                <mat-option value="">Todas</mat-option>
+                <mat-option
+                  *ngFor="let vaccine of vaccines"
+                  [value]="vaccine.id"
+                >
+                  {{ vaccine.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="ml-3">
+              <mat-label>Vacuna desarrollada</mat-label>
+              <mat-select formControlName="developedVaccineId">
+                <mat-option value="">Todas</mat-option>
+                <mat-option
+                  *ngFor="let vaccine of developedVaccines"
+                  [value]="vaccine.id"
+                >
+                  {{ vaccine.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-group" *ngIf="user && user.role == 'operator'">
+            <mat-form-field appearance="fill">
+              <mat-label>Jurisdicción</mat-label>
+              <mat-select formControlName="province">
+                <mat-option value="">Todas</mat-option>
+                <mat-option value="Buenos Aires">Buenos Aires</mat-option>
+                <mat-option value="Catamarca">Catamarca</mat-option>
+                <mat-option value="Chaco">Chaco</mat-option>
+                <mat-option value="Chubut">Chubut</mat-option>
+                <mat-option value="Córdoba">Córdoba</mat-option>
+                <mat-option value="Corrientes">Corrientes</mat-option>
+                <mat-option value="Entre Ríos">Entre Ríos</mat-option>
+                <mat-option value="Formosa">Formosa</mat-option>
+                <mat-option value="Jujuy">Jujuy</mat-option>
+                <mat-option value="La Pampa">La Pampa</mat-option>
+                <mat-option value="La Rioja">La Rioja</mat-option>
+                <mat-option value="Mendoza">Mendoza</mat-option>
+                <mat-option value="Misiones">Misiones</mat-option>
+                <mat-option value="Neuquén">Neuquén</mat-option>
+                <mat-option value="Río Negro">Río Negro</mat-option>
+                <mat-option value="Salta">Salta</mat-option>
+                <mat-option value="San Juan">San Juan</mat-option>
+                <mat-option value="San Luis">San Luis</mat-option>
+                <mat-option value="Santa Cruz">Santa Cruz</mat-option>
+                <mat-option value="Santa Fe">Santa Fe</mat-option>
+                <mat-option value="Santiago del Estero"
+                  >Santiago del Estero</mat-option
+                >
+                <mat-option value="Tierra del Fuego"
+                  >Tierra del Fuego</mat-option
+                >
+                <mat-option value="Tucumán">Tucumán</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <button [disabled]="loading" class="btn btn-primary">
+            <span
+              *ngIf="loading"
+              class="spinner-border spinner-border-sm mr-1"
+            ></span>
+            Aplicar
+          </button>
+          <button
+            [disabled]="loading"
+            class="btn btn-secondary ml-2"
+            (click)="clear()"
+          >
+            <span
+              *ngIf="loading"
+              class="spinner-border spinner-border-sm mr-1"
+            ></span>
+            Limpiar
+          </button>
+        </form>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Vacuna</th>
+            <th>Vacuna desarrollada</th>
+            <th scope="col"># Lote</th>
+            <th scope="col">Disponible</th>
+            <th scope="col">Vencimiento</th>
+            <th scope="col" *ngIf="user && user.role == 'operator'">
+              Jurisdicción
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="mat-row" *ngIf="!localBatchVaccines.length">
+            <td class="mat-cell text-center" [attr.colspan]="5">
+              Sin resultados
+            </td>
+          </tr>
+          <tr
+            *ngFor="let v of localBatchVaccines"
+            class="hoverable-row"
+            [ngClass]="{ overdueRow: v.batchVaccine.status == 1 }"
+            (click)="select(v)"
+          >
+            <td>
+              {{ v.batchVaccine.developedVaccine.vaccine.name }}
+            </td>
+            <td>
+              {{ v.batchVaccine.developedVaccine.name }}
+            </td>
+            <th scope="row">
+              {{ v.batchVaccine.batchNumber }}
+            </th>
+            <td class="text-right" style="width: 80px">
+              {{ v.remainingQuantity }}
+            </td>
+            <td>
+              {{ v.batchVaccine.dueDate | date: "dd/MM/yyyy" }}
+            </td>
+            <td *ngIf="user && user.role == 'operator'">
+              {{ v.province }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

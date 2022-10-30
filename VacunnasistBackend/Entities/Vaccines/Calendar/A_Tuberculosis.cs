@@ -1,3 +1,5 @@
+using VacunnasistBackend.Entities;
+
 namespace VacunassistBackend.Entities.Vaccines.Calendar;
 
 public class A_Tuberculosis : Vaccine
@@ -9,8 +11,14 @@ public class A_Tuberculosis : Vaccine
             new VaccineDose(101, 0, 0)
         };
     }
-    protected override bool internalValidation()
+    protected override int? internalValidation(Patient patient)
     {
-        return true;
+        var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
+        if (alreadyApplied.Any())
+        {
+            return null;    
+        }
+        
+        return 101; //Nunca se la dió y es la primer vez.
     }
 }

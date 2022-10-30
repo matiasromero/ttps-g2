@@ -9,6 +9,9 @@ using System.Text;
 using System.Text.Json.Serialization;
 using VacunassistBackend.Infrastructure;
 using Microsoft.OpenApi.Models;
+using Quartz;
+using VacunassistBackend.Jobs;
+using VacunnasistBackend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var _MyCors = "MyCors";
@@ -23,7 +26,9 @@ var _MyCors = "MyCors";
     services.AddTransient<IDevelopedVaccinesService, DevelopedVaccinesService>();
     services.AddTransient<INotificationsService, NotificationsService>();
     services.AddTransient<IBatchVaccinesService, BatchVaccinesService>();
+    services.AddTransient<ILocalBatchVaccinesService, LocalBatchVaccinesService>();
     services.AddTransient<IPurchaseOrdersService, PurchaseOrdersService>();
+    services.AddTransient<IAppliedVaccineService, AppliedVaccineService>();
 
     services.AddDbContext<DataContext>(options =>
     {
@@ -97,6 +102,20 @@ builder.Services.AddCors(options =>
             });
         });
 
+builder.Services.AddQuartz(q =>
+{
+    q.UseMicrosoftDependencyInjectionScopedJobFactory();
+    var jobKey = new JobKey("CheckVaccinesDueDateJob");
+    q.AddJob<CheckVaccinesDueDateJob>(opts => opts.WithIdentity(jobKey));
+
+    q.AddTrigger(opts => opts
+        .ForJob(jobKey)
+        .WithIdentity("CheckVaccinesDueDateJob-trigger")
+        .StartNow()
+        .WithCronSchedule("0 0 0 ? * *")); // todos los dias a las 0 pm
+});
+builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+
 var app = builder.Build();
 
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -113,6 +132,8 @@ app.UseSwaggerUI(c =>
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API");
         c.RoutePrefix = string.Empty;
     });
+
+
 
 app.UseCors(_MyCors);
 

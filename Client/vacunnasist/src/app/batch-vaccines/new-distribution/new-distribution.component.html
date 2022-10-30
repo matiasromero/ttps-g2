@@ -1,0 +1,91 @@
+<div class="card">
+  <h4 class="card-header">Nueva órden de compra</h4>
+  <div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <mat-form-field appearance="fill">
+          <mat-label>Vacuna</mat-label>
+          <mat-select formControlName="vaccineId">
+            <mat-option *ngFor="let vaccine of vaccines" [value]="vaccine.id">
+              {{ vaccine.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <label for="province">Jurisdicción</label>
+        <select formControlName="province" class="form-control" id="province">
+          <option value="Buenos Aires">Buenos Aires</option>
+          <option value="Catamarca">Catamarca</option>
+          <option value="Chaco">Chaco</option>
+          <option value="Chubut">Chubut</option>
+          <option value="Córdoba">Córdoba</option>
+          <option value="Corrientes">Corrientes</option>
+          <option value="Entre Ríos">Entre Ríos</option>
+          <option value="Formosa">Formosa</option>
+          <option value="Jujuy">Jujuy</option>
+          <option value="La Pampa">La Pampa</option>
+          <option value="La Rioja">La Rioja</option>
+          <option value="Mendoza">Mendoza</option>
+          <option value="Misiones">Misiones</option>
+          <option value="Neuquén">Neuquén</option>
+          <option value="Río Negro">Río Negro</option>
+          <option value="Salta">Salta</option>
+          <option value="San Juan">San Juan</option>
+          <option value="San Luis">San Luis</option>
+          <option value="Santa Cruz">Santa Cruz</option>
+          <option value="Santa Fe">Santa Fe</option>
+          <option value="Santiago del Estero">Santiago del Estero</option>
+          <option value="Tierra del Fuego">Tierra del Fuego</option>
+          <option value="Tucumán">Tucumán</option>
+        </select>
+        <div
+          *ngIf="
+            f.province.invalid &&
+            (submitted || f.province.dirty || f.province.touched)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="f.province.errors?.['required']">
+            El campo Jurisdicción es requerido.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="quantity" class="required">Cantidad</label>
+        <input
+          type="number"
+          min="1"
+          value="1"
+          formControlName="quantity"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }"
+        />
+        <div
+          *ngIf="
+            f.quantity.invalid &&
+            (submitted || f.quantity.dirty || f.quantity.touched)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="f.quantity.errors?.['required']">
+            El campo cantidad es requerido.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">
+          <span
+            *ngIf="loading"
+            class="spinner-border spinner-border-sm mr-1"
+          ></span>
+          Confirmar
+        </button>
+        <a routerLink="../../batch-vaccines" class="btn btn-link">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>

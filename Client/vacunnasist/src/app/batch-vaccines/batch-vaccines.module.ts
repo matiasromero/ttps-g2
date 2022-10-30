@@ -1,3 +1,4 @@
+import { ViewBatchVaccineComponent } from './view/view-batch-vaccine.component';
 import { BatchVaccineStatusPipe } from './../_helpers/batch-vaccine-status.pipe';
 import { BatchVaccinesRoutingModule } from './batch-vaccines-routing.module';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -24,9 +25,15 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_DATE_FORMATS } from '../account/account.module';
 import { MatSelectModule } from '@angular/material/select';
 import { BatchVaccinesComponent } from './batch-vaccines.component';
+import { NewDistributionOrderComponent } from './new-distribution/new-distribution.component';
 
 @NgModule({
-  declarations: [BatchVaccinesComponent, BatchVaccineStatusPipe],
+  declarations: [
+    BatchVaccinesComponent,
+    ViewBatchVaccineComponent,
+    NewDistributionOrderComponent,
+    BatchVaccineStatusPipe,
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,

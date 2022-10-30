@@ -1,3 +1,5 @@
+using VacunnasistBackend.Entities;
+
 namespace VacunassistBackend.Entities.Vaccines.Calendar;
 
 public class J_Varicela : Vaccine
@@ -11,8 +13,18 @@ public class J_Varicela : Vaccine
         };
     }
 
-    protected override bool internalValidation()
+    protected override int? internalValidation(Patient patient)
     {
-        return true;
+        var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
+        if (alreadyApplied.Any())
+        {
+            if (alreadyApplied.Any(x => x.AppliedDate.AddMonths(60) < DateTime.Now))
+                return null;
+            else
+                return 1002;
+        }
+
+        var iDate = Convert.ToDateTime(patient.BirthDate);
+        return (iDate.AddMonths(15) < DateTime.Now) ? null : 1001;
     }
 }

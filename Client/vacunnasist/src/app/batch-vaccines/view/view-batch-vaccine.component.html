@@ -1,0 +1,105 @@
+<div *ngIf="!batchVaccine">Cargando...</div>
+<div class="card" *ngIf="batchVaccine">
+  <h4 class="card-header">Lote # {{ batchVaccine.batchNumber }}</h4>
+  <div class="card-body">
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right"># Lote</label>
+      <div class="col-md-8 controls readonly">
+        <b>{{ batchVaccine.batchNumber }}</b>
+      </div>
+    </div>
+
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">Estado</label>
+      <div class="col-md-8 controls readonly">
+        <b>{{ batchVaccine.status | batchvaccinestatus }}</b>
+      </div>
+    </div>
+
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">Stock</label>
+      <div class="col-md-8 controls readonly">
+        <span
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Disponible"
+          class="badge badge-success lines-badge"
+          >{{ batchVaccine.remainingQuantity }}</span
+        >
+        <span
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Distribuído"
+          class="badge badge-primary lines-badge ml-3"
+          >{{ batchVaccine.distributedQuantity }}</span
+        >
+
+        <span
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Vencido"
+          class="badge badge-danger lines-badge ml-3"
+          >{{ batchVaccine.overdueQuantity }}</span
+        >
+      </div>
+    </div>
+
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">Vacuna desarrollada</label>
+      <div class="col-md-8 controls readonly">
+        {{ batchVaccine.developedVaccine.name }} ({{
+          batchVaccine.developedVaccine.vaccine.name
+        }})
+      </div>
+    </div>
+
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">Vencimiento</label>
+      <div class="col-md-8 controls readonly">
+        {{ batchVaccine.dueDate | date: "dd/MM/yyyy" }}
+      </div>
+    </div>
+
+    <hr />
+    <div class="form-group form-row">
+      <div style="width: 100%" class="text-center">
+        <h3 class="text-center">Distribución</h3>
+      </div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="text-center">Fecha</th>
+              <th class="text-center">Cantidad</th>
+              <th class="text-center">Jurisdicción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="mat-row" *ngIf="!batchVaccine.distributions.length">
+              <td class="mat-cell text-center" [attr.colspan]="5">
+                Sin distribuciones
+              </td>
+            </tr>
+            <tr *ngFor="let d of batchVaccine.distributions">
+              <td class="text-center">
+                {{ d.distributionDate | date: "dd/MM/yyyy HH:mm:ss" }}
+              </td>
+              <th scope="row" class="text-center">
+                {{ d.quantity }}
+              </th>
+              <td class="text-center">
+                {{ d.province }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button type="button" (click)="backClicked()" class="btn btn-link">
+        Volver
+      </button>
+    </div>
+  </div>
+</div>

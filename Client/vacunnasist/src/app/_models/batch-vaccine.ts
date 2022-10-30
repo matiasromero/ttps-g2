@@ -1,3 +1,4 @@
+import { LocalBatchVaccine } from './local-batch-vaccine';
 import { DevelopedVaccine } from './developed-vaccine';
 
 export class BatchVaccine {
@@ -12,4 +13,5 @@ export class BatchVaccine {
   public remainingQuantity!: number;
   public overdueQuantity!: number;
   public distributedQuantity!: number;
+  public distributions!: LocalBatchVaccine[];
 }

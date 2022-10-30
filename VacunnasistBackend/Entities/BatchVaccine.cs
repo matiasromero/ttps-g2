@@ -11,6 +11,7 @@ namespace VacunassistBackend.Entities
             this.OverdueQuantity = 0;
             this.Quantity = quantity;
             this.RemainingQuantity = quantity;
+            Distributions = new List<LocalBatchVaccine>();
         }
 
         [Key]
@@ -38,9 +39,11 @@ namespace VacunassistBackend.Entities
         }
         public BatchStatus Status { get; set; }
 
+        public virtual List<LocalBatchVaccine> Distributions { get; set; }
+
         public void checkOverdue()
         {
-            if (DueDate < DateTime.Now)
+            if (DueDate < DateTime.Now.Date)
             {
                 Status = BatchStatus.Overdue;
                 OverdueQuantity = RemainingQuantity;

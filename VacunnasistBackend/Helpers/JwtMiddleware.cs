@@ -49,7 +49,7 @@ namespace VacunassistBackend.Helpers
                 var userId = int.Parse(jwtToken.Claims.First(x => x.Type == JwtRegisteredClaimNames.NameId).Value);
 
                 // attach user to context on successful jwt validation
-                context.Items["User"] = userService.Get(userId);
+                context.Items["User"] = userService.GetWithoutFetch(userId);
             }
             catch
             {

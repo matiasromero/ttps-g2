@@ -1,17 +1,28 @@
+using System.ComponentModel.DataAnnotations;
+using VacunnasistBackend.Entities;
+
 namespace VacunassistBackend.Entities
 {
     public class AppliedVaccine
     {
+        public AppliedVaccine()
+        {
+            AppliedDate = DateTime.Now.Date;
+        }
+
+        [Key]
         public int Id { get; set; }
-        public DateTime? AppliedDate { get; set; }
-        public string? AppliedBy { get; set; }
+        public DateTime AppliedDate { get; set; }
 
-        public string? Remark { get; set; }
+        public int PatientId { get; set; }
+        public Patient Patient { get; set; }
 
-        public int PersonId { get; set; }
+        public int UserId { get; set; }
         public User User { get; set; }
 
-        public int VaccineId { get; set; }
-        public DevelopedVaccine Vaccine { get; set; }
+        public LocalBatchVaccine LocalBatchVaccine { get; set; }
+        public int LocalBatchVaccineId { get; set; }
+
+        public int AppliedDose { get; set; }
     }
 }

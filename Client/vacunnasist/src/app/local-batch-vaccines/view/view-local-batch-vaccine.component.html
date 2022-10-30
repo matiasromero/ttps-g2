@@ -1,0 +1,63 @@
+<div *ngIf="!localBatchVaccine">Cargando...</div>
+<div class="card" *ngIf="localBatchVaccine">
+  <h4 class="card-header">
+    Lote # {{ localBatchVaccine.batchVaccine.batchNumber }}
+  </h4>
+  <div class="card-body">
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right"># Lote</label>
+      <div class="col-md-8 controls readonly">
+        <b>{{ localBatchVaccine.batchVaccine.batchNumber }}</b>
+      </div>
+    </div>
+
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">Stock disponible</label>
+      <div class="col-md-8 controls readonly">
+        <span
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Disponible"
+          class="badge badge-success lines-badge"
+          >{{ localBatchVaccine.remainingQuantity }}</span
+        >
+      </div>
+    </div>
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">Distribución</label>
+      <div class="col-md-8 controls readonly">
+        <b>{{ localBatchVaccine.quantity }}</b> |
+        {{ localBatchVaccine.distributionDate | date: "dd/MM/yyyy HH:mm:ss" }}
+      </div>
+    </div>
+
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">Jurisdicción</label>
+      <div class="col-md-8 controls readonly">
+        {{ localBatchVaccine.province }}
+      </div>
+    </div>
+
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">Vacuna desarrollada</label>
+      <div class="col-md-8 controls readonly">
+        {{ localBatchVaccine.batchVaccine.developedVaccine.name }} ({{
+          localBatchVaccine.batchVaccine.developedVaccine.vaccine.name
+        }})
+      </div>
+    </div>
+
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">Vencimiento</label>
+      <div class="col-md-8 controls readonly">
+        {{ localBatchVaccine.batchVaccine.dueDate | date: "dd/MM/yyyy" }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button type="button" (click)="backClicked()" class="btn btn-link">
+        Volver
+      </button>
+    </div>
+  </div>
+</div>

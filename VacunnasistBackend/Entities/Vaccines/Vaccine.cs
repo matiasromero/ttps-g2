@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using VacunnasistBackend.Entities;
 
 namespace VacunassistBackend.Entities.Vaccines
 {
@@ -19,16 +20,16 @@ namespace VacunassistBackend.Entities.Vaccines
 
         public VaccineDose[] Doses { get; set; }
 
-        public bool CanApply()
+        public int? CanApply(Patient patient)
         {
-            var isValid = internalValidation();
+            var doseId = internalValidation(patient);
 
-            return isValid;
+            return doseId;
         }
 
-        protected virtual bool internalValidation()
+        protected virtual int? internalValidation(Patient patient)
         {
-            return true;
+            return null;
         }
     }
 

@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Asn1.X509.SigI;
 using VacunassistBackend.Entities;
 using VacunassistBackend.Entities.Vaccines;
 using VacunassistBackend.Utils;
+using VacunnasistBackend.Entities;
 
 namespace VacunassistBackend.Data
 {
@@ -17,8 +19,10 @@ namespace VacunassistBackend.Data
         public DbSet<User> Users { get; set; }
         public DbSet<DevelopedVaccine> DevelopedVaccines { get; set; }
         public DbSet<BatchVaccine> BatchVaccines { get; set; }
+        public DbSet<LocalBatchVaccine> LocalBatchVaccines { get; set; }
         public DbSet<AppliedVaccine> AppliedVaccines { get; set; }
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+        public DbSet<Patient> Patients { get; set; }
 
         #region Required
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -223,7 +227,8 @@ namespace VacunassistBackend.Data
                     Id = 5,
                     DevelopedVaccineId = vaccine3.Id,
                     DueDate = DateTime.Now.AddDays(98).Date,
-                    PurchaseOrderId = po7.Id
+                    PurchaseOrderId = po7.Id,
+                    RemainingQuantity = 3200
                 };
                 var batch6 = new BatchVaccine("FLU13214121", 3600)
                 {
@@ -232,12 +237,64 @@ namespace VacunassistBackend.Data
                     DueDate = DateTime.Now.AddDays(-18).Date,
                     PurchaseOrderId = po8.Id
                 };
-                batch6.checkOverdue();
+
+                var localBatch1 = new LocalBatchVaccine(600, Province.BuenosAires, batch5.Id)
+                {
+                    Id = 1
+                };
+
+                var patient = new Patient()
+                {
+                    Id = 1,
+                    Name = "Paciente",
+                    Surname = "Prueba",
+                    DNI = "29999998",
+                    Gender = Gender.Male,
+                    Province = Province.BuenosAires,
+                    BirthDate = DateTime.Now.Date.ToString(),
+                    HealthWorker = false,
+                    Pregnant = false
+                };
+
+                var patient2 = new Patient()
+                {
+                    Id = 2,
+                    Name = "Paciente2",
+                    Surname = "Prueba2",
+                    DNI = "29999999",
+                    Gender = Gender.Female,
+                    Province = Province.BuenosAires,
+                    BirthDate = DateTime.Now.Date.ToString(),
+                    HealthWorker = false,
+                    Pregnant = false
+                };
+
+                var applied1 = new AppliedVaccine()
+                {
+                    Id = 1,
+                    PatientId = patient.Id,
+                    LocalBatchVaccineId = localBatch1.Id,
+                    UserId = vacunador1.Id,
+                    AppliedDose = 3001
+                };
+
+                var applied2 = new AppliedVaccine()
+                {
+                    Id = 2,
+                    PatientId = patient2.Id,
+                    LocalBatchVaccineId = localBatch1.Id,
+                    UserId = vacunador1.Id,
+                    AppliedDose = 3001
+                };
+
 
                 modelBuilder.Entity<DevelopedVaccine>().HasData(vaccine1, vaccine2, vaccine3);
                 modelBuilder.Entity<PurchaseOrder>().HasData(po1, po2, po3, po4, po5, po6, po7, po8);
+                modelBuilder.Entity<LocalBatchVaccine>().HasData(localBatch1);
                 modelBuilder.Entity<BatchVaccine>().HasData(batch1, batch2, batch3, batch4, batch5, batch6);
                 modelBuilder.Entity<User>().HasData(admin, operador1, operador2, analista1, vacunador1);
+                modelBuilder.Entity<Patient>().HasData(patient, patient2);
+                modelBuilder.Entity<AppliedVaccine>().HasData(applied1, applied2);
             }
         }
         #endregion

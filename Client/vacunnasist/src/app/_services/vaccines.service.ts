@@ -6,25 +6,22 @@ import { VaccinesFilter } from '../_models/filters/vaccines-filter';
 
 @Injectable({ providedIn: 'root' })
 export class VaccinesService {
-    constructor(
-        private http: HttpClient,
-    ) {
-      
-    }
+  constructor(private http: HttpClient) {}
 
-    getAll(filter: VaccinesFilter) {
-        const headers = new HttpHeaders().set(
-            'Content-Type',
-            'application/json; charset=utf-8'
-          );
-          
-        let params = new HttpParams();
-        if (filter.type !== undefined)
-            params = params.append('type', filter.type.toString());
-          return this.http.get<Vaccine[]>(`${environment.apiUrl}/vaccines`, 
-          {
-             headers: headers,
-          params: params
-      });
-    }
+  getAll(filter: VaccinesFilter) {
+    const headers = new HttpHeaders().set(
+      'Content-Type',
+      'application/json; charset=utf-8'
+    );
+
+    let params = new HttpParams();
+    if (filter.type !== undefined)
+      params = params.append('type', filter.type.toString());
+    if (filter.withStock !== undefined)
+      params = params.append('withStock', filter.withStock.toString());
+    return this.http.get<Vaccine[]>(`${environment.apiUrl}/vaccines`, {
+      headers: headers,
+      params: params,
+    });
+  }
 }

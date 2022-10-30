@@ -11,6 +11,7 @@ import { VaccinesFilter } from '../_models/filters/vaccines-filter';
 import { VaccinesService } from '../_services/vaccines.service';
 import { DevelopedVaccineService } from '../_services/developed-vaccine.service';
 import { DevelopedVaccinesFilter } from '../_models/filters/developed-vaccines-filter';
+import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'batch-vaccines.component.html' })
 export class BatchVaccinesComponent implements OnInit {
@@ -153,5 +154,30 @@ export class BatchVaccinesComponent implements OnInit {
     });
 
     this.applyFilter();
+  }
+
+  select(batch: BatchVaccine) {
+    this.router.navigate(['batch-vaccines', batch.id]);
+  }
+
+  newDistribution() {
+    this.router.navigate(['batch-vaccines', 'new-distribution']);
+  }
+
+  runCron() {
+    this.batchVaccineService
+      .fireCron()
+      .pipe(first())
+      .subscribe({
+        next: (obj) => {
+          this.alertService.success('Tarea encolada correctamente', {
+            keepAfterRouteChange: true,
+          });
+        },
+        error: (error) => {
+          this.alertService.error(error);
+          this.loading = false;
+        },
+      });
   }
 }

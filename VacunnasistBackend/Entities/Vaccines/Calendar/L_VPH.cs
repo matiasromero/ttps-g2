@@ -1,3 +1,5 @@
+using VacunnasistBackend.Entities;
+
 namespace VacunassistBackend.Entities.Vaccines.Calendar;
 
 public class L_VPH : Vaccine
@@ -11,8 +13,17 @@ public class L_VPH : Vaccine
         };
     }
 
-    protected override bool internalValidation()
+    protected override int? internalValidation(Patient patient)
     {
-        return true;
+        var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
+        if (alreadyApplied.Any())
+        { 
+            if (alreadyApplied.Any(x => x.AppliedDate.AddDays(180) < DateTime.Now))
+                return null;
+            else
+                return 1202;
+        }
+        var iDate = Convert.ToDateTime(patient.BirthDate);
+        return (iDate.AddMonths(132) < DateTime.Now) ? null : 1201;
     }
 }
