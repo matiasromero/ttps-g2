@@ -93,17 +93,17 @@
               {{ a.patient.dni }}
             </td>
 
-            <td scope="row">
-              {{ a.patient.name }} {{ a.patient.surname }}
-            </td>
+            <td scope="row">{{ a.patient.name }} {{ a.patient.surname }}</td>
             <td scope="row">
               {{ a.localBatchVaccine.province }}
             </td>
             <td scope="row">
-              {{ a.appliedDate }}
+              {{ a.appliedDate | date: "dd/MM/yyyy" }}
             </td>
             <td scope="row">
-              {{ a.localBatchVaccine.batchVaccine.developedVaccine.vaccine.name }}
+              {{
+                a.localBatchVaccine.batchVaccine.developedVaccine.vaccine.name
+              }}
             </td>
             <td scope="row">
               {{ a.localBatchVaccine.batchVaccine.developedVaccine.name }}

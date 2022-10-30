@@ -28,7 +28,11 @@ namespace VacunnasistBackend.Controllers
         public IActionResult GetAll([FromQuery] AppliedVaccinesFilterRequest filter)
         {
             var user = (User)HttpContext.Items["User"];
-            if (user.Role == UserRoles.Vacunator)
+            if (user.Role == UserRoles.Analyst)
+            {
+                filter.Province = user.Province;
+            }
+            else if (user.Role == UserRoles.Vacunator)
             {
                 filter.AppliedById = user.Id;
             }

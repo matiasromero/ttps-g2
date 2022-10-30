@@ -11,6 +11,7 @@ namespace VacunassistBackend.Services
     {
         User Authenticate(string userName, string password);
         User Get(int id);
+        User GetWithoutFetch(int id);
         User Get(string userName);
         bool Exists(string userName);
         bool Exists(int id);
@@ -42,12 +43,17 @@ namespace VacunassistBackend.Services
 
         public User Get(int id)
         {
-            return _context.Users.Include(u => u.Vaccines).ThenInclude(v => v.LocalBatchVaccine).ThenInclude(b => b.BatchVaccine).ThenInclude(dv => dv.DevelopedVaccine).ThenInclude(v => v.Vaccine).First(x => x.Id == id);
+            return _context.Users.Include(u => u.Vaccines).ThenInclude(v => v.LocalBatchVaccine).ThenInclude(b => b.BatchVaccine).ThenInclude(dv => dv.DevelopedVaccine).First(x => x.Id == id);
+        }
+
+        public User GetWithoutFetch(int id)
+        {
+            return _context.Users.First(x => x.Id == id);
         }
 
         public User Get(string userName)
         {
-            return _context.Users.Include(u => u.Vaccines).ThenInclude(l => l.LocalBatchVaccine).ThenInclude(b => b.BatchVaccine).ThenInclude(dv => dv.DevelopedVaccine).ThenInclude(v => v.Vaccine).First(x => x.UserName == userName);
+            return _context.Users.Include(u => u.Vaccines).ThenInclude(l => l.LocalBatchVaccine).ThenInclude(b => b.BatchVaccine).ThenInclude(dv => dv.DevelopedVaccine).First(x => x.UserName == userName);
         }
 
         public bool Exists(string userName)
