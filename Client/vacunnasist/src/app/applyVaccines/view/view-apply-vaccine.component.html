@@ -1,0 +1,108 @@
+<div *ngIf="!applyVaccine">Cargando...</div>
+<div class="card" *ngIf="applyVaccine">
+  <h4 class="card-header">
+    Aplicación a paciente con DNI {{ applyVaccine.patient.dni }}
+  </h4>
+  <div class="card-body">
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right"># Lote</label>
+      <div class="col-md-8 controls readonly">
+        <b>{{ applyVaccine.localBatchVaccine.batchVaccine.batchNumber }}</b>
+      </div>
+    </div>
+
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">Vacuna</label>
+      <div class="col-md-8 controls readonly">
+        <b>{{
+          applyVaccine.localBatchVaccine.batchVaccine.developedVaccine.vaccine
+            .name
+        }}</b>
+      </div>
+    </div>
+
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">Vacuna desarrollada</label>
+      <div class="col-md-8 controls readonly">
+        <b>{{
+          applyVaccine.localBatchVaccine.batchVaccine.developedVaccine.name
+        }}</b>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">DNI</label>
+      <div class="col-md-8 controls readonly">
+        <b>{{ applyVaccine.patient.dni }}</b>
+      </div>
+    </div>
+
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">Nombre y apellido</label>
+      <div class="col-md-8 controls readonly">
+        <b
+          >{{ applyVaccine.patient.name }} {{ applyVaccine.patient.surname }}</b
+        >
+      </div>
+    </div>
+
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">Fecha de nacimiento</label>
+      <div class="col-md-8 controls readonly">
+        <b>{{ applyVaccine.patient.birthDate | date: "dd/MM/yyyy" }}</b>
+      </div>
+    </div>
+
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">Provincia</label>
+      <div class="col-md-8 controls readonly">
+        <b>{{ applyVaccine.patient.province }}</b>
+      </div>
+    </div>
+
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">Género</label>
+      <div class="col-md-8 controls readonly">
+        <b>{{ applyVaccine.patient.gender | patientgender }}</b>
+      </div>
+    </div>
+
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">Es trabajador de salud</label>
+      <div class="col-md-8 controls readonly">
+        <b>{{ applyVaccine.patient.healthWorker ? "Si" : "No" }}</b>
+      </div>
+    </div>
+
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">Embarazada</label>
+      <div class="col-md-8 controls readonly">
+        <b>{{ applyVaccine.patient.pregnant ? "Si" : "No" }}</b>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">Vacunador</label>
+      <div class="col-md-8 controls readonly">
+        <b>{{ applyVaccine.user.fullName }}</b>
+      </div>
+    </div>
+
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">Fecha de aplicación</label>
+      <div class="col-md-8 controls readonly">
+        <b>{{ applyVaccine.appliedDate | date: "dd/MM/yyyy" }}</b>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button type="button" (click)="backClicked()" class="btn btn-link">
+        Volver
+      </button>
+    </div>
+  </div>
+</div>

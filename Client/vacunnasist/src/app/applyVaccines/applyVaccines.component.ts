@@ -190,4 +190,8 @@ export class ApplyVaccinesComponent implements OnInit {
 
     this.applyFilter();
   }
+
+  select(v: AppliedVaccine) {
+    this.router.navigate(['apply-vaccines', v.id]);
+  }
 }

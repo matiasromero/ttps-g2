@@ -16,15 +16,18 @@ export class AppliedVaccinesService {
     );
 
     let params = new HttpParams();
-    if (filter.appliedById) params = params.append('appliedById', filter.appliedById.toString());
+    if (filter.appliedById)
+      params = params.append('appliedById', filter.appliedById.toString());
     if (filter.province)
       params = params.append('province', filter.province.toString());
     if (filter.vaccineId)
-     params = params.append('vaccineId', filter.vaccineId.toString());
+      params = params.append('vaccineId', filter.vaccineId.toString());
     if (filter.developedVaccineId)
-     params = params.append('developedVaccineId', filter.developedVaccineId.toString());
-    if(filter.dni)
-      params = params.append('dni', filter.dni.toString())
+      params = params.append(
+        'developedVaccineId',
+        filter.developedVaccineId.toString()
+      );
+    if (filter.dni) params = params.append('dni', filter.dni.toString());
 
     return this.http.get<AppliedVaccine[]>(
       `${environment.apiUrl}/appliedVaccine`,

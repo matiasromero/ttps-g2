@@ -1,3 +1,4 @@
+import { ViewApplyVaccineComponent } from './view/view-apply-vaccine.component';
 import { VaccineTypePipe } from './../_helpers/vaccine-type.pipe';
 import { ApplyVaccinesRoutingModule } from './applyVaccines-routing.module';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -13,28 +14,37 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { DateAdapter, MatNativeDateModule, MatOptionModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import {
+  DateAdapter,
+  MatNativeDateModule,
+  MatOptionModule,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { ApplyVaccinesComponent } from './applyVaccines.component';
 import { MatSelectModule } from '@angular/material/select';
-import { NewApplyVaccineComponent } from './newApplication/new-application-vaccine.component'
+import { NewApplyVaccineComponent } from './newApplication/new-application-vaccine.component';
+import { PatientGenderPipe } from '../_helpers/patient-gender.pipe';
 export const MY_DATE_FORMATS = {
-    parse: {
-      dateInput: 'DD/MM/YYYY',
-    },
-    display: {
-      dateInput: 'DD/MM/YYYY',
-      monthYearLabel: 'MMMM YYYY',
-      dateA11yLabel: 'LL',
-      monthYearA11yLabel: 'MMMM YYYY'
-    },
-  };
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @NgModule({
   declarations: [
     ApplyVaccinesComponent,
     NewApplyVaccineComponent,
+    ViewApplyVaccineComponent,
+    PatientGenderPipe,
   ],
   imports: [
     CommonModule,
@@ -53,14 +63,17 @@ export const MY_DATE_FORMATS = {
     MatTabsModule,
     MatOptionModule,
     MatSelectModule,
-    MatCheckboxModule
+    MatCheckboxModule,
   ],
   providers: [
     DatePipe,
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-  { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS},
-  { provide: MAT_DATE_LOCALE, useValue: 'es-AR'},
-  ]
-
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-AR' },
+  ],
 })
-export class ApplyVaccinesModule { }
+export class ApplyVaccinesModule {}

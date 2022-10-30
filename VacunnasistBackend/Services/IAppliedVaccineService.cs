@@ -29,24 +29,25 @@ namespace VacunnasistBackend.Services
                 .ThenInclude(x => x.BatchVaccine)
                 .ThenInclude(x => x.DevelopedVaccine)
                 .Include(x => x.User)
+                .Include(x => x.Patient)
                 .First(x => x.Id == id);
         }
 
         public AppliedVaccine[] GetAll(AppliedVaccinesFilterRequest filter)
         {
             var allDevVaccines = _context.DevelopedVaccines.ToArray();
-            if(filter.DevelopedVaccineId.HasValue)
+            if (filter.DevelopedVaccineId.HasValue)
                 allDevVaccines = allDevVaccines.Where(x => x.Id == filter.DevelopedVaccineId).ToArray();
-            else if(filter.VaccineId.HasValue)
+            else if (filter.VaccineId.HasValue)
                 allDevVaccines = allDevVaccines.Where(x => x.Vaccine.Id == filter.VaccineId.Value).ToArray();
 
 
-            var query = _context.AppliedVaccines.Include(x => x.LocalBatchVaccine).ThenInclude(x => x.BatchVaccine).Include(x => x.User).Include(p => p.Patient).AsQueryable();     
+            var query = _context.AppliedVaccines.Include(x => x.LocalBatchVaccine).ThenInclude(x => x.BatchVaccine).Include(x => x.User).Include(p => p.Patient).AsQueryable();
             if (!string.IsNullOrEmpty(filter.Province))
                 query = query.Where(x => x.LocalBatchVaccine.Province == filter.Province);
             if (filter.AppliedById.HasValue)
                 query = query.Where(x => x.User.Id == filter.AppliedById);
-            if(filter.DNI.HasValue)
+            if (filter.DNI.HasValue)
                 query = query.Where(x => x.Patient.DNI.Equals(filter.DNI.ToString()));
             query = query.Where(x => allDevVaccines.Contains(x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine));
 
@@ -79,14 +80,14 @@ namespace VacunnasistBackend.Services
                     throw new HttpResponseException(400, message: "La persona '" + model.Name + " " + model.Surname + " con DNI " + model.DNI + "' no puede aplicarse la vacuna.");
                 }
 
-                provinceBatch.RemainingQuantity= provinceBatch.RemainingQuantity--;
+                provinceBatch.RemainingQuantity = provinceBatch.RemainingQuantity--;
 
-                var appliedVaccine = new AppliedVaccine() 
-                { 
-                  Patient = patient, 
-                  User=user, 
-                  LocalBatchVaccine = provinceBatch, 
-                  AppliedDose = validationApplied.Value
+                var appliedVaccine = new AppliedVaccine()
+                {
+                    Patient = patient,
+                    User = user,
+                    LocalBatchVaccine = provinceBatch,
+                    AppliedDose = validationApplied.Value
                 };
 
                 _context.AppliedVaccines.Add(appliedVaccine);

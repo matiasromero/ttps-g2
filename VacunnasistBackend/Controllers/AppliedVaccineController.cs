@@ -39,6 +39,7 @@ namespace VacunnasistBackend.Controllers
             });
         }
 
+        [HttpGet]
         [Route("{id}")]
         public IActionResult Get(int id)
         {

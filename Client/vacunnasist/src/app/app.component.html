@@ -71,9 +71,6 @@
           <a
             class="nav-item nav-link"
             routerLink="/apply-vaccines"
-            [queryParams]="{
-              isActive: 'true'
-            }"
             routerLinkActive="active"
             *ngIf="user && user.role != 'administrator'"
             >Vacunación</a

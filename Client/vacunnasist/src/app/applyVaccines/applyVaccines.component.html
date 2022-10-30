@@ -138,7 +138,11 @@
               Sin resultados
             </td>
           </tr>
-          <tr *ngFor="let a of appliedVaccines">
+          <tr
+            *ngFor="let a of appliedVaccines"
+            class="hoverable-row"
+            (click)="select(a)"
+          >
             <td scope="row">
               {{ a.patient.dni }}
             </td>
