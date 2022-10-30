@@ -41,7 +41,7 @@ export class AppliedVaccinesService {
     );
   }
 
-  newApplication(po: NewApplicationVaccineRequest) {
-    return this.http.post(`${environment.apiUrl}/appliedVaccine/new`, po);
+  newApplication(newApplication: NewApplicationVaccineRequest) {
+    return this.http.post(`${environment.apiUrl}/appliedVaccine`, newApplication);
   }
 }

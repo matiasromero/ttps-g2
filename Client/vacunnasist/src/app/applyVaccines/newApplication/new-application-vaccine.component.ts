@@ -3,16 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { AccountService } from 'src/app/_services/account.service';
 import { AlertService } from 'src/app/_services/alert.service';
 import Swal from 'sweetalert2';
-import { DevelopedVaccineService } from '../../_services/developed-vaccine.service';
 import { DevelopedVaccine } from '../../_models/developed-vaccine';
-import { VaccinesService } from '../../_services/vaccines.service';
-import { Vaccine } from '../../_models/vaccine';
 import { AppliedVaccinesFilter } from '../../_models/filters/applied-vaccines-filter';
 import { HttpClient } from '@angular/common/http';
-import { DatePipe } from '@angular/common';
 import { AppliedVaccine } from 'src/app/_models/applied-vaccine';
 import { AppliedVaccinesService } from 'src/app/_services/applied-vaccine.service';
 import { LocalBatchVaccine } from 'src/app/_models/local-batch-vaccine';
@@ -31,8 +26,6 @@ export class NewApplyVaccineComponent implements OnInit {
       private route: ActivatedRoute,
       private appliedVaccineService: AppliedVaccinesService,
       private localBatchVaccineService: LocalBatchVaccineService,
-      private developedVaccineService: DevelopedVaccineService,
-      private vaccinesService: VaccinesService,
       private alertService: AlertService,
       private http: HttpClient
   ) {}
@@ -53,14 +46,15 @@ export class NewApplyVaccineComponent implements OnInit {
           province: ['', Validators.required],
           pregnant: [false],
           healthWorker: [false],
+          developedVaccineId: ['', Validators.required]
       });
 
       this.localBatchVaccineService.getAll(this.filterBatch).subscribe((res: any) => {
         this.localBatchVaccines = res.vaccines;
-      });
-      this.localBatchVaccines.forEach(batch => 
-        this.developedVaccines.push(batch.batchVaccine.developedVaccine)
-      );
+        this.localBatchVaccines.forEach(batch => 
+          this.developedVaccines.push(batch.batchVaccine.developedVaccine)
+        );
+      });     
   }
 
   // convenience getter for easy access to form fields

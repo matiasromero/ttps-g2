@@ -1,6 +1,5 @@
 export class NewApplicationVaccineRequest {
     developedVaccineId!: number;
-    vaccineId!: number;
     name!: string;
     surname!: string;
     dni!: number;

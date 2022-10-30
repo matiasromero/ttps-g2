@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VacunassistBackend.Entities;
-using VacunassistBackend.Models;
-using VacunassistBackend.Models.Filters;
-using VacunassistBackend.Services;
 using VacunnasistBackend.Models;
 using VacunnasistBackend.Models.Filters;
 using VacunnasistBackend.Services;
@@ -32,7 +29,7 @@ namespace VacunnasistBackend.Controllers
             {
                 filter.Province = user.Province;
             }
-            else if (user.Role == UserRoles.Vacunator)
+            else if (user.Role == UserRoles.Vacunator && filter.DNI == null)
             {
                 filter.AppliedById = user.Id;
             }
