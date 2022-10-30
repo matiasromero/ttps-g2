@@ -8,12 +8,17 @@ public class N_FiebreHemorragica : Vaccine
     : base(1400, "Fiebre Hemorragica (FHA)", VaccineType.Calendar)
     {
         Doses = new[] {
-            new VaccineDose(1401, 0, 132)
+            new VaccineDose(1401, 0, 180)
         };
     }
 
     protected override int? internalValidation(Patient patient)
     {
-        return null;
+        var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
+        if(alreadyApplied.Any())
+            return null;
+
+        var iDate = Convert.ToDateTime(patient.BirthDate);
+        return (iDate.AddMonths(180) < DateTime.Now) ? null : 1401;
     }
 }

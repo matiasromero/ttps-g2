@@ -15,6 +15,15 @@ public class G_Meningococo : Vaccine
 
     protected override int? internalValidation(Patient patient)
     {
-        return null;
+        var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
+        if (alreadyApplied.Any())
+        {
+            if(alreadyApplied.Any(x => x.AppliedDate.AddDays(60) < DateTime.Now))
+                return null;
+            else
+                return 702;
+
+        }
+        return 701;
     }
 }

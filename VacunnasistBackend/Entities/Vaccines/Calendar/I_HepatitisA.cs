@@ -14,6 +14,11 @@ public class I_HepatitisA : Vaccine
 
     protected override int? internalValidation(Patient patient)
     {
-        return null;
+        var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
+        if (alreadyApplied.Any())
+            return null;
+
+        var iDate = Convert.ToDateTime(patient.BirthDate);
+        return (iDate.AddMonths(12) < DateTime.Now) ? null : 901;
     }
 }

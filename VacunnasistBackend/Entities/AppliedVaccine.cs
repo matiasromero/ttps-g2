@@ -22,5 +22,7 @@ namespace VacunassistBackend.Entities
 
         public LocalBatchVaccine LocalBatchVaccine { get; set; }
         public int LocalBatchVaccineId { get; set; }
+
+        public int AppliedDose { get; set; }
     }
 }

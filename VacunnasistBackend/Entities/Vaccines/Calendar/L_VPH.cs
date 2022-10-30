@@ -15,6 +15,15 @@ public class L_VPH : Vaccine
 
     protected override int? internalValidation(Patient patient)
     {
-        return null;
+        var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
+        if (alreadyApplied.Any())
+        { 
+            if (alreadyApplied.Any(x => x.AppliedDate.AddDays(180) < DateTime.Now))
+                return null;
+            else
+                return 1202;
+        }
+        var iDate = Convert.ToDateTime(patient.BirthDate);
+        return (iDate.AddMonths(132) < DateTime.Now) ? null : 1201;
     }
 }
