@@ -1,7 +1,13 @@
 import { DevelopedVaccinesFilter } from '../_models/filters/developed-vaccines-filter';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AccountService } from 'src/app/_services/account.service';
 import { AlertService } from 'src/app/_services/alert.service';
@@ -19,43 +25,40 @@ import { AppliedVaccine } from '../_models/applied-vaccine';
 import { AppliedVaccinesService } from '../_services/applied-vaccine.service';
 
 @Component({ templateUrl: 'applyVaccines.component.html' })
-export class ApplyVaccinesComponent {
+export class ApplyVaccinesComponent implements OnInit {
   formFilter!: FormGroup;
   loading = false;
   submitted = false;
 
   constructor(
-      private formBuilder: UntypedFormBuilder,
-      private router: Router,
-      private route: ActivatedRoute,
-      private accountService: AccountService,
-      private appliedVaccinesService: AppliedVaccinesService,
-      private vaccinesService: VaccinesService,
-      private alertService: AlertService,
-      private http: HttpClient,
-      private dp: DatePipe
-  ) { 
+    private formBuilder: UntypedFormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    private accountService: AccountService,
+    private appliedVaccinesService: AppliedVaccinesService,
+    private vaccinesService: VaccinesService,
+    private developedVaccinesService: DevelopedVaccineService,
+    private alertService: AlertService,
+    private http: HttpClient,
+    private dp: DatePipe
+  ) {
+    this.accountService.user.subscribe((x) => (this.user = <User>x));
+
     this.formFilter = this.formBuilder.group({
       province: [''],
       vaccineId: [''],
       developedVaccineId: [''],
-      dni: ['']
+      dni: ['', Validators.maxLength(20)],
     });
 
     this.route.queryParams.subscribe((params) => {
-      if (params.batchNumber) {
-        this.formFilter.controls.batchNumber.setValue(params.batchNumber, {
+      if (params.dni) {
+        this.formFilter.controls.dni.setValue(params.dni, {
           onlySelf: true,
         });
       }
-
       if (params.province) {
         this.formFilter.controls.province.setValue(params.province, {
-          onlySelf: true,
-        });
-      }
-      if (params.appliedDate) {
-        this.formFilter.controls.appliedDate.setValue(params.appliedDate, {
           onlySelf: true,
         });
       }
@@ -67,107 +70,124 @@ export class ApplyVaccinesComponent {
           +params.developedVaccineId
         );
       }
-      if (params.dni) {
-        this.formFilter.controls.dni.setValue(params.dni, {
-          onlySelf: true,
-        });
-      }
-
       this.loadData();
     });
   }
 
   public filter = new AppliedVaccinesFilter();
+  public vaccines: Vaccine[] = [];
+  public developedVaccines: DevelopedVaccine[] = [];
   public appliedVaccines: AppliedVaccine[] = [];
+  user?: User;
 
+  ngOnInit() {
+    let vaccinesFilter = new VaccinesFilter();
+    this.vaccinesService.getAll(vaccinesFilter).subscribe((res: any) => {
+      this.vaccines = res.vaccines;
+    });
 
-loadData(){
-  const dni = this.formFilter.get('dni')?.value;
-  const province = this.formFilter.get('province')?.value;
-  const vaccineId = this.formFilter.get('vaccineId')?.value;
-  const developedVaccineId = this.formFilter.get('developedVaccineId')?.value;
+    let developedVaccinesFilter = new DevelopedVaccinesFilter();
+    this.developedVaccinesService
+      .getAll(developedVaccinesFilter)
+      .subscribe((res: any) => {
+        this.developedVaccines = res.vaccines;
+      });
+  }
 
-  this.filter.dni = dni;
-  this.filter.province = province;
-  this.filter.vaccineId = vaccineId;
-  this.filter.developedVaccineId = developedVaccineId;
+  loadData() {
+    const dni = this.formFilter.get('dni')?.value;
+    const province = this.formFilter.get('province')?.value;
+    const vaccineId = this.formFilter.get('vaccineId')?.value;
+    const developedVaccineId = this.formFilter.get('developedVaccineId')?.value;
 
-  this.appliedVaccinesService.getAll(this.filter).subscribe((res: any) => {
-    this.appliedVaccines = res.vaccines;
-  });
-}
+    this.filter.dni = dni;
+    this.filter.province = province;
+    this.filter.vaccineId = vaccineId;
+    this.filter.developedVaccineId = developedVaccineId;
+
+    this.appliedVaccinesService.getAll(this.filter).subscribe((res: any) => {
+      this.appliedVaccines = res.vaccines;
+    });
+  }
+
+  panelOpenState = false;
 
   // convenience getter for easy access to form fields
-  get f() { return this.formFilter.controls; }
+  get f() {
+    return this.formFilter.controls;
+  }
 
-  addApplication(){
-    this.router.navigate(['apply-vaccines', 'new'])
+  addApplication() {
+    this.router.navigate(['apply-vaccines', 'new']);
+  }
+
+  changeVaccine(vaccineId: number) {
+    let developedVaccinesFilter = new DevelopedVaccinesFilter();
+    developedVaccinesFilter.vaccineId = vaccineId;
+    this.formFilter.controls.developedVaccineId.setValue('', {
+      onlySelf: true,
+    });
+    this.developedVaccinesService
+      .getAll(developedVaccinesFilter)
+      .subscribe((res: any) => {
+        this.developedVaccines = res.vaccines;
+      });
   }
 
   applyFilter() {
-    /*this.submitted = true;
+    this.submitted = true;
 
-    // reset alerts on submit
     this.alertService.clear();
 
-    // stop here if form is invalid
     if (this.formFilter.invalid) {
       return;
     }
 
     this.loading = true;
 
-    const batchNumber = this.formFilter.get('batchNumber')?.value;
-    const status = this.formFilter.get('status')?.value;
-    const purchaseDate = this.dp.transform(
-      this.formFilter.get('purchaseDate')?.value,
-      'yyyy-MM-dd'
-    );
-    const eta = this.dp.transform(
-      this.formFilter.get('eta')?.value,
-      'yyyy-MM-dd'
-    );
+    const dni = this.formFilter.get('dni')?.value;
+    const vaccineId = this.formFilter.get('vaccineId')?.value;
+    const developedVaccineId = this.formFilter.get('developedVaccineId')?.value;
+    const province = this.formFilter.get('province')?.value;
     const queryParams: any = {};
 
-    if (batchNumber) {
-      queryParams.batchNumber = batchNumber;
+    if (dni) {
+      queryParams.batchNumber = dni;
     }
-    if (status) {
-      queryParams.status = status;
+    if (vaccineId) {
+      queryParams.vaccineId = vaccineId;
     }
-    if (purchaseDate) {
-      queryParams.purchaseDate = purchaseDate;
+    if (developedVaccineId) {
+      queryParams.developedVaccineId = developedVaccineId;
     }
-    if (eta) {
-      queryParams.eta = eta;
+    if (province) {
+      queryParams.province = province;
     }
 
-    this.router.navigate(['/purchase-orders'], {
+    this.router.navigate(['/apply-vaccines'], {
       queryParams,
     });
 
-    this.loading = false;*/
+    this.loading = false;
   }
 
   clear() {
     // reset alerts on submit
-    /*this.alertService.clear();
+    this.alertService.clear();
 
-    this.formFilter.controls.batchNumber.setValue('', {
+    this.formFilter.controls.dni.setValue('', {
       onlySelf: true,
     });
-    this.formFilter.controls.status.setValue('', {
+    this.formFilter.controls.vaccineId.setValue('', {
       onlySelf: true,
     });
-    this.formFilter.controls.purchaseDate.setValue(null, {
+    this.formFilter.controls.developedVaccineId.setValue('', {
       onlySelf: true,
     });
-    this.formFilter.controls.eta.setValue(null, {
+    this.formFilter.controls.province.setValue('', {
       onlySelf: true,
     });
 
-    this.applyFilter();*/
+    this.applyFilter();
   }
-
-
 }
