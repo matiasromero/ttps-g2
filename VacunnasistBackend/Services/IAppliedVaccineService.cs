@@ -58,9 +58,9 @@ namespace VacunnasistBackend.Services
         public bool New(NewAppliedVaccineRequest model)
         {
             try
-            {                
-                var patient = _context.Patients.Include(x => x.AppliedVaccines).Any(x => x.DNI == model.DNI.ToString()) ? 
-                    _context.Patients.Include(x => x.AppliedVaccines).First(x => x.DNI == model.DNI.ToString()) : 
+            {
+                var patient = _context.Patients.Include(x => x.AppliedVaccines).Any(x => x.DNI == model.DNI.ToString()) ?
+                    _context.Patients.Include(x => x.AppliedVaccines).First(x => x.DNI == model.DNI.ToString()) :
                     new Patient()
                     {
                         Name = model.Name,
@@ -75,7 +75,15 @@ namespace VacunnasistBackend.Services
 
                 var user = _context.Users.ToArray().First(x => x.Id == model.ApplyBy);
 
-                var provinceBatch = _context.LocalBatchVaccines.Include(x => x.BatchVaccine).ThenInclude(x => x.DevelopedVaccine).First(b => b.Province == user.Province && b.BatchVaccine.DevelopedVaccineId == model.DevelopedVaccineId);
+                var provinceBatch = _context.LocalBatchVaccines.Include(x => x.BatchVaccine).ThenInclude(x => x.DevelopedVaccine)
+                .Where(b => b.RemainingQuantity > 0 && b.Province == user.Province && b.BatchVaccine.DevelopedVaccineId == model.DevelopedVaccineId)
+                .OrderBy(x => x.BatchVaccine.DueDate)
+                .FirstOrDefault();
+
+                if (provinceBatch == null)
+                {
+                    throw new HttpResponseException(400, message: "No se posee stock de la vacuna desarrollada seleccionada.");
+                }
 
                 var vaccine = Vaccines.Get(provinceBatch.BatchVaccine.DevelopedVaccine.Vaccine.Id);
                 var validationApplied = vaccine.CanApply(patient);
