@@ -164,7 +164,7 @@
           </tr>
         </tbody>
       </table>
-      <div class="text-right">
+      <div *ngIf="this.isHiddenButton" class="text-right">
         <button
           type="button"
           (click)="addApplication()"
