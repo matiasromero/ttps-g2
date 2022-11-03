@@ -88,9 +88,9 @@ namespace VacunnasistBackend.Services
                 var vaccine = Vaccines.Get(provinceBatch.BatchVaccine.DevelopedVaccine.Vaccine.Id);
                 var validationApplied = vaccine.CanApply(patient);
 
-                if (!validationApplied.HasValue)
+                if (!validationApplied.Item1.HasValue)
                 {
-                    throw new HttpResponseException(400, message: "La persona '" + model.Name + " " + model.Surname + " con DNI " + model.DNI.ToString() + "' no puede aplicarse la vacuna.");
+                    throw new HttpResponseException(400, message: "La persona '" + model.Name + " " + model.Surname + " con DNI " + model.DNI.ToString() + "' no puede aplicarse la vacuna." + validationApplied.Item2);
                 }
 
                 provinceBatch.RemainingQuantity--;
@@ -100,7 +100,7 @@ namespace VacunnasistBackend.Services
                     Patient = patient,
                     User = user,
                     LocalBatchVaccine = provinceBatch,
-                    AppliedDose = validationApplied.Value
+                    AppliedDose = validationApplied.Item1.Value
                 };
 
                 _context.AppliedVaccines.Add(appliedVaccine);
