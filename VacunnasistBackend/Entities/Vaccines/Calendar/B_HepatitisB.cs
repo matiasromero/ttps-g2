@@ -16,7 +16,7 @@ public class B_HepatitisB : Vaccine
         }; // se puede llegar a dar las 4, si cumplio 11 años, arranca con las 3 dosis
     }
 
-    protected override int? internalValidation(Patient patient)
+    protected override Tuple<int?, string> internalValidation(Patient patient)
     {
         var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
         var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);

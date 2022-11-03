@@ -13,7 +13,7 @@ public class N_FiebreHemorragica : Vaccine
         };
     }
 
-    protected override int? internalValidation(Patient patient)
+    protected override Tuple<int?, string> internalValidation(Patient patient)
     {
         var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
         if (alreadyApplied.Any())

@@ -11,14 +11,14 @@ public class A_Tuberculosis : Vaccine
             new VaccineDose(101, 0, 0)
         };
     }
-    protected override int? internalValidation(Patient patient)
+    protected override Tuple<int?, string> internalValidation(Patient patient)
     {
         var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
         if (alreadyApplied.Any())
         {
-            return null;    
+            return null;
         }
-        
-        return 101; //Nunca se la dió y es la primer vez.
+
+        return 101; //Nunca se la diï¿½ y es la primer vez.
     }
 }
