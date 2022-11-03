@@ -1,3 +1,4 @@
+using System.Globalization;
 using VacunnasistBackend.Entities;
 
 namespace VacunassistBackend.Entities.Vaccines.Calendar;
@@ -17,13 +18,14 @@ public class M_FiebreAmarilla : Vaccine
     {
         var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
 
-        if (alreadyApplied.Any()) {
+        if (alreadyApplied.Any())
+        {
             if (alreadyApplied.Any(x => x.AppliedDate.AddMonths(132) < DateTime.Now))
                 return null;
             else
                 return 1302;
         }
-        var iDate = Convert.ToDateTime(patient.BirthDate);
+        var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
         return (iDate.AddMonths(18) < DateTime.Now) ? null : 1301;
     }
 }

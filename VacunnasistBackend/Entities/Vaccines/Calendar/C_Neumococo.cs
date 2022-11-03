@@ -1,3 +1,4 @@
+using System.Globalization;
 using VacunnasistBackend.Entities;
 
 namespace VacunassistBackend.Entities.Vaccines.Calendar;
@@ -17,10 +18,10 @@ public class C_Neumococo : Vaccine
     protected override int? internalValidation(Patient patient)
     {
         var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
-        var iDate = Convert.ToDateTime(patient.BirthDate);
+        var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
-        switch (alreadyApplied.Length) 
-        { 
+        switch (alreadyApplied.Length)
+        {
             case 0: return (iDate.AddMonths(2) >= DateTime.Now) ? 301 : null; break;
             case 1: return (alreadyApplied[0].AppliedDate.AddDays(60) < DateTime.Now) ? null : 302; break;
             case 2: return (alreadyApplied[1].AppliedDate.AddMonths(8) < DateTime.Now) ? null : 303; break;

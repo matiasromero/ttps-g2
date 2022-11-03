@@ -1,3 +1,4 @@
+using System.Globalization;
 using VacunnasistBackend.Entities;
 
 namespace VacunassistBackend.Entities.Vaccines.Calendar;
@@ -24,7 +25,7 @@ public class J_Varicela : Vaccine
                 return 1002;
         }
 
-        var iDate = Convert.ToDateTime(patient.BirthDate);
+        var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
         return (iDate.AddMonths(15) < DateTime.Now) ? null : 1001;
     }
 }

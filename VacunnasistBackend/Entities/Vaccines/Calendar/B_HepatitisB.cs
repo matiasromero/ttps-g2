@@ -1,3 +1,4 @@
+using System.Globalization;
 using VacunnasistBackend.Entities;
 
 namespace VacunassistBackend.Entities.Vaccines.Calendar;
@@ -18,7 +19,7 @@ public class B_HepatitisB : Vaccine
     protected override int? internalValidation(Patient patient)
     {
         var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
-        var iDate = Convert.ToDateTime(patient.BirthDate);
+        var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
         switch (alreadyApplied.Length)
         {

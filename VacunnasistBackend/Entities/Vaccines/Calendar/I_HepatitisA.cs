@@ -1,3 +1,4 @@
+using System.Globalization;
 using VacunnasistBackend.Entities;
 
 namespace VacunassistBackend.Entities.Vaccines.Calendar;
@@ -18,7 +19,7 @@ public class I_HepatitisA : Vaccine
         if (alreadyApplied.Any())
             return null;
 
-        var iDate = Convert.ToDateTime(patient.BirthDate);
+        var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
         return (iDate.AddMonths(12) < DateTime.Now) ? null : 901;
     }
 }

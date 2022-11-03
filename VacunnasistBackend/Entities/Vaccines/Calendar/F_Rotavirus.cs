@@ -1,3 +1,4 @@
+using System.Globalization;
 using VacunnasistBackend.Entities;
 
 namespace VacunassistBackend.Entities.Vaccines.Calendar;
@@ -24,7 +25,7 @@ public class F_Rotavirus : Vaccine
                 return 602;
         }
 
-        var iDate = Convert.ToDateTime(patient.BirthDate);
+        var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
         return (iDate.AddMonths(2) < DateTime.Now) ? null : 601;
     }
 }

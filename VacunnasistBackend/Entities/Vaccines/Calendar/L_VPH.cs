@@ -1,3 +1,4 @@
+using System.Globalization;
 using VacunnasistBackend.Entities;
 
 namespace VacunassistBackend.Entities.Vaccines.Calendar;
@@ -17,13 +18,13 @@ public class L_VPH : Vaccine
     {
         var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
         if (alreadyApplied.Any())
-        { 
+        {
             if (alreadyApplied.Any(x => x.AppliedDate.AddDays(180) < DateTime.Now))
                 return null;
             else
                 return 1202;
         }
-        var iDate = Convert.ToDateTime(patient.BirthDate);
+        var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
         return (iDate.AddMonths(132) < DateTime.Now) ? null : 1201;
     }
 }

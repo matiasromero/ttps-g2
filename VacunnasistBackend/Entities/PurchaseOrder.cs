@@ -4,10 +4,9 @@ namespace VacunassistBackend.Entities
 {
     public class PurchaseOrder
     {
-        public PurchaseOrder(string batchNumber, int quantity, int developedVaccineId)
+        public PurchaseOrder(int quantity, int developedVaccineId)
         {
             this.Status = PurchaseStatus.Pending;
-            this._batchNumber = batchNumber;
             this.Quantity = quantity;
             this.PurchaseDate = DateTime.Now;
             this.DevelopedVaccineId = developedVaccineId;
@@ -17,20 +16,20 @@ namespace VacunassistBackend.Entities
         public int Id { get; set; }
         public DateTime PurchaseDate { get; set; }
         public DateTime? ETA { get; set; }
+        public string? BatchNumber { get; set; }
         public DateTime? DeliveredTime { get; set; }
-        private string _batchNumber;
-        public string BatchNumber => _batchNumber;
         public DevelopedVaccine DevelopedVaccine { get; set; }
         public int DevelopedVaccineId { get; set; }
         public int Quantity { get; set; }
         public PurchaseStatus Status { get; set; }
 
-        public void ChangeStatus(PurchaseStatus newStatus)
+        public void ChangeStatus(PurchaseStatus newStatus, string batchNumber)
         {
             this.Status = newStatus;
             if (newStatus == PurchaseStatus.Confirmed)
             {
                 this.ETA = PurchaseDate.AddDays(DevelopedVaccine.DaysToDelivery);
+                this.BatchNumber = batchNumber;
             }
 
             if (newStatus == PurchaseStatus.Delivered)

@@ -10,8 +10,7 @@ namespace VacunassistBackend.Data
         {
             builder.ToTable("PurchaseOrders");
             builder.HasOne(b => b.DevelopedVaccine).WithMany().IsRequired();
-            builder.HasIndex(b => b.BatchNumber).IsUnique();
-            builder.Property(b => b.BatchNumber).HasField("_batchNumber").HasMaxLength(20).IsRequired();
+            builder.Property(b => b.BatchNumber).HasMaxLength(20);
         }
     }
 }

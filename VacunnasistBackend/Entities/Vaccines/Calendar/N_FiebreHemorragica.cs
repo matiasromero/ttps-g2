@@ -1,3 +1,4 @@
+using System.Globalization;
 using VacunnasistBackend.Entities;
 
 namespace VacunassistBackend.Entities.Vaccines.Calendar;
@@ -15,10 +16,10 @@ public class N_FiebreHemorragica : Vaccine
     protected override int? internalValidation(Patient patient)
     {
         var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
-        if(alreadyApplied.Any())
+        if (alreadyApplied.Any())
             return null;
 
-        var iDate = Convert.ToDateTime(patient.BirthDate);
+        var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
         return (iDate.AddMonths(180) < DateTime.Now) ? null : 1401;
     }
 }

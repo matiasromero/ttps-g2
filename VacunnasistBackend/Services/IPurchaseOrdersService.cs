@@ -43,8 +43,7 @@ namespace VacunassistBackend.Services
         {
             try
             {
-                var batchNumber = RandomGenerator.RandomString(12);
-                var po = new PurchaseOrder(batchNumber, model.Quantity, model.DevelopedVaccineId);
+                var po = new PurchaseOrder(model.Quantity, model.DevelopedVaccineId);
                 _context.PurchaseOrders.Add(po);
                 _context.SaveChanges();
                 return true;
@@ -68,11 +67,13 @@ namespace VacunassistBackend.Services
 
             if (model.Status.HasValue && model.Status != po.Status)
             {
-                po.ChangeStatus(model.Status.Value);
+                var batchNumber = RandomGenerator.RandomString(12);
+                po.ChangeStatus(model.Status.Value, batchNumber);
                 if (po.Status == PurchaseStatus.Delivered)
                 {
                     var random = new Random();
-                    var newBatch = new BatchVaccine(po.BatchNumber, po.Quantity)
+
+                    var newBatch = new BatchVaccine(batchNumber, po.Quantity)
                     {
                         DevelopedVaccineId = po.DevelopedVaccineId,
                         DueDate = DateTime.Now.Date.AddDays(random.Next(5, 60)),

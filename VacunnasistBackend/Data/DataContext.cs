@@ -136,62 +136,68 @@ namespace VacunassistBackend.Data
                     DaysToDelivery = 15
                 };
 
-                var po1 = new PurchaseOrder("FLU140012580", 1400, vaccine3.Id)
+                var po1 = new PurchaseOrder(1400, vaccine3.Id)
                 {
-                    Id = 1
+                    Id = 1,
                 };
-                var po2 = new PurchaseOrder("FLU140012581", 1200, vaccine3.Id)
+                var po2 = new PurchaseOrder(1200, vaccine3.Id)
                 {
-                    Id = 2
+                    Id = 2,
                 };
 
-                var po3 = new PurchaseOrder("PF1000001", 800, vaccine1.Id)
+                var po3 = new PurchaseOrder(800, vaccine1.Id)
                 {
                     Id = 3,
                     PurchaseDate = DateTime.Now.Date.AddDays(-1 * vaccine1.DaysToDelivery),
                     DeliveredTime = DateTime.Now.Date,
                     ETA = DateTime.Now.Date,
-                    Status = PurchaseStatus.Delivered
+                    Status = PurchaseStatus.Delivered,
+                    BatchNumber = "PF1000001"
                 };
-                var po4 = new PurchaseOrder("PF1000121", 400, vaccine1.Id)
+                var po4 = new PurchaseOrder(400, vaccine1.Id)
                 {
                     Id = 4,
                     PurchaseDate = DateTime.Now.Date.AddDays(-1 * vaccine1.DaysToDelivery),
                     DeliveredTime = DateTime.Now.Date,
                     ETA = DateTime.Now.Date,
-                    Status = PurchaseStatus.Delivered
+                    Status = PurchaseStatus.Delivered,
+                    BatchNumber = "PF1000121"
                 };
-                var po5 = new PurchaseOrder("R1000001", 560, vaccine2.Id)
+                var po5 = new PurchaseOrder(560, vaccine2.Id)
                 {
                     Id = 5,
                     PurchaseDate = DateTime.Now.Date.AddDays(-1 * vaccine2.DaysToDelivery),
                     DeliveredTime = DateTime.Now.Date,
                     ETA = DateTime.Now.Date,
-                    Status = PurchaseStatus.Delivered
+                    Status = PurchaseStatus.Delivered,
+                    BatchNumber = "R1000001"
                 };
-                var po6 = new PurchaseOrder("FLU12214001", 1500, vaccine3.Id)
+                var po6 = new PurchaseOrder(1500, vaccine3.Id)
                 {
                     Id = 6,
                     PurchaseDate = DateTime.Now.Date.AddDays(-1 * vaccine3.DaysToDelivery),
                     DeliveredTime = DateTime.Now.Date,
                     ETA = DateTime.Now.Date,
-                    Status = PurchaseStatus.Delivered
+                    Status = PurchaseStatus.Delivered,
+                    BatchNumber = "FLU12214001"
                 };
-                var po7 = new PurchaseOrder("FLU12214003", 3600, vaccine3.Id)
+                var po7 = new PurchaseOrder(3600, vaccine3.Id)
                 {
                     Id = 7,
                     PurchaseDate = DateTime.Now.Date.AddDays(-1 * vaccine3.DaysToDelivery),
                     DeliveredTime = DateTime.Now.Date,
                     ETA = DateTime.Now.Date,
-                    Status = PurchaseStatus.Delivered
+                    Status = PurchaseStatus.Delivered,
+                    BatchNumber = "FLU12214003"
                 };
-                var po8 = new PurchaseOrder("FLU13214121", 3600, vaccine3.Id)
+                var po8 = new PurchaseOrder(3600, vaccine3.Id)
                 {
                     Id = 8,
                     PurchaseDate = DateTime.Now.Date.AddDays((-1 * vaccine3.DaysToDelivery) - 18),
                     DeliveredTime = DateTime.Now.Date.AddDays(-18),
                     ETA = DateTime.Now.Date.AddDays(-18),
-                    Status = PurchaseStatus.Delivered
+                    Status = PurchaseStatus.Delivered,
+                    BatchNumber = "FLU13214121"
                 };
 
                 var batch1 = new BatchVaccine("PF1000001", 800)

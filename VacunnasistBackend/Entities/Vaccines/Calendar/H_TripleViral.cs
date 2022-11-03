@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Linq;
 using VacunnasistBackend.Entities;
 
@@ -25,7 +26,7 @@ public class H_TripleViral : Vaccine
                 return 802;
         }
 
-        var iDate = Convert.ToDateTime(patient.BirthDate);
+        var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
         return (iDate.AddMonths(12) < DateTime.Now) ? null : 801;
     }
 }
