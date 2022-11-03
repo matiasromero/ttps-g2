@@ -20,12 +20,12 @@ public class J_Varicela : Vaccine
         if (alreadyApplied.Any())
         {
             if (alreadyApplied.Any(x => x.AppliedDate.AddMonths(60) < DateTime.Now))
-                return null;
+                return new Tuple<int?, string>(null, "Aun no se puede dar la segunda dosis");
             else
-                return 1002;
+                return new Tuple<int?, string>(1002, "Segunda dosis aplicada");
         }
 
         var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        return (iDate.AddMonths(15) < DateTime.Now) ? null : 1001;
+        return (iDate.AddMonths(15) < DateTime.Now) ? new Tuple<int?, string>(null, "Aun no se puede aplicar la primera dosis") : new Tuple<int?, string>(1001, "Primera dosis aplicada");
     }
 }

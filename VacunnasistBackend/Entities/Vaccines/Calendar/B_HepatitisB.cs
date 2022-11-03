@@ -23,11 +23,11 @@ public class B_HepatitisB : Vaccine
 
         switch (alreadyApplied.Length)
         {
-            case 0: return (iDate.AddMonths(132) >= DateTime.Now) ? 202 : 201; break;
-            case 1: return (iDate.AddMonths(132) >= DateTime.Now && alreadyApplied[0].AppliedDate.AddDays(60) < DateTime.Now) ? null : 203; break;
-            case 2: return (iDate.AddMonths(132) >= DateTime.Now && alreadyApplied[0].AppliedDate.AddDays(180) < DateTime.Now) ? null : 204; break;
-
+            case 0: return (iDate.AddMonths(132) >= DateTime.Now) ? new Tuple<int?, string>(201, "Segunda dosis aplicada") : new Tuple<int?, string>(201, "Primera dosis aplicada");
+            case 1: return (iDate.AddMonths(132) >= DateTime.Now && alreadyApplied[0].AppliedDate.AddDays(60) < DateTime.Now) ? new Tuple<int?, string>(null, "Aun no se puede dar la tercer dosis") : new Tuple<int?, string>(203, "Tercer dosis aplicada");
+            case 2: return (iDate.AddMonths(132) >= DateTime.Now && alreadyApplied[0].AppliedDate.AddDays(180) < DateTime.Now) ? new Tuple<int?, string>(null, "Aun no se puede dar la cuarta dosis") : new Tuple<int?, string>(204, "Cuarta dosis aplicada");
         }
-        return null;
+
+        return new Tuple<int?, string>(null, "Error");
     }
 }

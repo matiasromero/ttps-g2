@@ -23,7 +23,7 @@ public class D_Quintuple : Vaccine
 
         switch (alreadyApplied.Length)
         {
-            case 0: return (iDate.AddMonths(2) >= DateTime.Now) ? 401 : null; break;
+            case 0: return (iDate.AddMonths(2) >= DateTime.Now) ? new Tuple<int?, string>(401, "Primera dosis aplicada") : new Tuple<int?, string>(null, "Aun no se puede dar la primera dosis");
             case 1: return (alreadyApplied[0].AppliedDate.AddDays(60) < DateTime.Now) ? null : 402; break;
             case 2: return (alreadyApplied[1].AppliedDate.AddDays(60) < DateTime.Now) ? null : 403; break;
             case 3: return (alreadyApplied[2].AppliedDate.AddMonths(9) < DateTime.Now) ? null : 404; break;

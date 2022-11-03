@@ -22,10 +22,10 @@ public class C_Neumococo : Vaccine
 
         switch (alreadyApplied.Length)
         {
-            case 0: return (iDate.AddMonths(2) >= DateTime.Now) ? 301 : null; break;
-            case 1: return (alreadyApplied[0].AppliedDate.AddDays(60) < DateTime.Now) ? null : 302; break;
-            case 2: return (alreadyApplied[1].AppliedDate.AddMonths(8) < DateTime.Now) ? null : 303; break;
+            case 0: return (iDate.AddMonths(2) >= DateTime.Now) ? new Tuple<int?, string>(301, "Primera dosis aplicada") : new Tuple<int?, string>(null, "Aun no se puede dar la primera dosis");
+            case 1: return (alreadyApplied[0].AppliedDate.AddDays(60) < DateTime.Now) ? new Tuple<int?, string>(null, "Aun no se puede dar la segunda dosis") : new Tuple<int?, string>(302, "Segunda dosis aplicada");
+            case 2: return (alreadyApplied[1].AppliedDate.AddMonths(8) < DateTime.Now) ? new Tuple<int?, string>(null, "Aun no se puede dar el refuerzo") : new Tuple<int?, string>(203, "Refuerzo aplicado");
         }
-        return null;
+        return new Tuple<int?, string>(null, "Error");
     }
 }

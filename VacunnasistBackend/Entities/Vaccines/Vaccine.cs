@@ -20,16 +20,16 @@ namespace VacunassistBackend.Entities.Vaccines
 
         public VaccineDose[] Doses { get; set; }
 
-        public int? CanApply(Patient patient)
+        public Tuple<int?, string> CanApply(Patient patient)
         {
-            var doseId = internalValidation(patient);
+            var result = internalValidation(patient);
 
-            return doseId;
+            return result;
         }
 
-        protected virtual int? internalValidation(Patient patient)
+        protected virtual Tuple<int?, string> internalValidation(Patient patient)
         {
-            return null;
+            return new Tuple<int?, string>(null, "Error");
         }
     }
 

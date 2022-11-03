@@ -21,12 +21,12 @@ public class H_TripleViral : Vaccine
         if (alreadyApplied.Any())
         {
             if (alreadyApplied.Any(x => x.AppliedDate.AddDays(1826) < DateTime.Now))
-                return null;
+                return new Tuple<int?, string>(null, "Aun no se puede dar la segunda dosis");
             else
-                return 802;
+                return new Tuple<int?, string>(802, "Segunda dosis aplicada");
         }
 
         var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        return (iDate.AddMonths(12) < DateTime.Now) ? null : 801;
+        return (iDate.AddMonths(12) < DateTime.Now) ? new Tuple<int?, string>(null, "Aun no se puede dar la primera dosis") : new Tuple<int?, string>(801, "Primera dosis aplicada");
     }
 }

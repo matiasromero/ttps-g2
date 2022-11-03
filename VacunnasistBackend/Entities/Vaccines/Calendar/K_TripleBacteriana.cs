@@ -17,9 +17,9 @@ public class K_TripleBacteriana : Vaccine
     {
         var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
         if (alreadyApplied.Any())
-            return null;
+            return new Tuple<int?, string>(null, "Ya posee el esquema completo");
 
         var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        return (iDate.AddMonths(60) < DateTime.Now) ? null : 1101;
+        return (iDate.AddMonths(60) < DateTime.Now) ? new Tuple<int?, string>(null, "Aun no se puede aplicar la primera dosis") : new Tuple<int?, string>(1101, "Primera dosis aplicada"); ;
     }
 }

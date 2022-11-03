@@ -20,11 +20,11 @@ public class L_VPH : Vaccine
         if (alreadyApplied.Any())
         {
             if (alreadyApplied.Any(x => x.AppliedDate.AddDays(180) < DateTime.Now))
-                return null;
+                return new Tuple<int?, string>(null, "Aun no se puede dar la segunda dosis");
             else
-                return 1202;
+                return new Tuple<int?, string>(1202, "Segunda dosis aplicada");
         }
         var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        return (iDate.AddMonths(132) < DateTime.Now) ? null : 1201;
+        return (iDate.AddMonths(132) < DateTime.Now) ? new Tuple<int?, string>(null, "Aun no se puede dar la primera dosis") : new Tuple<int?, string>(1201, "Primera dosis aplicada");
     }
 }

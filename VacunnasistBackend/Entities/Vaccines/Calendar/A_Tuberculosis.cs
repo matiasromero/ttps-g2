@@ -16,9 +16,9 @@ public class A_Tuberculosis : Vaccine
         var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
         if (alreadyApplied.Any())
         {
-            return null;
+            return new Tuple<int?, string>(null, "Ya se aplicó una dosis");
         }
 
-        return 101; //Nunca se la di� y es la primer vez.
+        return new Tuple<int?, string>(101, "Primera dosis aplicada"); //Nunca se la dio y es la primer vez.
     }
 }

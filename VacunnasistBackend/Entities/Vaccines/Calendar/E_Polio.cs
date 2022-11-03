@@ -23,18 +23,14 @@ public class E_Polio : Vaccine
         switch (alreadyApplied.Length)
         {
             case 0:
-                return (iDate.AddMonths(2) > DateTime.Now) ? 501 : null;
-                break;
+                return (iDate.AddMonths(2) > DateTime.Now) ? new Tuple<int?, string>(501, "Primera dosis aplicada") : new Tuple<int?, string>(null, "Aun no se puede dar la primera dosis");
             case 1:
-                return (alreadyApplied[0].AppliedDate.AddDays(60) < DateTime.Now) ? null : 502;
-                break;
+                return (alreadyApplied[0].AppliedDate.AddDays(60) < DateTime.Now) ? new Tuple<int?, string>(null, "Aun no se puede dar la segunda dosis") : new Tuple<int?, string>(502, "Segunda dosis aplicada");
             case 2:
-                return (alreadyApplied[1].AppliedDate.AddDays(60) < DateTime.Now) ? null : 503;
-                break;
+                return (alreadyApplied[1].AppliedDate.AddDays(60) < DateTime.Now) ? new Tuple<int?, string>(null, "Aun no se puede dar la tercera dosis") : new Tuple<int?, string>(503, "Tercera dosis aplicada");
             case 3:
-                return (alreadyApplied[2].AppliedDate.AddMonths(66) < DateTime.Now) ? null : 504;
-                break;
+                return (alreadyApplied[2].AppliedDate.AddMonths(66) < DateTime.Now) ? new Tuple<int?, string>(null, "Aun no se puede dar el refuerzo") : new Tuple<int?, string>(504, "Refuerzo aplicado");
         }
-        return null;
+        return new Tuple<int?, string>(null, "Error");
     }
 }

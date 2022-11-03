@@ -20,12 +20,12 @@ public class F_Rotavirus : Vaccine
         if (alreadyApplied.Any())
         {
             if (alreadyApplied.Any(x => x.AppliedDate.AddDays(60) < DateTime.Now))
-                return null;
+                return new Tuple<int?, string>(null, "Aun no se puede dar la segunda dosis");
             else
-                return 602;
+                return new Tuple<int?, string>(602, "Segunda dosis aplicada");
         }
 
         var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        return (iDate.AddMonths(2) < DateTime.Now) ? null : 601;
+        return (iDate.AddMonths(2) < DateTime.Now) ? new Tuple<int?, string>(null, "Aun no se puede dar la primera dosis") : new Tuple<int?, string>(601, "Primera dosis aplicada");
     }
 }

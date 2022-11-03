@@ -21,11 +21,11 @@ public class M_FiebreAmarilla : Vaccine
         if (alreadyApplied.Any())
         {
             if (alreadyApplied.Any(x => x.AppliedDate.AddMonths(132) < DateTime.Now))
-                return null;
+                return new Tuple<int?, string>(null, "Aun no se puede dar la segunda dosis");
             else
-                return 1302;
+                return new Tuple<int?, string>(1302, "Segunda dosis aplicada");
         }
         var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        return (iDate.AddMonths(18) < DateTime.Now) ? null : 1301;
+        return (iDate.AddMonths(18) < DateTime.Now) ? new Tuple<int?, string>(null, "Aun no se puede dar la primera dosis") : new Tuple<int?, string>(1301, "Primera dosis aplicada");
     }
 }
