@@ -58,14 +58,6 @@
               "target": "Package",
               "version": "[6.0.4, )"
             },
-            "NUnit": {
-              "target": "Package",
-              "version": "[3.13.3, )"
-            },
-            "NUnit3TestAdapter": {
-              "target": "Package",
-              "version": "[4.3.0, )"
-            },
             "Quartz": {
               "target": "Package",
               "version": "[3.5.0, )"
