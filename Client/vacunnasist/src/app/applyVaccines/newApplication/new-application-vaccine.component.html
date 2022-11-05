@@ -13,6 +13,17 @@
         />
 
         <div
+          class="text-danger"
+          *ngIf="
+            form.value.dni &&
+            form.value.province &&
+            form.value.province !== user?.province
+          "
+        >
+          El/la paciente seleccionado no pertenece a su provincia.
+        </div>
+
+        <div
           *ngIf="f.dni.invalid && (submitted || f.dni.dirty || f.dni.touched)"
           class="invalid-feedback"
         >
@@ -215,7 +226,12 @@
       </div>
 
       <div class="form-group">
-        <button [disabled]="loading" class="btn btn-primary">
+        <button
+          [disabled]="
+            loading || (user && form.value.province != user?.province)
+          "
+          class="btn btn-primary"
+        >
           <span
             *ngIf="loading"
             class="spinner-border spinner-border-sm mr-1"
