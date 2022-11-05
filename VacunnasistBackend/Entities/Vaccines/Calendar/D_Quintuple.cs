@@ -18,7 +18,7 @@ public class D_Quintuple : Vaccine
 
     protected override Tuple<int?, string> internalValidation(Patient patient)
     {
-        var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
+        var alreadyApplied = patient.GetAlreadyAppliedVaccines(Id);
         var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
         switch (alreadyApplied.Length)

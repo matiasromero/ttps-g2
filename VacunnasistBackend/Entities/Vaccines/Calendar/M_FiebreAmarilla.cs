@@ -16,7 +16,7 @@ public class M_FiebreAmarilla : Vaccine
 
     protected override Tuple<int?, string> internalValidation(Patient patient)
     {
-        var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
+        var alreadyApplied = patient.GetAlreadyAppliedVaccines(Id);
 
         if (alreadyApplied.Any())
         {

@@ -14,7 +14,7 @@ public class P_Antigripal : Vaccine
 
     protected override Tuple<int?, string> internalValidation(Patient patient)
     {
-        var alreadyApplied = patient.AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == Id).ToArray();
+        var alreadyApplied = patient.GetAlreadyAppliedVaccines(Id);
         if (alreadyApplied.Any(x => x.AppliedDate.Year == DateTime.Now.Year))
             return new Tuple<int?, string>(null, "Aun no se puede dar la dosis anual");
         return new Tuple<int?, string>(3001, "Primera dosis aplicada");

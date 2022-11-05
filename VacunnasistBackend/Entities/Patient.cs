@@ -5,7 +5,7 @@ namespace VacunnasistBackend.Entities
 {
     public class Patient
     {
-        public Patient() 
+        public Patient()
         {
             AppliedVaccines = new List<AppliedVaccine>();
         }
@@ -20,6 +20,11 @@ namespace VacunnasistBackend.Entities
         public string BirthDate { get; set; }
         public bool Pregnant { get; set; }
         public bool HealthWorker { get; set; }
+
+        public virtual AppliedVaccine[] GetAlreadyAppliedVaccines(int id)
+        {
+            return AppliedVaccines.Where(x => x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine.Vaccine.Id == id).ToArray();
+        }
 
         public virtual List<AppliedVaccine> AppliedVaccines { get; set; }
     }
