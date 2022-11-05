@@ -20,6 +20,6 @@ public class I_HepatitisA : Vaccine
             return null;
 
         var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        return (iDate.AddMonths(12) < DateTime.Now) ? new Tuple<int?, string>(null, "Aun no se puede aplicar la primera dosis") : new Tuple<int?, string>(901, "Primera dosis aplicada");
+        return (iDate.AddMonths(12) < DateTime.Now) ? new Tuple<int?, string>(null, "Aun no se puede dar la primera dosis") : new Tuple<int?, string>(901, "Primera dosis aplicada");
     }
 }
