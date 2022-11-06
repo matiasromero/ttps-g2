@@ -20,6 +20,6 @@ public class N_FiebreHemorragica : Vaccine
             return new Tuple<int?, string>(null, "Ya posee el esquema completo");
 
         var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        return (iDate.AddMonths(180) < DateTime.Now) ? new Tuple<int?, string>(null, "Aun no se puede dar la primera dosis") : new Tuple<int?, string>(1401, "Primera dosis aplicada");
+        return (DateTime.Now >= iDate.AddMonths(180)) ? new Tuple<int?, string>(1401, "Primera dosis aplicada") : new Tuple<int?, string>(null, "Aun no se puede dar la primera dosis");
     }
 }

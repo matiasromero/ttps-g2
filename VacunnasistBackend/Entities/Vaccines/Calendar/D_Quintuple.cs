@@ -23,10 +23,10 @@ public class D_Quintuple : Vaccine
 
         switch (alreadyApplied.Length)
         {
-            case 0: return (iDate.AddMonths(2) >= DateTime.Now) ? new Tuple<int?, string>(401, "Primera dosis aplicada") : new Tuple<int?, string>(null, "Aun no se puede dar la primera dosis");
-            case 1: return (alreadyApplied[0].AppliedDate.AddDays(60) < DateTime.Now) ? new Tuple<int?, string>(null, "Aun no se puede dar la segunda dosis") : new Tuple<int?, string>(402, "Segunda dosis aplicada");
-            case 2: return (alreadyApplied[1].AppliedDate.AddDays(60) < DateTime.Now) ? new Tuple<int?, string>(null, "Aun no se puede dar la tercera dosis") : new Tuple<int?, string>(403, "Tercera dosis aplicada");
-            case 3: return (alreadyApplied[2].AppliedDate.AddMonths(9) < DateTime.Now) ? new Tuple<int?, string>(null, "Aun no se puede dar el refuerzo") : new Tuple<int?, string>(404, "Refuerzo dosis aplicada");
+            case 0: return (iDate.AddMonths(2) <= DateTime.Now) ? new Tuple<int?, string>(401, "Primera dosis aplicada") : new Tuple<int?, string>(null, "Aun no se puede dar la primera dosis. Según esquema de vacunación es a partir de los 2 meses de vida.");
+            case 1: return (DateTime.Now >= alreadyApplied[0].AppliedDate.AddDays(60)) ? new Tuple<int?, string>(402, "Segunda dosis aplicada") : new Tuple<int?, string>(null, "Aun no se puede dar la segunda dosis. Deben pasar 2 meses de la primer dosis aplicada.");
+            case 2: return (DateTime.Now >= alreadyApplied[1].AppliedDate.AddDays(60)) ? new Tuple<int?, string>(403, "Tercera dosis aplicada") : new Tuple<int?, string>(null, "Aun no se puede dar la tercera dosis. Deben pasar 2 meses de la tercer dosis aplicada.");
+            case 3: return (DateTime.Now >= alreadyApplied[2].AppliedDate.AddMonths(9)) ? new Tuple<int?, string>(404, "Refuerzo dosis aplicada") : new Tuple<int?, string>(null, "Aun no se puede dar el refuerzo. Deben pasar 9 meses de la dosis anterior.");
         }
         return new Tuple<int?, string>(null, "Error");
     }

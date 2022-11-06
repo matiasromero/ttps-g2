@@ -6,19 +6,19 @@ using Moq;
 
 namespace Tests;
 
-public class VaccineTests
+public class ApplyBCGVaccineTest
 {
     private Patient patient1;
     private Patient patient2;
 
-    public VaccineTests()
+    public ApplyBCGVaccineTest()
     {
         patient1 = new Patient()
         {
             Id = 1,
             Name = "Joe",
             Surname = "Doe",
-            BirthDate = "01/05/1980",
+            BirthDate = "05/11/2022",
             Province = "Buenos Aires"
         };
 
@@ -27,34 +27,33 @@ public class VaccineTests
         mock.Setup(m => m.GetAlreadyAppliedVaccines(It.IsAny<int>())).Returns(new AppliedVaccine[] {
                 new AppliedVaccine() {
                     Id = 1,
-                    AppliedDose = 201
+                    AppliedDose = 101
                 }
             });
         patient2 = mock.Object;
-        patient2.BirthDate = "01/05/1980";
+        patient2.BirthDate = "05/10/2000";
     }
 
     [Fact]
-    public void PatientWithoutAnyDoseOfHepatitisShouldApplyToFirstDose()
+    public void PatientWithoutAnyDoseOfBCGShouldApplyToFirstDose()
     {
-        var hepatitis = Vaccines.B_HepatitisB;
+        var bcg = Vaccines.A_Tuberculosis;
 
-        var result = hepatitis.CanApply(patient1);
+        var result = bcg.CanApply(patient1);
 
         Assert.True(result.Item1.HasValue);
-        Assert.Equal(201, result.Item1);
+        Assert.Equal(101, result.Item1);
         Assert.Equal("Primera dosis aplicada", result.Item2);
     }
 
     [Fact]
-    public void PatientWithOneDoseOfHepatitisShouldApplyToSecondDose()
+    public void PatientWithOneDoseOfBCGShouldNotApplyToSecondDose()
     {
-        var hepatitis = Vaccines.B_HepatitisB;
+        var bcg = Vaccines.A_Tuberculosis;
 
-        var result = hepatitis.CanApply(patient2);
+        var result = bcg.CanApply(patient2);
 
-        Assert.True(result.Item1.HasValue);
-        Assert.Equal(203, result.Item1);
-        Assert.Equal("Segunda dosis aplicada", result.Item2);
+        Assert.True(!result.Item1.HasValue);
+        Assert.Equal("Ya se aplicó una dosis", result.Item2);
     }
 }
