@@ -12,7 +12,7 @@ namespace VacunnasistBackend.Services
     {
         AppliedVaccine[] GetAll(AppliedVaccinesFilterRequest filter);
         AppliedVaccine Get(int id);
-        bool New(NewAppliedVaccineRequest model);
+        Tuple<bool, string> New(NewAppliedVaccineRequest model);
 
     }
     public class AppliedVaccineService : IAppliedVaccineService
@@ -55,7 +55,7 @@ namespace VacunnasistBackend.Services
             return query.ToArray();
         }
 
-        public bool New(NewAppliedVaccineRequest model)
+        public Tuple<bool, string> New(NewAppliedVaccineRequest model)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace VacunnasistBackend.Services
 
                 if (!validationApplied.Item1.HasValue)
                 {
-                    throw new HttpResponseException(400, message: "La persona '" + model.Name + " " + model.Surname + " con DNI " + model.DNI.ToString() + "' no puede aplicarse la vacuna." + validationApplied.Item2);
+                    throw new HttpResponseException(400, message: "La persona '" + model.Name + " " + model.Surname + " con DNI " + model.DNI.ToString() + "' no puede aplicarse la vacuna. " + validationApplied.Item2);
                 }
 
                 provinceBatch.RemainingQuantity--;
@@ -106,11 +106,11 @@ namespace VacunnasistBackend.Services
                 _context.AppliedVaccines.Add(appliedVaccine);
                 patient.AppliedVaccines.Add(appliedVaccine);
                 _context.SaveChanges();
-                return true;
+                return new Tuple<bool, string>(true, validationApplied.Item2);
             }
             catch (Exception e)
             {
-                return false;
+                return new Tuple<bool, string>(false, e.Message);
             }
         }
 

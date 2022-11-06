@@ -56,13 +56,13 @@ namespace VacunnasistBackend.Controllers
             }
 
             var result = _appliedVaccinesService.New(model);
-            if(result)
+            if(result.Item1)
                 return Ok(new
                 {
-                    message = "Aplicación realizada correctamente"
+                    message = "Aplicación realizada correctamente. " + result.Item2
                 });
             return BadRequest(new {
-                message = "La vacuna para la persona con DNI " + model.DNI.ToString() + " no pudo ser aplicada."
+                message = result.Item2
             });
         }
 
