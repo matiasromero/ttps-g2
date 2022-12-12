@@ -64,7 +64,7 @@ namespace VacunassistBackend.Entities
         public static string Vacunator = "vacunator";
     }
 
-    public static class Province
+    public static class ProvinceEnum
     {
         public static string BuenosAires = "Buenos Aires";
         public static string Catamarca = "Catamarca";

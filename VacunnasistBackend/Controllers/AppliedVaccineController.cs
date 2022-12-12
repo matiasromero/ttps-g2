@@ -28,7 +28,7 @@ namespace VacunnasistBackend.Controllers
             if (user.Role == UserRoles.Analyst && string.IsNullOrEmpty(filter.Province))
             {
                 filter.Province = user.Province;
-            }     
+            }
             else if (user.Role == UserRoles.Vacunator && filter.DNI == null)
             {
                 filter.AppliedById = user.Id;
@@ -55,13 +55,21 @@ namespace VacunnasistBackend.Controllers
                 model.ApplyBy = user.Id;
             }
 
+            var departmentExist = _context.Departments.Any(x => x.Name == model.Department);
+            if (!departmentExist)
+                return BadRequest(new
+                {
+                    message = "Departamento " + model.Department + " no encontrado."
+                });
+
             var result = _appliedVaccinesService.New(model);
-            if(result.Item1)
+            if (result.Item1)
                 return Ok(new
                 {
                     message = "Aplicación realizada correctamente. " + result.Item2
                 });
-            return BadRequest(new {
+            return BadRequest(new
+            {
                 message = result.Item2
             });
         }

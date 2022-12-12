@@ -42,6 +42,9 @@ namespace VacunnasistBackend.Migrations
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Synchronized")
+                        .HasColumnType("bit");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -54,26 +57,6 @@ namespace VacunnasistBackend.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("AppliedVaccines", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AppliedDate = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
-                            AppliedDose = 3001,
-                            LocalBatchVaccineId = 1,
-                            PatientId = 1,
-                            UserId = 5
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AppliedDate = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
-                            AppliedDose = 3001,
-                            LocalBatchVaccineId = 1,
-                            PatientId = 2,
-                            UserId = 5
-                        });
                 });
 
             modelBuilder.Entity("VacunassistBackend.Entities.BatchVaccine", b =>
@@ -110,6 +93,9 @@ namespace VacunnasistBackend.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Synchronized")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BatchNumber")
@@ -127,73 +113,107 @@ namespace VacunnasistBackend.Migrations
                             Id = 1,
                             BatchNumber = "PF1000001",
                             DevelopedVaccineId = 1,
-                            DueDate = new DateTime(2022, 12, 6, 0, 0, 0, 0, DateTimeKind.Local),
+                            DueDate = new DateTime(2023, 1, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             OverdueQuantity = 0,
                             PurchaseOrderId = 3,
                             Quantity = 800,
                             RemainingQuantity = 800,
-                            Status = 0
+                            Status = 0,
+                            Synchronized = false
                         },
                         new
                         {
                             Id = 2,
                             BatchNumber = "PF1000121",
                             DevelopedVaccineId = 1,
-                            DueDate = new DateTime(2022, 11, 16, 0, 0, 0, 0, DateTimeKind.Local),
+                            DueDate = new DateTime(2022, 12, 25, 0, 0, 0, 0, DateTimeKind.Local),
                             OverdueQuantity = 0,
                             PurchaseOrderId = 4,
                             Quantity = 400,
                             RemainingQuantity = 400,
-                            Status = 0
+                            Status = 0,
+                            Synchronized = false
                         },
                         new
                         {
                             Id = 3,
                             BatchNumber = "R1000001",
                             DevelopedVaccineId = 2,
-                            DueDate = new DateTime(2022, 12, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            DueDate = new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Local),
                             OverdueQuantity = 0,
                             PurchaseOrderId = 5,
                             Quantity = 560,
                             RemainingQuantity = 560,
-                            Status = 0
+                            Status = 0,
+                            Synchronized = false
                         },
                         new
                         {
                             Id = 4,
                             BatchNumber = "FLU12214001",
                             DevelopedVaccineId = 3,
-                            DueDate = new DateTime(2022, 11, 11, 0, 0, 0, 0, DateTimeKind.Local),
+                            DueDate = new DateTime(2022, 12, 20, 0, 0, 0, 0, DateTimeKind.Local),
                             OverdueQuantity = 0,
                             PurchaseOrderId = 6,
                             Quantity = 1500,
                             RemainingQuantity = 1500,
-                            Status = 0
+                            Status = 0,
+                            Synchronized = false
                         },
                         new
                         {
                             Id = 5,
                             BatchNumber = "FLU12214003",
                             DevelopedVaccineId = 3,
-                            DueDate = new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Local),
+                            DueDate = new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Local),
                             OverdueQuantity = 0,
                             PurchaseOrderId = 7,
                             Quantity = 3600,
                             RemainingQuantity = 3000,
-                            Status = 0
+                            Status = 0,
+                            Synchronized = false
                         },
                         new
                         {
                             Id = 6,
                             BatchNumber = "FLU13214121",
                             DevelopedVaccineId = 3,
-                            DueDate = new DateTime(2022, 10, 16, 0, 0, 0, 0, DateTimeKind.Local),
+                            DueDate = new DateTime(2022, 11, 24, 0, 0, 0, 0, DateTimeKind.Local),
                             OverdueQuantity = 0,
                             PurchaseOrderId = 8,
                             Quantity = 3600,
                             RemainingQuantity = 3600,
-                            Status = 0
+                            Status = 0,
+                            Synchronized = false
                         });
+                });
+
+            modelBuilder.Entity("VacunassistBackend.Entities.Department", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("ProvinceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProvinceId");
+
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("VacunassistBackend.Entities.DevelopedVaccine", b =>
@@ -210,16 +230,24 @@ namespace VacunnasistBackend.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<int>("LaboratoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.Property<string>("VaccineText")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LaboratoryId");
 
                     b.ToTable("DevelopedVaccines");
 
@@ -229,7 +257,9 @@ namespace VacunnasistBackend.Migrations
                             Id = 1,
                             DaysToDelivery = 30,
                             IsActive = true,
+                            LaboratoryId = 1,
                             Name = "Pfizer COVID-19",
+                            Type = 0,
                             VaccineText = "{\"Id\":2000,\"Name\":\"COVID-19\",\"Type\":1,\"Doses\":[{\"Id\":2001,\"Number\":0,\"IsReinforcement\":false,\"MinMonthsOfAge\":0,\"DaysAfterPreviousDose\":null},{\"Id\":2002,\"Number\":1,\"IsReinforcement\":false,\"MinMonthsOfAge\":0,\"DaysAfterPreviousDose\":120}]}"
                         },
                         new
@@ -237,7 +267,9 @@ namespace VacunnasistBackend.Migrations
                             Id = 2,
                             DaysToDelivery = 60,
                             IsActive = true,
+                            LaboratoryId = 2,
                             Name = "ROCHE Fiebre amarilla",
+                            Type = 1,
                             VaccineText = "{\"Id\":1300,\"Name\":\"Fiebre Amarilla\",\"Type\":0,\"Doses\":[{\"Id\":1301,\"Number\":0,\"IsReinforcement\":false,\"MinMonthsOfAge\":18,\"DaysAfterPreviousDose\":null},{\"Id\":1302,\"Number\":1,\"IsReinforcement\":true,\"MinMonthsOfAge\":132,\"DaysAfterPreviousDose\":null}]}"
                         },
                         new
@@ -245,8 +277,50 @@ namespace VacunnasistBackend.Migrations
                             Id = 3,
                             DaysToDelivery = 15,
                             IsActive = true,
-                            Name = "Fluarix Antigripal",
+                            LaboratoryId = 4,
+                            Name = "Janssen Antigripal",
+                            Type = 1,
                             VaccineText = "{\"Id\":3000,\"Name\":\"Antigripal\",\"Type\":2,\"Doses\":[{\"Id\":3001,\"Number\":0,\"IsReinforcement\":false,\"MinMonthsOfAge\":0,\"DaysAfterPreviousDose\":365}]}"
+                        });
+                });
+
+            modelBuilder.Entity("VacunassistBackend.Entities.Laboratory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Laboratories", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Pfizer"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "ROCHE"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "BioNTech"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Janssen"
                         });
                 });
 
@@ -278,6 +352,9 @@ namespace VacunnasistBackend.Migrations
                     b.Property<int>("RemainingQuantity")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Synchronized")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BatchVaccineId");
@@ -289,11 +366,180 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 1,
                             BatchVaccineId = 5,
-                            DistributionDate = new DateTime(2022, 11, 3, 7, 35, 20, 44, DateTimeKind.Local).AddTicks(9213),
+                            DistributionDate = new DateTime(2022, 12, 12, 13, 54, 54, 30, DateTimeKind.Local).AddTicks(4720),
                             OverdueQuantity = 0,
                             Province = "Buenos Aires",
                             Quantity = 600,
-                            RemainingQuantity = 600
+                            RemainingQuantity = 600,
+                            Synchronized = false
+                        });
+                });
+
+            modelBuilder.Entity("VacunassistBackend.Entities.Province", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Province", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Code = "02",
+                            Name = "Ciudad Autónoma de Buenos Aires"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Code = "06",
+                            Name = "Buenos Aires"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Code = "10",
+                            Name = "Catamarca"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Code = "14",
+                            Name = "Córdoba"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Code = "18",
+                            Name = "Corrientes"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Code = "22",
+                            Name = "Chaco"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Code = "26",
+                            Name = "Chubut"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Code = "30",
+                            Name = "Entre Ríos"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Code = "34",
+                            Name = "Formosa"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Code = "38",
+                            Name = "Jujuy"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Code = "42",
+                            Name = "La Pampa"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Code = "46",
+                            Name = "La Rioja"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Code = "50",
+                            Name = "Mendoza"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Code = "54",
+                            Name = "Misiones"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Code = "58",
+                            Name = "Neuquén"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Code = "62",
+                            Name = "Río Negro"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Code = "66",
+                            Name = "Salta"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Code = "70",
+                            Name = "San Juan"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Code = "74",
+                            Name = "San Luis"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Code = "78",
+                            Name = "Santa Cruz"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Code = "82",
+                            Name = "Santa Fe"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Code = "86",
+                            Name = "Santiago del Estero"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Code = "90",
+                            Name = "Tucumán"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Code = "94",
+                            Name = "Tierra del Fuego, Antártida e Islas del Atlántico Sur"
                         });
                 });
 
@@ -338,7 +584,7 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 1,
                             DevelopedVaccineId = 3,
-                            PurchaseDate = new DateTime(2022, 11, 3, 7, 35, 20, 44, DateTimeKind.Local).AddTicks(9114),
+                            PurchaseDate = new DateTime(2022, 12, 12, 13, 54, 54, 30, DateTimeKind.Local).AddTicks(4658),
                             Quantity = 1400,
                             Status = 0
                         },
@@ -346,7 +592,7 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 2,
                             DevelopedVaccineId = 3,
-                            PurchaseDate = new DateTime(2022, 11, 3, 7, 35, 20, 44, DateTimeKind.Local).AddTicks(9123),
+                            PurchaseDate = new DateTime(2022, 12, 12, 13, 54, 54, 30, DateTimeKind.Local).AddTicks(4664),
                             Quantity = 1200,
                             Status = 0
                         },
@@ -354,10 +600,10 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 3,
                             BatchNumber = "PF1000001",
-                            DeliveredTime = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
+                            DeliveredTime = new DateTime(2022, 12, 12, 0, 0, 0, 0, DateTimeKind.Local),
                             DevelopedVaccineId = 1,
-                            ETA = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
-                            PurchaseDate = new DateTime(2022, 10, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            ETA = new DateTime(2022, 12, 12, 0, 0, 0, 0, DateTimeKind.Local),
+                            PurchaseDate = new DateTime(2022, 11, 12, 0, 0, 0, 0, DateTimeKind.Local),
                             Quantity = 800,
                             Status = 2
                         },
@@ -365,10 +611,10 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 4,
                             BatchNumber = "PF1000121",
-                            DeliveredTime = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
+                            DeliveredTime = new DateTime(2022, 12, 12, 0, 0, 0, 0, DateTimeKind.Local),
                             DevelopedVaccineId = 1,
-                            ETA = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
-                            PurchaseDate = new DateTime(2022, 10, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            ETA = new DateTime(2022, 12, 12, 0, 0, 0, 0, DateTimeKind.Local),
+                            PurchaseDate = new DateTime(2022, 11, 12, 0, 0, 0, 0, DateTimeKind.Local),
                             Quantity = 400,
                             Status = 2
                         },
@@ -376,10 +622,10 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 5,
                             BatchNumber = "R1000001",
-                            DeliveredTime = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
+                            DeliveredTime = new DateTime(2022, 12, 12, 0, 0, 0, 0, DateTimeKind.Local),
                             DevelopedVaccineId = 2,
-                            ETA = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
-                            PurchaseDate = new DateTime(2022, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            ETA = new DateTime(2022, 12, 12, 0, 0, 0, 0, DateTimeKind.Local),
+                            PurchaseDate = new DateTime(2022, 10, 13, 0, 0, 0, 0, DateTimeKind.Local),
                             Quantity = 560,
                             Status = 2
                         },
@@ -387,10 +633,10 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 6,
                             BatchNumber = "FLU12214001",
-                            DeliveredTime = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
+                            DeliveredTime = new DateTime(2022, 12, 12, 0, 0, 0, 0, DateTimeKind.Local),
                             DevelopedVaccineId = 3,
-                            ETA = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
-                            PurchaseDate = new DateTime(2022, 10, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            ETA = new DateTime(2022, 12, 12, 0, 0, 0, 0, DateTimeKind.Local),
+                            PurchaseDate = new DateTime(2022, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
                             Quantity = 1500,
                             Status = 2
                         },
@@ -398,10 +644,10 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 7,
                             BatchNumber = "FLU12214003",
-                            DeliveredTime = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
+                            DeliveredTime = new DateTime(2022, 12, 12, 0, 0, 0, 0, DateTimeKind.Local),
                             DevelopedVaccineId = 3,
-                            ETA = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
-                            PurchaseDate = new DateTime(2022, 10, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            ETA = new DateTime(2022, 12, 12, 0, 0, 0, 0, DateTimeKind.Local),
+                            PurchaseDate = new DateTime(2022, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
                             Quantity = 3600,
                             Status = 2
                         },
@@ -409,10 +655,10 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 8,
                             BatchNumber = "FLU13214121",
-                            DeliveredTime = new DateTime(2022, 10, 16, 0, 0, 0, 0, DateTimeKind.Local),
+                            DeliveredTime = new DateTime(2022, 11, 24, 0, 0, 0, 0, DateTimeKind.Local),
                             DevelopedVaccineId = 3,
-                            ETA = new DateTime(2022, 10, 16, 0, 0, 0, 0, DateTimeKind.Local),
-                            PurchaseDate = new DateTime(2022, 10, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            ETA = new DateTime(2022, 11, 24, 0, 0, 0, 0, DateTimeKind.Local),
+                            PurchaseDate = new DateTime(2022, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             Quantity = 3600,
                             Status = 2
                         });
@@ -488,14 +734,14 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 1,
                             Address = "Calle Falsa 1234, La Plata",
-                            BirthDate = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
+                            BirthDate = new DateTime(2022, 12, 12, 0, 0, 0, 0, DateTimeKind.Local),
                             DNI = "11111111",
                             Email = "admin@vacunassist.com",
                             FullName = "Administrador",
                             Gender = "other",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:9zQ7eyYt+qO/t5mEbbRDyMJS9E+o6rke:h3LDxN/frKpNwPScq3BbRgjwZgfisJzk",
+                            PasswordHash = "1000:Wz+2p0bJNYcFwBAZ+RpsoNdqlsgrxcs+:CbkCZgtNcIVIXVHsJoTXDxKGEaWOHoyv",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "administrator",
@@ -505,14 +751,14 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 2,
                             Address = "Calle Falsa 2345, La Plata",
-                            BirthDate = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
+                            BirthDate = new DateTime(2022, 12, 12, 0, 0, 0, 0, DateTimeKind.Local),
                             DNI = "22345678",
                             Email = "operador1@vacunassist.com",
                             FullName = "Luis Gutierrez",
                             Gender = "male",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:KsGXMZAm7o+Co7xyOuUMyP8i8Fetvydg:XtlqTxfqUpq5/4FvEdI+3pLNJYbw/Vb1",
+                            PasswordHash = "1000:5DP/9FSwk9wKQa2pQf02mHfesxvdaw+i:GHmcYliJ1jZOBlGv4/+lDF5/Lk0QM5MB",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "operator",
@@ -522,14 +768,14 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 3,
                             Address = "Calle Falsa 9874, Salta",
-                            BirthDate = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
+                            BirthDate = new DateTime(2022, 12, 12, 0, 0, 0, 0, DateTimeKind.Local),
                             DNI = "89785451",
                             Email = "estefania@vacunassist.com",
                             FullName = "Estefania Borzi",
                             Gender = "female",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:glxbPiSMhtu0cD8ugRGA9eLfiayAxEjJ:3Mc6PkNzuIgt0l7r4Uyyl9HDvV2AqPiY",
+                            PasswordHash = "1000:mGFAPpreoyfSoi2vITYFmTI2/7jBuyEe:rmukZzzdT3RrWB3IMAl80udJWOLoUBtq",
                             Pregnant = false,
                             Province = "Salta",
                             Role = "operator",
@@ -539,14 +785,14 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 4,
                             Address = "Calle Falsa 9874, Salta",
-                            BirthDate = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
+                            BirthDate = new DateTime(2022, 12, 12, 0, 0, 0, 0, DateTimeKind.Local),
                             DNI = "89785451",
                             Email = "jr@vacunassist.com",
                             FullName = "Jose Luis Rodriguez",
                             Gender = "male",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:e0okx0/UJyD2YHMMRKypHmR8VKh8ap4Q:w0dTeCuqoihTfP7XuJOJesy54amNpZB5",
+                            PasswordHash = "1000:bOH1FywFyqHoKtPwJ09MxCpzrt1XIJUH:bvV8sBSEWjS0Y9aX8awYEYvK/fybIJhB",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "analyst",
@@ -556,14 +802,14 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 5,
                             Address = "Calle Falsa 4567, La Plata",
-                            BirthDate = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
+                            BirthDate = new DateTime(2022, 12, 12, 0, 0, 0, 0, DateTimeKind.Local),
                             DNI = "11111111",
                             Email = "vacunador@email.com",
                             FullName = "Vacunador",
                             Gender = "other",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:0SCPljehSm3rg2+EFhZvkxoXQa/K4Zmt:RHJXYrwNKjrfaVs2otVnss054pCyeed/",
+                            PasswordHash = "1000:NwLnR9BUr3u8yBoRs5TNWRNMhEBWcpNR:Dpuu/4JPv5ZpEAqBgsv+BH0HgnQMuYH4",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "vacunator",
@@ -587,6 +833,9 @@ namespace VacunnasistBackend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -601,43 +850,15 @@ namespace VacunnasistBackend.Migrations
                     b.Property<bool>("Pregnant")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Province")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Patients");
+                    b.HasIndex("DepartmentId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BirthDate = "11/3/2022 12:00:00 AM",
-                            DNI = "29999998",
-                            Gender = "male",
-                            HealthWorker = false,
-                            Name = "Paciente",
-                            Pregnant = false,
-                            Province = "Buenos Aires",
-                            Surname = "Prueba"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            BirthDate = "11/3/2022 12:00:00 AM",
-                            DNI = "29999999",
-                            Gender = "female",
-                            HealthWorker = false,
-                            Name = "Paciente2",
-                            Pregnant = false,
-                            Province = "Buenos Aires",
-                            Surname = "Prueba2"
-                        });
+                    b.ToTable("Patients");
                 });
 
             modelBuilder.Entity("VacunassistBackend.Entities.AppliedVaccine", b =>
@@ -686,6 +907,28 @@ namespace VacunnasistBackend.Migrations
                     b.Navigation("PurchaseOrder");
                 });
 
+            modelBuilder.Entity("VacunassistBackend.Entities.Department", b =>
+                {
+                    b.HasOne("VacunassistBackend.Entities.Province", "Province")
+                        .WithMany()
+                        .HasForeignKey("ProvinceId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Province");
+                });
+
+            modelBuilder.Entity("VacunassistBackend.Entities.DevelopedVaccine", b =>
+                {
+                    b.HasOne("VacunassistBackend.Entities.Laboratory", "Laboratory")
+                        .WithMany()
+                        .HasForeignKey("LaboratoryId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Laboratory");
+                });
+
             modelBuilder.Entity("VacunassistBackend.Entities.LocalBatchVaccine", b =>
                 {
                     b.HasOne("VacunassistBackend.Entities.BatchVaccine", "BatchVaccine")
@@ -706,6 +949,17 @@ namespace VacunnasistBackend.Migrations
                         .IsRequired();
 
                     b.Navigation("DevelopedVaccine");
+                });
+
+            modelBuilder.Entity("VacunnasistBackend.Entities.Patient", b =>
+                {
+                    b.HasOne("VacunassistBackend.Entities.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("VacunassistBackend.Entities.BatchVaccine", b =>

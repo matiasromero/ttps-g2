@@ -3,7 +3,7 @@ using VacunnasistBackend.Entities;
 
 namespace VacunassistBackend.Entities
 {
-    public class AppliedVaccine
+    public class AppliedVaccine : ISynchronizable
     {
         public AppliedVaccine()
         {
@@ -24,5 +24,6 @@ namespace VacunassistBackend.Entities
         public int LocalBatchVaccineId { get; set; }
 
         public int AppliedDose { get; set; }
+        public bool Synchronized { get; set; }
     }
 }

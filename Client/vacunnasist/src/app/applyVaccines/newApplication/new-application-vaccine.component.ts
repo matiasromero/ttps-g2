@@ -19,6 +19,8 @@ import { LocalBatchVaccine } from 'src/app/_models/local-batch-vaccine';
 import { LocalBatchVaccinesFilter } from 'src/app/_models/filters/local-batch-vaccines-filter';
 import { LocalBatchVaccineService } from 'src/app/_services/local-batch-vaccine.service';
 import { User } from 'src/app/_models/user';
+import { DepartmentService } from 'src/app/_services/department.service';
+import { Department } from 'src/app/_models/department';
 
 @Component({ templateUrl: 'new-application-vaccine.component.html' })
 export class NewApplyVaccineComponent implements OnInit {
@@ -32,6 +34,7 @@ export class NewApplyVaccineComponent implements OnInit {
     private route: ActivatedRoute,
     private appliedVaccineService: AppliedVaccinesService,
     private localBatchVaccineService: LocalBatchVaccineService,
+    private departmentService: DepartmentService,
     private alertService: AlertService,
     private accountService: AccountService,
     private http: HttpClient
@@ -50,6 +53,7 @@ export class NewApplyVaccineComponent implements OnInit {
       surname: ['', [Validators.required, Validators.maxLength(100)]],
       gender: ['', Validators.required],
       birthDate: ['', Validators.required],
+      department: ['', Validators.required],
       province: ['', Validators.required],
       pregnant: [false],
       healthWorker: [false],
@@ -98,13 +102,16 @@ export class NewApplyVaccineComponent implements OnInit {
             pregnant: resp.embarazada,
             healthWorker: resp.personal_salud,
           });
-          //Obtener las dosis previas de esta perosna si hay
-          this.appliedVaccineService
-            .getAll(this.filterApplied)
-            .subscribe((res: any) => {
-              this.previousAppliance = res.vaccines;
+
+          this.departmentService
+            .getRandomByProvince(resp.jurisdiccion)
+            .pipe(first())
+            .subscribe((res: Department) => {
+              this.form.patchValue({
+                department: res.name,
+              });
+              this.loading = false;
             });
-          this.loading = false;
         },
         error: (error) => {
           this.alertService.error(

@@ -22,7 +22,6 @@ export class ViewApplyVaccineComponent implements OnInit {
     this.applyVaccineService
       .getById(this.applyVaccineId)
       .subscribe((res: AppliedVaccine) => {
-        console.log(res);
         this.applyVaccine = res;
       });
   }

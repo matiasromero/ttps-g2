@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VacunassistBackend.Entities
 {
-    public class LocalBatchVaccine
+    public class LocalBatchVaccine : ISynchronizable
     {
         public LocalBatchVaccine(int quantity, string province, int batchVaccineId)
         {
@@ -22,6 +22,7 @@ namespace VacunassistBackend.Entities
         public int OverdueQuantity { get; set; }
         public string Province { get; set; }
         public DateTime DistributionDate { get; set; }
+        public bool Synchronized { get; set; }
 
         public void checkOverdue()
         {

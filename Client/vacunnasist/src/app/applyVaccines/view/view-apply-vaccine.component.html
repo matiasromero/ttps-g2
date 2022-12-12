@@ -51,14 +51,21 @@
     <div class="form-group form-row">
       <label class="col-md-4 text-right">Fecha de nacimiento</label>
       <div class="col-md-8 controls readonly">
-        <b>{{ applyVaccine.patient.birthDate | date: "dd/MM/yyyy" }}</b>
+        <b>{{ applyVaccine.patient.birthDate }}</b>
       </div>
     </div>
 
     <div class="form-group form-row">
       <label class="col-md-4 text-right">Provincia</label>
       <div class="col-md-8 controls readonly">
-        <b>{{ applyVaccine.patient.province }}</b>
+        <b>{{ applyVaccine.patient.department.province.name }}</b>
+      </div>
+    </div>
+
+    <div class="form-group form-row">
+      <label class="col-md-4 text-right">Departamento</label>
+      <div class="col-md-8 controls readonly">
+        <b>{{ applyVaccine.patient.department.name }}</b>
       </div>
     </div>
 
@@ -95,7 +102,7 @@
     <div class="form-group form-row">
       <label class="col-md-4 text-right">Fecha de aplicación</label>
       <div class="col-md-8 controls readonly">
-        <b>{{ applyVaccine.appliedDate | date: "dd/MM/yyyy" }}</b>
+        <b>{{ applyVaccine.appliedDate | date : "dd/MM/yyyy" }}</b>
       </div>
     </div>
 

@@ -8,6 +8,7 @@
         public string Gender { get; set; }
         public string BirthDate { get; set; }
         public string Province { get; set; }
+        public string Department { get; set; }
         public bool Pregnant { get; set; }
         public bool HealthWorker { get; set; }
         public int DevelopedVaccineId { get; set; }

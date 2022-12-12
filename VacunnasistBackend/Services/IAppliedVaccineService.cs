@@ -31,6 +31,8 @@ namespace VacunnasistBackend.Services
                 .ThenInclude(x => x.DevelopedVaccine)
                 .Include(x => x.User)
                 .Include(x => x.Patient)
+                .ThenInclude(x => x.Department)
+                .ThenInclude(x => x.Province)
                 .First(x => x.Id == id);
         }
 
@@ -59,6 +61,7 @@ namespace VacunnasistBackend.Services
         {
             try
             {
+                var department = _context.Departments.First(x => x.Name == model.Department);
                 var patient = _context.Patients.Include(x => x.AppliedVaccines).Any(x => x.DNI == model.DNI.ToString()) ?
                     _context.Patients.Include(x => x.AppliedVaccines).First(x => x.DNI == model.DNI.ToString()) :
                     new Patient()
@@ -68,7 +71,7 @@ namespace VacunnasistBackend.Services
                         DNI = model.DNI.ToString(),
                         BirthDate = model.BirthDate,
                         Gender = model.Gender,
-                        Province = model.Province,
+                        Department = department,
                         Pregnant = model.Pregnant,
                         HealthWorker = model.HealthWorker
                     };

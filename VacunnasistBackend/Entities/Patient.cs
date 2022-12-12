@@ -16,7 +16,7 @@ namespace VacunnasistBackend.Entities
         public string Surname { get; set; }
         public string DNI { get; set; }
         public string Gender { get; set; }
-        public string Province { get; set; }
+        public Department Department { get; set; }
         public string BirthDate { get; set; }
         public bool Pregnant { get; set; }
         public bool HealthWorker { get; set; }
