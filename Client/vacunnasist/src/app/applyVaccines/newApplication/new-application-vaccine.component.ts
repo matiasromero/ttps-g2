@@ -91,6 +91,7 @@ export class NewApplyVaccineComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: (resp: any) => {
+          console.log(resp);
           const date_birth = resp.fecha_hora_nacimiento.split(' ');
           this.form.patchValue({
             dni: resp.DNI,
@@ -99,19 +100,11 @@ export class NewApplyVaccineComponent implements OnInit {
             gender: resp.genero,
             birthDate: date_birth[0],
             province: resp.jurisdiccion,
+            department: resp.ciudad,
             pregnant: resp.embarazada,
             healthWorker: resp.personal_salud,
           });
-
-          this.departmentService
-            .getRandomByProvince(resp.jurisdiccion)
-            .pipe(first())
-            .subscribe((res: Department) => {
-              this.form.patchValue({
-                department: res.name,
-              });
-              this.loading = false;
-            });
+          this.loading = false;
         },
         error: (error) => {
           this.alertService.error(

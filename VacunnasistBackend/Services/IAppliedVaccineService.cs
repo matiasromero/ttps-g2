@@ -61,7 +61,11 @@ namespace VacunnasistBackend.Services
         {
             try
             {
-                var department = _context.Departments.First(x => x.Name == model.Department);
+                var department = _context.Departments.FirstOrDefault(x => x.Name == model.Department);
+                if (department == null)
+                {
+                    throw new HttpResponseException(400, message: "La ciudad con nombre " + model.Department + " no fue encontrada.");
+                }
                 var patient = _context.Patients.Include(x => x.AppliedVaccines).Any(x => x.DNI == model.DNI.ToString()) ?
                     _context.Patients.Include(x => x.AppliedVaccines).First(x => x.DNI == model.DNI.ToString()) :
                     new Patient()
