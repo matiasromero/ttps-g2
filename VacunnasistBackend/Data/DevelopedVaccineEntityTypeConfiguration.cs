@@ -9,7 +9,6 @@ namespace VacunassistBackend.Data
         public void Configure(EntityTypeBuilder<DevelopedVaccine> builder)
         {
             builder.Property(b => b.Name).HasMaxLength(100).IsRequired();
-            builder.HasOne(b => b.Laboratory).WithMany().OnDelete(DeleteBehavior.NoAction).IsRequired();
         }
     }
 }

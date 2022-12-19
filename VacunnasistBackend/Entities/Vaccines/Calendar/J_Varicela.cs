@@ -6,8 +6,9 @@ namespace VacunassistBackend.Entities.Vaccines.Calendar;
 public class J_Varicela : Vaccine
 {
     public J_Varicela()
-    : base(1000, "Varicela", VaccineType.Calendar)
+    : base(1000, "Varicela", VaccineTypeEnum.Calendar)
     {
+        VaccineType = VaccineTypes.Vector;
         Doses = new[] {
             new VaccineDose(1001, 0, 15),
             new VaccineDose(1002, 1, 60),
@@ -22,7 +23,7 @@ public class J_Varicela : Vaccine
             if (alreadyApplied.Any(x => DateTime.Now >= x.AppliedDate.AddMonths(45)))
                 return new Tuple<int?, string>(1002, "Segunda dosis aplicada");
             else
-                return new Tuple<int?, string>(null, "Aun no se puede dar la segunda dosis. Según esquema de vacunación deben apsar 45 meses despues de la primera dosis.");
+                return new Tuple<int?, string>(null, "Aun no se puede dar la segunda dosis. Segï¿½n esquema de vacunaciï¿½n deben apsar 45 meses despues de la primera dosis.");
         }
 
         var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);

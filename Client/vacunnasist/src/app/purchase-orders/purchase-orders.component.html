@@ -19,12 +19,13 @@
                 filter.status | purchaseorderstatus
               }}</mat-chip>
               <mat-chip *ngIf="filter.purchaseDate"
-                >Fecha: {{ filter.purchaseDate | date: "dd/MM/yyyy" }}</mat-chip
+                >Fecha:
+                {{ filter.purchaseDate | date : "dd/MM/yyyy" }}</mat-chip
               >
               <mat-chip
                 *ngIf="filter.eta"
                 matTooltip="Tiempo estimado de arrivo"
-                >ETA: {{ filter.eta | date: "dd/MM/yyyy" }}</mat-chip
+                >ETA: {{ filter.eta | date : "dd/MM/yyyy" }}</mat-chip
               >
             </mat-chip-list>
           </mat-panel-description>
@@ -117,7 +118,7 @@
             <th>#</th>
             <th># Lote</th>
             <th scope="col">Vacuna</th>
-            <th scope="col">Vacuna desarrollada</th>
+            <th scope="col">Laboratorio</th>
             <th scope="col">Cantidad</th>
             <th scope="col" matTooltip="Tiempo estimado de entrega">ETA</th>
             <th scope="col">Estado</th>
@@ -150,7 +151,7 @@
               {{ v.quantity }}
             </th>
             <td>
-              {{ v.eta | date: "dd/MM/yyyy" }}
+              {{ v.eta | date : "dd/MM/yyyy" }}
             </td>
             <td>
               {{ v.status | purchaseorderstatus }}

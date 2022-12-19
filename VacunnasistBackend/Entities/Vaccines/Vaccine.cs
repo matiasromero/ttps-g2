@@ -7,7 +7,7 @@ namespace VacunassistBackend.Entities.Vaccines
     [Serializable]
     public class Vaccine
     {
-        public Vaccine(int id, string name, VaccineType type)
+        public Vaccine(int id, string name, VaccineTypeEnum type)
         {
             this.Name = name;
             this.Type = type;
@@ -16,7 +16,8 @@ namespace VacunassistBackend.Entities.Vaccines
         }
         public int Id { get; set; }
         public string Name { get; set; }
-        public VaccineType Type { get; set; }
+        public string VaccineType { get; set; }
+        public VaccineTypeEnum Type { get; set; }
 
         public VaccineDose[] Doses { get; set; }
 
@@ -52,10 +53,17 @@ namespace VacunassistBackend.Entities.Vaccines
         public int? DaysAfterPreviousDose { get; set; } // Distancia entre dosis
     }
 
-    public enum VaccineType
+    public enum VaccineTypeEnum
     {
         Calendar,
         Pandemic,
         Seasonal
+    }
+
+    public static class VaccineTypes
+    {
+        public static string Arnm = "ARNM";
+        public static string Vector = "Vector viral";
+        public static string Subunidades = "subunidades proteicas";
     }
 }

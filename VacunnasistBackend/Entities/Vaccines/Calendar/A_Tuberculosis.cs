@@ -5,8 +5,9 @@ namespace VacunassistBackend.Entities.Vaccines.Calendar;
 public class A_Tuberculosis : Vaccine
 {
     public A_Tuberculosis()
-    : base(100, "Tubercolosis (BCG)", VaccineType.Calendar)
+    : base(100, "Tubercolosis (BCG)", VaccineTypeEnum.Calendar)
     {
+        VaccineType = VaccineTypes.Arnm;
         Doses = new[] {
             new VaccineDose(101, 0, 0)
         };

@@ -3,7 +3,7 @@
   <div class="card-body">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" style="width: 500px">
           <mat-label>Vacuna</mat-label>
           <mat-select formControlName="vaccineId">
             <mat-option *ngFor="let vaccine of vaccines" [value]="vaccine.id">

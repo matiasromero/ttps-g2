@@ -6,8 +6,9 @@ namespace VacunassistBackend.Entities.Vaccines.Calendar;
 public class B_HepatitisB : Vaccine
 {
     public B_HepatitisB()
-    : base(200, "Hepatitis B (HB)", VaccineType.Calendar)
+    : base(200, "Hepatitis B (HB)", VaccineTypeEnum.Calendar)
     {
+        VaccineType = VaccineTypes.Subunidades;
         Doses = new[] {
             new VaccineDose(201, 0, 0),
             new VaccineDose(202, 1, 132),

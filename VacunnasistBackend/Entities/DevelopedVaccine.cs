@@ -21,11 +21,7 @@ namespace VacunassistBackend.Entities
         public int Id { get; set; }
 
         public string Name { get; set; } = string.Empty;
-        public Laboratory Laboratory { get; set; }
-        public int LaboratoryId { get; set; }
         public bool IsActive { get; set; } = true;
-
-        public DevelopedVaccineType Type { get; set; }
 
         public int DaysToDelivery { get; set; }
 
@@ -43,12 +39,5 @@ namespace VacunassistBackend.Entities
                 Vaccine = JsonSerializer.Deserialize<Vaccine>(value);
             }
         }
-    }
-
-    public enum DevelopedVaccineType
-    {
-        ARNM,
-        Vector_viral,
-        Subunidades_proteicas
     }
 }

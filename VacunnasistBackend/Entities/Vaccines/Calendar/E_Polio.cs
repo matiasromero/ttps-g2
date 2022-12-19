@@ -6,8 +6,9 @@ namespace VacunassistBackend.Entities.Vaccines.Calendar;
 public class E_Polio : Vaccine
 {
     public E_Polio()
-    : base(500, "Polio (IPV)", VaccineType.Calendar)
+    : base(500, "Polio (IPV)", VaccineTypeEnum.Calendar)
     {
+        VaccineType = VaccineTypes.Subunidades;
         Doses = new[] {
             new VaccineDose(501, 0, 2),
             new VaccineDose(502, 1, 4, 60),

@@ -109,10 +109,17 @@ builder.Services.AddQuartz(q =>
     q.UseMicrosoftDependencyInjectionScopedJobFactory();
     var jobKey = new JobKey("CheckVaccinesDueDateJob");
     q.AddJob<CheckVaccinesDueDateJob>(opts => opts.WithIdentity(jobKey));
+    var jobKey2 = new JobKey("SyncronizeDataJob");
+    q.AddJob<SyncronizeDataJob>(opts => opts.WithIdentity(jobKey2));
+
+    q.AddTrigger(opts => opts
+        .ForJob(jobKey2)
+        .WithIdentity("SyncronizeDataJob")
+        .StartNow());
 
     q.AddTrigger(opts => opts
         .ForJob(jobKey)
-        .WithIdentity("CheckVaccinesDueDateJob-trigger")
+        .WithIdentity("CheckVaccinesDueDateJob")
         .StartNow()
         .WithCronSchedule("0 0 0 ? * *")); // todos los dias a las 0 pm
 });

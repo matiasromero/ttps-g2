@@ -197,7 +197,7 @@
               <tr>
                 <th scope="col">Fecha de aplicación</th>
                 <th scope="col">Vacuna</th>
-                <th scope="col">Vacuna desarrollada</th>
+                <th scope="col">Laboratorio</th>
                 <th scope="col"># Lote</th>
                 <th scope="col">Jurisdicción</th>
               </tr>
@@ -210,7 +210,7 @@
               </tr>
               <tr *ngFor="let a of previousAppliance">
                 <td scope="row">
-                  {{ a.appliedDate | date: "dd/MM/yyyy" }}
+                  {{ a.appliedDate | date : "dd/MM/yyyy" }}
                 </td>
                 <td scope="row">
                   {{

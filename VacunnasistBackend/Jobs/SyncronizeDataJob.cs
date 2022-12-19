@@ -1,14 +1,19 @@
 using Microsoft.EntityFrameworkCore;
 using Quartz;
+using Dapper;
+using System.Data;
+using Microsoft.Data.SqlClient;
 
 namespace VacunassistBackend.Jobs
 {
     public class SyncronizeDataJob : IJob
     {
         private readonly DataContext _context;
-        public SyncronizeDataJob(DataContext context)
+        private readonly IConfiguration _configuration;
+        public SyncronizeDataJob(DataContext context, IConfiguration configuration)
         {
             this._context = context;
+            this._configuration = configuration;
         }
         public Task Execute(IJobExecutionContext context)
         {
@@ -16,22 +21,36 @@ namespace VacunassistBackend.Jobs
             var localBatchVaccines = _context.LocalBatchVaccines.Where(x => x.Synchronized == false).ToArray();
             var appliedVaccines = _context.AppliedVaccines.Where(x => x.Synchronized == false).ToArray();
 
-            foreach (var batch in batchVaccines)
+            using (IDbConnection db = new SqlConnection(_configuration.GetConnectionString("DatawarehouseDefaultConnection")))
             {
-                // Sync
-                batch.Synchronized = true;
-            }
+                db.Open();
 
-            foreach (var localBatch in localBatchVaccines)
-            {
-                // Sync
-                localBatch.Synchronized = true;
-            }
+                foreach (var batch in batchVaccines)
+                {
+                    // Sync
+                    //batch.Synchronized = true;
+                }
 
-            foreach (var appliedVaccine in appliedVaccines)
-            {
-                // Sync
-                appliedVaccine.Synchronized = true;
+                foreach (var localBatch in localBatchVaccines)
+                {
+                    // Sync
+                    //localBatch.Synchronized = true;
+                }
+
+                foreach (var appliedVaccine in appliedVaccines)
+                {
+                    // Sync
+                    var idFecha = db.Query<int?>("SELECT idFecha FROM DFecha WHERE year = @year AND mes = @mes AND dia = @dia",
+                    new { year = (int?)appliedVaccine.AppliedDate.Year, mes = (int?)appliedVaccine.AppliedDate.Month, dia = (int?)appliedVaccine.AppliedDate.Day })
+                    .SingleOrDefault();
+                    if (idFecha.HasValue)
+                    {
+
+                    }
+
+                    appliedVaccine.Synchronized = true;
+                }
+
             }
 
             _context.SaveChanges();

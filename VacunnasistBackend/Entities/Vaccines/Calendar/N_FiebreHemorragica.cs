@@ -6,8 +6,9 @@ namespace VacunassistBackend.Entities.Vaccines.Calendar;
 public class N_FiebreHemorragica : Vaccine
 {
     public N_FiebreHemorragica()
-    : base(1400, "Fiebre Hemorragica (FHA)", VaccineType.Calendar)
+    : base(1400, "Fiebre Hemorragica (FHA)", VaccineTypeEnum.Calendar)
     {
+        VaccineType = VaccineTypes.Subunidades;
         Doses = new[] {
             new VaccineDose(1401, 0, 180)
         };

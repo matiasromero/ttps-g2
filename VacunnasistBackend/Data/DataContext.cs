@@ -24,7 +24,6 @@ namespace VacunassistBackend.Data
         public DbSet<Province> Provinces { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Patient> Patients { get; set; }
-        public DbSet<Laboratory> Laboratories { get; set; }
 
         #region Required
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -34,29 +33,6 @@ namespace VacunassistBackend.Data
 
             if (bool.Parse(Configuration.GetValue<String>("SeedDatabase", "false")))
             {
-                #region Laboratories
-                var lab1 = new Laboratory()
-                {
-                    Id = 1,
-                    Name = "Pfizer"
-                };
-                var lab2 = new Laboratory()
-                {
-                    Id = 2,
-                    Name = "ROCHE"
-                };
-                var lab3 = new Laboratory()
-                {
-                    Id = 3,
-                    Name = "BioNTech"
-                };
-                var lab4 = new Laboratory()
-                {
-                    Id = 4,
-                    Name = "Janssen"
-                };
-                #endregion
-
                 #region Users
                 var admin = new User
                 {
@@ -143,34 +119,28 @@ namespace VacunassistBackend.Data
                 var vaccine1 = new DevelopedVaccine
                 {
                     Id = 1,
-                    Name = "Pfizer COVID-19",
+                    Name = "Pfizer",
                     IsActive = true,
                     Vaccine = Vaccines.O_COVID,
-                    DaysToDelivery = 30,
-                    Type = DevelopedVaccineType.ARNM,
-                    LaboratoryId = lab1.Id
+                    DaysToDelivery = 30
                 };
 
                 var vaccine2 = new DevelopedVaccine
                 {
                     Id = 2,
-                    Name = "ROCHE Fiebre amarilla",
+                    Name = "ROCHE",
                     IsActive = true,
                     Vaccine = Vaccines.M_FiebreAmarilla,
-                    DaysToDelivery = 60,
-                    Type = DevelopedVaccineType.Vector_viral,
-                    LaboratoryId = lab2.Id
+                    DaysToDelivery = 60
                 };
 
                 var vaccine3 = new DevelopedVaccine
                 {
                     Id = 3,
-                    Name = "Janssen Antigripal",
+                    Name = "Janssen",
                     IsActive = true,
                     Vaccine = Vaccines.P_Antigripal,
-                    DaysToDelivery = 15,
-                    Type = DevelopedVaccineType.Vector_viral,
-                    LaboratoryId = lab4.Id
+                    DaysToDelivery = 15
                 };
                 #endregion
 
@@ -439,7 +409,6 @@ namespace VacunassistBackend.Data
                 };
                 #endregion
 
-                modelBuilder.Entity<Laboratory>().HasData(lab1, lab2, lab3, lab4);
                 modelBuilder.Entity<Province>().HasData(prov1, prov2, prov3, prov4, prov5, prov6, prov7, prov8, prov9, prov10, prov11, prov12, prov13, prov14, prov15, prov16, prov17, prov18, prov19, prov20, prov21, prov22, prov23, prov24);
                 modelBuilder.Entity<DevelopedVaccine>().HasData(vaccine1, vaccine2, vaccine3);
                 modelBuilder.Entity<PurchaseOrder>().HasData(po1, po2, po3, po4, po5, po6, po7, po8);

@@ -75,7 +75,7 @@ namespace VacunnasistBackend.Services
                         DNI = model.DNI.ToString(),
                         BirthDate = model.BirthDate,
                         Gender = model.Gender,
-                        Department = department,
+                        DepartmentId = department.Id,
                         Pregnant = model.Pregnant,
                         HealthWorker = model.HealthWorker
                     };

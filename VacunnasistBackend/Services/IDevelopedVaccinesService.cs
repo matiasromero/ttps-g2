@@ -15,7 +15,7 @@ namespace VacunassistBackend.Services
         void Update(int id, UpdateDevelopedVaccineRequest model);
         bool CanBeDeleted(int id);
         bool Exist(int id);
-        bool AlreadyExist(string name);
+        bool AlreadyExist(string name, int vaccineId);
         bool New(NewDevelopedVaccineRequest model);
         AppliedVaccine GetApplied(int id);
     }
@@ -48,9 +48,10 @@ namespace VacunassistBackend.Services
 
         public bool New(NewDevelopedVaccineRequest model)
         {
+            var vaccines = _context.DevelopedVaccines.Where(x => x.Name == model.Name).ToArray();
             // validate
-            if (_context.DevelopedVaccines.Any(x => x.Name == model.Name))
-                throw new ApplicationException("Nombre de vacuna desarrollada '" + model.Name + "' en uso");
+            if (vaccines.Any(x => x.Vaccine.Id == model.VaccineId))
+                throw new ApplicationException("Ya existe una vacuna desarrollada con el mismo laboratorio / vacuna");
 
             try
             {
@@ -125,9 +126,10 @@ namespace VacunassistBackend.Services
             return _context.DevelopedVaccines.Any(x => x.Id == id);
         }
 
-        public bool AlreadyExist(string name)
+        public bool AlreadyExist(string name, int vaccineId)
         {
-            return _context.DevelopedVaccines.Any(x => x.Name == name);
+            var vaccines = _context.DevelopedVaccines.Where(x => x.Name == name).ToArray();
+            return vaccines.Any(x => x.Vaccine.Id == vaccineId);
         }
     }
 }

@@ -6,8 +6,9 @@ namespace VacunassistBackend.Entities.Vaccines.Calendar;
 public class K_TripleBacteriana : Vaccine
 {
     public K_TripleBacteriana()
-    : base(1100, "Triple Bacteriana (DTP)", VaccineType.Calendar)
+    : base(1100, "Triple Bacteriana (DTP)", VaccineTypeEnum.Calendar)
     {
+        VaccineType = VaccineTypes.Vector;
         Doses = new[] {
             new VaccineDose(1101, 0, 132),
         };
@@ -20,6 +21,6 @@ public class K_TripleBacteriana : Vaccine
             return new Tuple<int?, string>(null, "Ya posee el esquema completo");
 
         var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        return (DateTime.Now >= iDate.AddMonths(132) || patient.Pregnant || patient.HealthWorker) ? new Tuple<int?, string>(1101, "Primera dosis aplicada") : new Tuple<int?, string>(null, "Aun no se puede aplicar la primera dosis. Según esquema de vacunación se aplica a partir d elos 5 años.");
+        return (DateTime.Now >= iDate.AddMonths(132) || patient.Pregnant || patient.HealthWorker) ? new Tuple<int?, string>(1101, "Primera dosis aplicada") : new Tuple<int?, string>(null, "Aun no se puede aplicar la primera dosis. Segï¿½n esquema de vacunaciï¿½n se aplica a partir d elos 5 aï¿½os.");
     }
 }

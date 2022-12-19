@@ -43,9 +43,9 @@ namespace VacunassistBackend.Entities.Vaccines
             get { return all; }
         }
 
-        public static Vaccine[] Calendar = all.Where(x => x.Type == VaccineType.Calendar).ToArray();
-        public static Vaccine[] Pandemic = all.Where(x => x.Type == VaccineType.Pandemic).ToArray();
-        public static Vaccine[] Seasonal = all.Where(x => x.Type == VaccineType.Seasonal).ToArray();
+        public static Vaccine[] Calendar = all.Where(x => x.Type == VaccineTypeEnum.Calendar).ToArray();
+        public static Vaccine[] Pandemic = all.Where(x => x.Type == VaccineTypeEnum.Pandemic).ToArray();
+        public static Vaccine[] Seasonal = all.Where(x => x.Type == VaccineTypeEnum.Seasonal).ToArray();
 
         public static Vaccine Get(int id)
         {

@@ -6,8 +6,9 @@ namespace VacunassistBackend.Entities.Vaccines.Calendar;
 public class F_Rotavirus : Vaccine
 {
     public F_Rotavirus()
-    : base(600, "Rotavirus", VaccineType.Calendar)
+    : base(600, "Rotavirus", VaccineTypeEnum.Calendar)
     {
+        VaccineType = VaccineTypes.Arnm;
         Doses = new[] {
             new VaccineDose(601, 0, 2),
             new VaccineDose(602, 1, 4, 60),
@@ -26,6 +27,6 @@ public class F_Rotavirus : Vaccine
         }
 
         var iDate = DateTime.ParseExact(patient.BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        return (DateTime.Now >= iDate.AddMonths(2)) ? new Tuple<int?, string>(601, "Primera dosis aplicada") : new Tuple<int?, string>(null, "Aun no se puede dar la primera dosis. Según esquema de vacunación es a partir de los 2 meses de vida.");
+        return (DateTime.Now >= iDate.AddMonths(2)) ? new Tuple<int?, string>(601, "Primera dosis aplicada") : new Tuple<int?, string>(null, "Aun no se puede dar la primera dosis. Segï¿½n esquema de vacunaciï¿½n es a partir de los 2 meses de vida.");
     }
 }

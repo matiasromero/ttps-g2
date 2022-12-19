@@ -41,12 +41,12 @@ namespace VacunassistBackend.Controllers
         [HttpPost]
         public IActionResult New([FromBody] NewDevelopedVaccineRequest model)
         {
-            var alreadyExist = _developedVaccinesService.AlreadyExist(model.Name);
+            var alreadyExist = _developedVaccinesService.AlreadyExist(model.Name, model.VaccineId);
             if (alreadyExist)
             {
                 return BadRequest(new
                 {
-                    message = "Ya existe una vacuna desarrollada con el mismo nombre"
+                    message = "Ya existe una vacuna desarrollada con el mismo laboratorio / vacuna"
                 });
 
             }
