@@ -263,6 +263,8 @@ namespace VacunassistBackend.Data
                 {
                     Id = 1
                 };
+                localBatch1.DistributionDate = DateTime.Now;
+
                 #endregion
 
                 #region Provinces

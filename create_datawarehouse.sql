@@ -73,3 +73,17 @@ ON dvacunado (dni);
 
 CREATE INDEX index_dvacuna
 ON DVacuna (laboratory, [name], [type]);
+
+
+
+create table StockHistoryDetails
+(
+    province nvarchar(80) not null,
+    developedVaccine nvarchar(200) not null,
+    year int not null,
+    month int not null,
+    distributedQuantity int not null,
+    appliedQuantity int not null,
+    currentStock int not null,
+    overdueQuantity int not null
+)

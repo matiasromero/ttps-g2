@@ -115,7 +115,7 @@ builder.Services.AddQuartz(q =>
         .ForJob(jobKey)
         .WithIdentity("CheckVaccinesDueDateJob")
         .StartNow()
-        .WithCronSchedule("0 0 0 ? * *")); // todos los dias a las 0 pm
+        .WithCronSchedule("0 0 0 ? * *")); // todos los dias a las 00:00 am
 
     var jobKey2 = new JobKey("SyncronizeDataJob");
     q.AddJob<SyncronizeDataJob>(opts => opts.WithIdentity(jobKey2));
@@ -124,7 +124,16 @@ builder.Services.AddQuartz(q =>
         .ForJob(jobKey2)
         .WithIdentity("SyncronizeDataJob")
         .StartNow()
-        .WithCronSchedule("0 0 0 ? * *")); // todos los dias a las 0 pm
+        .WithCronSchedule("0 10 0 ? * *")); // todos los dias a las 00:10 am
+
+    var jobKey3 = new JobKey("PersistStockHistoryJob");
+    q.AddJob<PersistStockHistoryJob>(opts => opts.WithIdentity(jobKey3));
+
+    q.AddTrigger(opts => opts
+        .ForJob(jobKey3)
+        .WithIdentity("PersistStockHistoryJob")
+        .StartNow()
+        .WithCronSchedule("0 15 0 ? * *")); // todos los dias a las 00:15 am
 });
 builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 

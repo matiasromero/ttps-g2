@@ -25,5 +25,16 @@ namespace VacunassistBackend.Controllers
 
             return Ok(new OkObjectResult("Ok"));
         }
+
+        [HttpPost]
+        [Route("fire-history-cron")]
+        public async Task<OkObjectResult> FireHistoryCron()
+        {
+            IScheduler scheduler = await _factory.GetScheduler();
+
+            await scheduler.TriggerJob(new JobKey("PersistStockHistoryJob"));
+
+            return Ok(new OkObjectResult("Ok"));
+        }
     }
 }
