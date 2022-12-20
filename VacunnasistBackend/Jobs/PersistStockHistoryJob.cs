@@ -45,6 +45,7 @@ namespace VacunassistBackend.Jobs
                     var model = new StockHistoryModel();
                     model.Province = batch.Province;
                     model.DevelopedVaccine = batch.BatchVaccine.DevelopedVaccine.Vaccine.Name + " - " + batch.BatchVaccine.DevelopedVaccine.Name;
+                    model.DevelopedVaccineId = batch.BatchVaccine.DevelopedVaccineId;
                     model.Year = batch.DistributionDate.Year;
                     model.Month = batch.DistributionDate.Month;
 
@@ -56,29 +57,29 @@ namespace VacunassistBackend.Jobs
                     list.Add(model);
                 }
 
-                var groupedList = list.GroupBy(x => new { x.Province, x.DevelopedVaccine, x.Year, x.Month }).ToArray();
+                var groupedList = list.GroupBy(x => new { x.Province, x.DevelopedVaccine, x.DevelopedVaccineId, x.Year, x.Month }).ToArray();
                 foreach (var group in groupedList)
                 {
                     var key = group.Key;
-                    CreateOrUpdateYearMonthEntry(db, key.Province, key.DevelopedVaccine, key.Year, key.Month, group.Sum(x => x.DistributedQuantity), group.Sum(x => x.CurrentStock), group.Sum(x => x.OverdueQuantity), group.Sum(x => x.AppliedQuantity));
+                    CreateOrUpdateYearMonthEntry(db, key.Province, key.DevelopedVaccine, key.DevelopedVaccineId, key.Year, key.Month, group.Sum(x => x.DistributedQuantity), group.Sum(x => x.CurrentStock), group.Sum(x => x.OverdueQuantity), group.Sum(x => x.AppliedQuantity));
                 }
             }
             return Task.CompletedTask;
         }
 
-        public void CreateOrUpdateYearMonthEntry(IDbConnection db, string province, string developedVaccine, int year, int month, int distributedQuantity, int currentStock, int overdueQuantity, int appliedQuantity)
+        public void CreateOrUpdateYearMonthEntry(IDbConnection db, string province, string developedVaccine, int developedVaccineId, int year, int month, int distributedQuantity, int currentStock, int overdueQuantity, int appliedQuantity)
         {
-            var exist = db.ExecuteScalar<bool>("SELECT count(1) FROM StockHistoryDetails WHERE province = @province AND developedVaccine = @developedVaccine AND year = @year AND month = @month",
-                    new { province, developedVaccine, year, month });
+            var exist = db.ExecuteScalar<bool>("SELECT count(1) FROM StockHistoryDetails WHERE province = @province AND developedVaccineId = @developedVaccineId AND year = @year AND month = @month",
+                    new { province, developedVaccineId, year, month });
             if (!exist)
             {
-                db.Execute("insert into StockHistoryDetails values (@province, @developedVaccine, @year, @month, @distributedQuantity, @appliedQuantity, @currentStock, @overdueQuantity)",
-                new { province, developedVaccine, year, month, distributedQuantity, appliedQuantity, currentStock, overdueQuantity });
+                db.Execute("insert into StockHistoryDetails values (@province, @developedVaccine, @developedVaccineId, @year, @month, @distributedQuantity, @appliedQuantity, @currentStock, @overdueQuantity)",
+                new { province, developedVaccine, developedVaccineId, year, month, distributedQuantity, appliedQuantity, currentStock, overdueQuantity });
             }
             else
             {
-                db.Execute("update StockHistoryDetails set distributedQuantity = @distributedQuantity, appliedQuantity = @appliedQuantity, currentStock = @currentStock, overdueQuantity = @overdueQuantity WHERE province = @province AND developedVaccine = @developedVaccine AND year = @year AND month = @month",
-                new { province, developedVaccine, year, month, distributedQuantity, appliedQuantity, currentStock, overdueQuantity });
+                db.Execute("update StockHistoryDetails set distributedQuantity = @distributedQuantity, appliedQuantity = @appliedQuantity, currentStock = @currentStock, overdueQuantity = @overdueQuantity WHERE province = @province AND developedVaccineId = @developedVaccineId AND year = @year AND month = @month",
+                new { province, developedVaccineId, year, month, distributedQuantity, appliedQuantity, currentStock, overdueQuantity });
             }
         }
 
@@ -86,6 +87,7 @@ namespace VacunassistBackend.Jobs
         {
             public string Province { get; set; }
             public string DevelopedVaccine { get; set; }
+            public int DevelopedVaccineId { get; set; }
             public int Year { get; set; }
             public int Month { get; set; }
 

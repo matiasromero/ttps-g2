@@ -80,6 +80,7 @@ create table StockHistoryDetails
 (
     province nvarchar(80) not null,
     developedVaccine nvarchar(200) not null,
+    developedVaccineId int not null,
     year int not null,
     month int not null,
     distributedQuantity int not null,
