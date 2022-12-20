@@ -8,7 +8,7 @@ public class G_Meningococo : Vaccine
     public G_Meningococo()
     : base(700, "Meningococo", VaccineTypeEnum.Calendar)
     {
-        VaccineType = VaccineTypes.Subunidades;
+        ShortName = "meningococo";
         Doses = new[] {
             new VaccineDose(701, 0, 3),
             new VaccineDose(702, 1, 5, 60),

@@ -19,6 +19,7 @@ create table DVacuna
 (
     idVacuna int not null,
     laboratory nvarchar(100) not null,
+    [name] nvarchar(50) not null,
     [type] nvarchar(50) not null,
     PRIMARY KEY (idVacuna)
 
@@ -60,3 +61,15 @@ create table HVacunacion
     FOREIGN KEY (idLugar) REFERENCES DLugar(idLugar),
     FOREIGN KEY (idVacuna) REFERENCES DVacuna(idVacuna)
 )
+
+CREATE INDEX index_dfecha
+ON dfecha (year, mes, dia);
+
+CREATE INDEX index_dlugar
+ON dlugar (province, department);
+
+CREATE INDEX index_dvacunado
+ON dvacunado (dni);
+
+CREATE INDEX index_dvacuna
+ON DVacuna (laboratory, [name], [type]);

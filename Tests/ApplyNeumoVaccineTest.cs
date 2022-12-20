@@ -19,7 +19,6 @@ public class ApplyNeumoVaccineTest
             Name = "Jose",
             Surname = "Martinez",
             BirthDate = "05/08/2022",
-            Province = "Buenos Aires"
         };
 
 

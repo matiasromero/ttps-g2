@@ -19,7 +19,6 @@ public class ApplyFAVaccineTest
             Name = "Jose",
             Surname = "Martinez",
             BirthDate = "19/06/1998",
-            Province = "Buenos Aires"
         };
 
 

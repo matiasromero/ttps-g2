@@ -20,7 +20,6 @@ public class ApplyIPVVaccineTest
             Name = "Joe",
             Surname = "Doe",
             BirthDate = "05/08/2022",
-            Province = "Buenos Aires"
         };
 
 
@@ -29,7 +28,7 @@ public class ApplyIPVVaccineTest
                 new AppliedVaccine() {
                     Id = 1,
                     AppliedDose = 501,
-                    AppliedDate = new System.DateTime(2000,05,21)         
+                    AppliedDate = new System.DateTime(2000,05,21)
                 }
             });
         patient2 = mock.Object;

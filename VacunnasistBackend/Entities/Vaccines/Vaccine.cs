@@ -16,7 +16,7 @@ namespace VacunassistBackend.Entities.Vaccines
         }
         public int Id { get; set; }
         public string Name { get; set; }
-        public string VaccineType { get; set; }
+        public string ShortName { get; set; }
         public VaccineTypeEnum Type { get; set; }
 
         public VaccineDose[] Doses { get; set; }
@@ -58,12 +58,5 @@ namespace VacunassistBackend.Entities.Vaccines
         Calendar,
         Pandemic,
         Seasonal
-    }
-
-    public static class VaccineTypes
-    {
-        public static string Arnm = "ARNM";
-        public static string Vector = "Vector viral";
-        public static string Subunidades = "subunidades proteicas";
     }
 }

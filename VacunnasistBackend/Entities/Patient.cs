@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using VacunassistBackend.Entities;
 
 namespace VacunnasistBackend.Entities
@@ -28,5 +29,13 @@ namespace VacunnasistBackend.Entities
         }
 
         public virtual List<AppliedVaccine> AppliedVaccines { get; set; }
+
+        public virtual int GetAge()
+        {
+            var iDate = DateTime.ParseExact(BirthDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            int Age = (int)(DateTime.Today - iDate).TotalDays;
+            Age = Age / 365;
+            return Age;
+        }
     }
 }

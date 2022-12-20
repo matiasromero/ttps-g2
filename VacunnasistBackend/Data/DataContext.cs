@@ -120,6 +120,7 @@ namespace VacunassistBackend.Data
                 {
                     Id = 1,
                     Name = "Pfizer",
+                    VaccineType = DevelopedVaccineTypes.Arnm,
                     IsActive = true,
                     Vaccine = Vaccines.O_COVID,
                     DaysToDelivery = 30
@@ -129,6 +130,7 @@ namespace VacunassistBackend.Data
                 {
                     Id = 2,
                     Name = "ROCHE",
+                    VaccineType = DevelopedVaccineTypes.Subunidades,
                     IsActive = true,
                     Vaccine = Vaccines.M_FiebreAmarilla,
                     DaysToDelivery = 60
@@ -138,6 +140,7 @@ namespace VacunassistBackend.Data
                 {
                     Id = 3,
                     Name = "Janssen",
+                    VaccineType = DevelopedVaccineTypes.Vector,
                     IsActive = true,
                     Vaccine = Vaccines.P_Antigripal,
                     DaysToDelivery = 15

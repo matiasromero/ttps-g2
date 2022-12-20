@@ -19,7 +19,6 @@ public class ApplyMeningococoVaccineTest
             Name = "Jose",
             Surname = "Martinez",
             BirthDate = "01/08/2022",
-            Province = "Buenos Aires"
         };
 
 

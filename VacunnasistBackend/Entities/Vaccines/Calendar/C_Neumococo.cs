@@ -8,7 +8,7 @@ public class C_Neumococo : Vaccine
     public C_Neumococo()
     : base(300, "Neumococo conjugado", VaccineTypeEnum.Calendar)
     {
-        VaccineType = VaccineTypes.Vector;
+        ShortName = "neumococo";
         Doses = new[] {
             new VaccineDose(301, 0, 2),
             new VaccineDose(302, 2, null, 60),

@@ -7,7 +7,7 @@ public class P_Antigripal : Vaccine
     public P_Antigripal()
     : base(3000, "Antigripal", VaccineTypeEnum.Seasonal)
     {
-        VaccineType = VaccineTypes.Vector;
+        ShortName = "antigripal";
         Doses = new[] {
             new VaccineDose(3001, 0, 0, 365), //dosis anual
         };

@@ -23,6 +23,8 @@ namespace VacunassistBackend.Entities
         public string Name { get; set; } = string.Empty;
         public bool IsActive { get; set; } = true;
 
+        public string VaccineType { get; set; }
+
         public int DaysToDelivery { get; set; }
 
         [NotMapped]
@@ -39,5 +41,12 @@ namespace VacunassistBackend.Entities
                 Vaccine = JsonSerializer.Deserialize<Vaccine>(value);
             }
         }
+    }
+
+    public static class DevelopedVaccineTypes
+    {
+        public static string Arnm = "ARNM";
+        public static string Vector = "Vector viral";
+        public static string Subunidades = "subunidades proteicas";
     }
 }

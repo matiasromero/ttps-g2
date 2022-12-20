@@ -7,7 +7,7 @@ public class A_Tuberculosis : Vaccine
     public A_Tuberculosis()
     : base(100, "Tubercolosis (BCG)", VaccineTypeEnum.Calendar)
     {
-        VaccineType = VaccineTypes.Arnm;
+        ShortName = "bcg";
         Doses = new[] {
             new VaccineDose(101, 0, 0)
         };

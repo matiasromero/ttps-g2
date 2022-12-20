@@ -8,7 +8,7 @@ public class I_HepatitisA : Vaccine
     public I_HepatitisA()
     : base(900, "Hepatitis A (HA)", VaccineTypeEnum.Calendar)
     {
-        VaccineType = VaccineTypes.Arnm;
+        ShortName = "hepatitisa";
         Doses = new[] {
             new VaccineDose(901, 0, 12),
         };

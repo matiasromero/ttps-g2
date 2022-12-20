@@ -8,7 +8,7 @@ public class M_FiebreAmarilla : Vaccine
     public M_FiebreAmarilla()
     : base(1300, "Fiebre Amarilla", VaccineTypeEnum.Calendar)
     {
-        VaccineType = VaccineTypes.Subunidades;
+        ShortName = "fiebreamarilla";
         Doses = new[] {
             new VaccineDose(1301, 0, 18),
             new VaccineDose(1302, 1, 132, null, true) //11 años

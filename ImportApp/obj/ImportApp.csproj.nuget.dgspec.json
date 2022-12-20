@@ -1,0 +1,70 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/matias/development/repositories/ttps/ttps-g2/ImportApp/ImportApp.csproj": {}
+  },
+  "projects": {
+    "/home/matias/development/repositories/ttps/ttps-g2/ImportApp/ImportApp.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/matias/development/repositories/ttps/ttps-g2/ImportApp/ImportApp.csproj",
+        "projectName": "ImportApp",
+        "projectPath": "/home/matias/development/repositories/ttps/ttps-g2/ImportApp/ImportApp.csproj",
+        "packagesPath": "/home/matias/.nuget/packages/",
+        "outputPath": "/home/matias/development/repositories/ttps/ttps-g2/ImportApp/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/matias/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.0.123, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.5, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/6.0.111/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

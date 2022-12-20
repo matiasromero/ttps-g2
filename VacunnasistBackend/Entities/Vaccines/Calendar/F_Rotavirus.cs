@@ -8,7 +8,7 @@ public class F_Rotavirus : Vaccine
     public F_Rotavirus()
     : base(600, "Rotavirus", VaccineTypeEnum.Calendar)
     {
-        VaccineType = VaccineTypes.Arnm;
+        ShortName = "rotavirus";
         Doses = new[] {
             new VaccineDose(601, 0, 2),
             new VaccineDose(602, 1, 4, 60),

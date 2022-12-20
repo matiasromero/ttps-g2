@@ -8,7 +8,7 @@ public class J_Varicela : Vaccine
     public J_Varicela()
     : base(1000, "Varicela", VaccineTypeEnum.Calendar)
     {
-        VaccineType = VaccineTypes.Vector;
+        ShortName = "varicela";
         Doses = new[] {
             new VaccineDose(1001, 0, 15),
             new VaccineDose(1002, 1, 60),

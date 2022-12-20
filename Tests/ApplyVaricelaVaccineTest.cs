@@ -19,7 +19,6 @@ public class ApplyVaricelaVaccineTest
             Name = "Joe",
             Surname = "Doe",
             BirthDate = "01/05/1980",
-            Province = "Buenos Aires"
         };
 
 

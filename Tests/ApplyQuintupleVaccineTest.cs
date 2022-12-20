@@ -19,7 +19,6 @@ public class ApplyQuintupleVaccineTest
             Name = "Joe",
             Surname = "Doe",
             BirthDate = "13/08/2022",
-            Province = "Buenos Aires"
         };
 
 
@@ -28,7 +27,7 @@ public class ApplyQuintupleVaccineTest
                 new AppliedVaccine() {
                     Id = 1,
                     AppliedDose = 401,
-                    AppliedDate = new System.DateTime(2022,10,13)         
+                    AppliedDate = new System.DateTime(2022,10,13)
                 }
             });
         patient2 = mock.Object;

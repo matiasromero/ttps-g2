@@ -8,7 +8,7 @@ public class N_FiebreHemorragica : Vaccine
     public N_FiebreHemorragica()
     : base(1400, "Fiebre Hemorragica (FHA)", VaccineTypeEnum.Calendar)
     {
-        VaccineType = VaccineTypes.Subunidades;
+        ShortName = "fiebrehemorragica";
         Doses = new[] {
             new VaccineDose(1401, 0, 180)
         };

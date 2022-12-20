@@ -67,6 +67,20 @@
             >Usuarios</a
           >
         </li>
+        <li class="nav-item" *ngIf="user && user.role == 'administrator'">
+          <div class="text-center mt-1">
+            <mat-icon
+              mat-button
+              aria-hidden="false"
+              aria-label="Example delete icon"
+              role="button"
+              color="primary"
+              (click)="runCron()"
+              matTooltip="Enviar datos a datawarehouse"
+              >access_time</mat-icon
+            >
+          </div>
+        </li>
         <li class="nav-item">
           <a
             class="nav-item nav-link"

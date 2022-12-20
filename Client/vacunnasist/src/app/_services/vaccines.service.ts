@@ -24,4 +24,11 @@ export class VaccinesService {
       params: params,
     });
   }
+
+  fireCron() {
+    return this.http.post(
+      `${environment.apiUrl}/adminVaccines/fire-cron`,
+      null
+    );
+  }
 }

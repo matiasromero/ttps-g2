@@ -18,8 +18,7 @@ public class ApplyBCGVaccineTest
             Id = 1,
             Name = "Joe",
             Surname = "Doe",
-            BirthDate = "05/11/2022",
-            Province = "Buenos Aires"
+            BirthDate = "05/11/2022"
         };
 
 
@@ -54,6 +53,6 @@ public class ApplyBCGVaccineTest
         var result = bcg.CanApply(patient2);
 
         Assert.True(!result.Item1.HasValue);
-        Assert.Equal("Ya se aplicó una dosis", result.Item2);
+        Assert.Equal("Ya se aplicï¿½ una dosis", result.Item2);
     }
 }

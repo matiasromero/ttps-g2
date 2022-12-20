@@ -9,7 +9,7 @@ public class H_TripleViral : Vaccine
     public H_TripleViral()
     : base(800, "Triple (SRP)", VaccineTypeEnum.Calendar)
     {
-        VaccineType = VaccineTypes.Vector;
+        ShortName = "srp";
         Doses = new[] {
             new VaccineDose(801, 0, 12),
             new VaccineDose(802, 1, 60, 1826),

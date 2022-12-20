@@ -19,7 +19,6 @@ public class ApplyHAVaccineTest
             Name = "Jose",
             Surname = "Martinez",
             BirthDate = "19/06/1998",
-            Province = "Buenos Aires"
         };
 
 
@@ -55,6 +54,6 @@ public class ApplyHAVaccineTest
         var result = ha.CanApply(patient2);
 
         Assert.True(!result.Item1.HasValue);
-        Assert.Equal("Dosis única", result.Item2);
+        Assert.Equal("Dosis ï¿½nica", result.Item2);
     }
 }

@@ -52,6 +52,8 @@ namespace VacunnasistBackend.Services
                 query = query.Where(x => x.User.Id == filter.AppliedById);
             if (filter.DNI.HasValue)
                 query = query.Where(x => x.Patient.DNI.Equals(filter.DNI.ToString()));
+            if (filter.Month.HasValue)
+                query = query.Where(x => x.AppliedDate.Month == filter.Month.Value);
             query = query.Where(x => allDevVaccines.Contains(x.LocalBatchVaccine.BatchVaccine.DevelopedVaccine));
 
             return query.ToArray();

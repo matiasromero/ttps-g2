@@ -8,7 +8,7 @@ public class D_Quintuple : Vaccine
     public D_Quintuple()
     : base(400, "Quíntuple pentavalente", VaccineTypeEnum.Calendar)
     {
-        VaccineType = VaccineTypes.Subunidades;
+        ShortName = "quintuple";
         Doses = new[] {
             new VaccineDose(401, 0, 2),
             new VaccineDose(402, 1, 4, 60),

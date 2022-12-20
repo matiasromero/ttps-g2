@@ -20,7 +20,6 @@ public class ApplyDTPVaccineTest
             Name = "Joe",
             Surname = "Doe",
             BirthDate = "01/05/2009",
-            Province = "Buenos Aires"
         };
 
 
@@ -41,7 +40,6 @@ public class ApplyDTPVaccineTest
             Name = "Joe",
             Surname = "Doe",
             BirthDate = "01/05/1980",
-            Province = "Buenos Aires",
             HealthWorker = true
         };
     }

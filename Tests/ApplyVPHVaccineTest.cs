@@ -19,7 +19,6 @@ public class ApplyVPHVaccineTest
             Name = "Jose",
             Surname = "Martinez",
             BirthDate = "19/06/2009",
-            Province = "Buenos Aires"
         };
 
 

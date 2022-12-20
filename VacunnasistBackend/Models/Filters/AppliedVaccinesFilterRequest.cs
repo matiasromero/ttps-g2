@@ -12,5 +12,7 @@
 
         public int? DNI { get; set; }
 
+        public int? Month { get; set; }
+
     }
 }

@@ -12,7 +12,7 @@ using VacunassistBackend.Data;
 namespace VacunnasistBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221219030343_InitialMigration")]
+    [Migration("20221219212609_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -241,6 +241,10 @@ namespace VacunnasistBackend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("VaccineType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("DevelopedVaccines");
@@ -252,7 +256,8 @@ namespace VacunnasistBackend.Migrations
                             DaysToDelivery = 30,
                             IsActive = true,
                             Name = "Pfizer",
-                            VaccineText = "{\"Id\":2000,\"Name\":\"COVID-19\",\"VaccineType\":\"ARNM\",\"Type\":1,\"Doses\":[{\"Id\":2001,\"Number\":0,\"IsReinforcement\":false,\"MinMonthsOfAge\":0,\"DaysAfterPreviousDose\":null},{\"Id\":2002,\"Number\":1,\"IsReinforcement\":false,\"MinMonthsOfAge\":0,\"DaysAfterPreviousDose\":120}]}"
+                            VaccineText = "{\"Id\":2000,\"Name\":\"COVID-19\",\"ShortName\":\"anticovid\",\"Type\":1,\"Doses\":[{\"Id\":2001,\"Number\":0,\"IsReinforcement\":false,\"MinMonthsOfAge\":0,\"DaysAfterPreviousDose\":null},{\"Id\":2002,\"Number\":1,\"IsReinforcement\":false,\"MinMonthsOfAge\":0,\"DaysAfterPreviousDose\":120}]}",
+                            VaccineType = "ARNM"
                         },
                         new
                         {
@@ -260,7 +265,8 @@ namespace VacunnasistBackend.Migrations
                             DaysToDelivery = 60,
                             IsActive = true,
                             Name = "ROCHE",
-                            VaccineText = "{\"Id\":1300,\"Name\":\"Fiebre Amarilla\",\"VaccineType\":\"subunidades proteicas\",\"Type\":0,\"Doses\":[{\"Id\":1301,\"Number\":0,\"IsReinforcement\":false,\"MinMonthsOfAge\":18,\"DaysAfterPreviousDose\":null},{\"Id\":1302,\"Number\":1,\"IsReinforcement\":true,\"MinMonthsOfAge\":132,\"DaysAfterPreviousDose\":null}]}"
+                            VaccineText = "{\"Id\":1300,\"Name\":\"Fiebre Amarilla\",\"ShortName\":\"fiebreamarilla\",\"Type\":0,\"Doses\":[{\"Id\":1301,\"Number\":0,\"IsReinforcement\":false,\"MinMonthsOfAge\":18,\"DaysAfterPreviousDose\":null},{\"Id\":1302,\"Number\":1,\"IsReinforcement\":true,\"MinMonthsOfAge\":132,\"DaysAfterPreviousDose\":null}]}",
+                            VaccineType = "subunidades proteicas"
                         },
                         new
                         {
@@ -268,7 +274,8 @@ namespace VacunnasistBackend.Migrations
                             DaysToDelivery = 15,
                             IsActive = true,
                             Name = "Janssen",
-                            VaccineText = "{\"Id\":3000,\"Name\":\"Antigripal\",\"VaccineType\":\"Vector viral\",\"Type\":2,\"Doses\":[{\"Id\":3001,\"Number\":0,\"IsReinforcement\":false,\"MinMonthsOfAge\":0,\"DaysAfterPreviousDose\":365}]}"
+                            VaccineText = "{\"Id\":3000,\"Name\":\"Antigripal\",\"ShortName\":\"antigripal\",\"Type\":2,\"Doses\":[{\"Id\":3001,\"Number\":0,\"IsReinforcement\":false,\"MinMonthsOfAge\":0,\"DaysAfterPreviousDose\":365}]}",
+                            VaccineType = "Vector viral"
                         });
                 });
 
@@ -314,7 +321,7 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 1,
                             BatchVaccineId = 5,
-                            DistributionDate = new DateTime(2022, 12, 19, 0, 3, 42, 778, DateTimeKind.Local).AddTicks(7308),
+                            DistributionDate = new DateTime(2022, 12, 19, 18, 26, 9, 572, DateTimeKind.Local).AddTicks(834),
                             OverdueQuantity = 0,
                             Province = "Buenos Aires",
                             Quantity = 600,
@@ -532,7 +539,7 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 1,
                             DevelopedVaccineId = 3,
-                            PurchaseDate = new DateTime(2022, 12, 19, 0, 3, 42, 778, DateTimeKind.Local).AddTicks(7245),
+                            PurchaseDate = new DateTime(2022, 12, 19, 18, 26, 9, 572, DateTimeKind.Local).AddTicks(733),
                             Quantity = 1400,
                             Status = 0
                         },
@@ -540,7 +547,7 @@ namespace VacunnasistBackend.Migrations
                         {
                             Id = 2,
                             DevelopedVaccineId = 3,
-                            PurchaseDate = new DateTime(2022, 12, 19, 0, 3, 42, 778, DateTimeKind.Local).AddTicks(7247),
+                            PurchaseDate = new DateTime(2022, 12, 19, 18, 26, 9, 572, DateTimeKind.Local).AddTicks(737),
                             Quantity = 1200,
                             Status = 0
                         },
@@ -689,7 +696,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "other",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:7AnBgUrlHfWKOdGx9jBXBs6bUB4coiO1:JJkJrAqRmC6gLVirDszlrinUA0TiImJK",
+                            PasswordHash = "1000:b/6nZon7alCkYVV2jwB+sPCJ/T6sr/r/:/p30BF6KvHKiHDp5E/uAswc+//LPi+Ov",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "administrator",
@@ -706,7 +713,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "male",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:UHsg6Rbd+QZeVOW7NDOWGA35Yu4EVRDB:WNIbW5JpwvjXgwc/hq39H4crQD6duDDm",
+                            PasswordHash = "1000:EBp2B0LQeWXGIeRMjnT9sL2kt4d9/QaG:Ez8msxqy752668uMscKFcl20lGj4DVIH",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "operator",
@@ -723,7 +730,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "female",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:DGSDaj3Ip4tnNAI7Th4sD5blX0jwURCD:/mME0CgrfhPCOdUml9ikK9qs3LINgBH1",
+                            PasswordHash = "1000:px26EI5vnZ6+4qewz/DwxfqDtt0xiozK:rYgi0gUPQatRZII3D5+jLx+yIzfgz2Di",
                             Pregnant = false,
                             Province = "Salta",
                             Role = "operator",
@@ -740,7 +747,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "male",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:SDfkS+pYeZu8hoyD2l6fh9e6dtj8+ZBO:4tSmrea4p9VeTHS9kcnw9v6dt+NMXr+X",
+                            PasswordHash = "1000:da/CvEpD+3ZeCo1ZSh6WaQ/E/EVzqE2p:HxLA2csnSEme8zpzBqLv0NsclX01FMU9",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "analyst",
@@ -757,7 +764,7 @@ namespace VacunnasistBackend.Migrations
                             Gender = "other",
                             HealthWorker = false,
                             IsActive = true,
-                            PasswordHash = "1000:Z+JCEgv4au06NiEpWGOXqrBieJ5Krkyz:Af1cP2BzJTFh5dNC2ZOqVrwwXrjpU0nY",
+                            PasswordHash = "1000:xOI9MA0kRSRSTYQm5xe8fpivaqZ9PDW1:MygAgFW7y+6oIfHdQAVqP/7BQ+heVo/l",
                             Pregnant = false,
                             Province = "Buenos Aires",
                             Role = "vacunator",
