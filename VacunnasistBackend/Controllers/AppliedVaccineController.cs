@@ -40,6 +40,18 @@ namespace VacunnasistBackend.Controllers
         }
 
         [HttpGet]
+        [Route("patients-count")]
+        public IActionResult GetPatientsCount([FromQuery] AppliedVaccinesFilterRequest filter)
+        {
+            var vaccines = _appliedVaccinesService.GetAll(filter);
+            var patients = vaccines.Select(x => x.PatientId).Distinct().Count();
+            return Ok(new
+            {
+                patientsCount = patients
+            });
+        }
+
+        [HttpGet]
         [Route("{id}")]
         public IActionResult Get(int id)
         {
