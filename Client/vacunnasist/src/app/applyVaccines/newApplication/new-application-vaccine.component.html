@@ -241,7 +241,7 @@
               *ngFor="let vaccine of developedVaccines"
               [value]="vaccine.id"
             >
-              {{ vaccine.name }}
+              {{ vaccine.vaccine.name }} - {{ vaccine.name }}
             </mat-option>
           </mat-select>
         </mat-form-field>
